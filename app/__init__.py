@@ -1,14 +1,14 @@
 from config import  DevelopmentConfig 
 from flask import Flask
 from store.views import home
-#from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 ACTIVE_ENDPOINTS = [('/',home) ]
 
 
 
 
-#db = SQLAlchemy(app)
+
 
 if __name__ == "__main__":
     
@@ -17,5 +17,5 @@ if __name__ == "__main__":
     app.config.from_object(DevelopmentConfig)
     for url,  blueprint in ACTIVE_ENDPOINTS:
         app.register_blueprint(blueprint, url_prefix=url)
-    
+    db = SQLAlchemy(app)
     app.run(debug=True)

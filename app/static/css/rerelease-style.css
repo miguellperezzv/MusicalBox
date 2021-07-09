@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Smooth-Circulars';
+    /* Antes de descargar el archivo, le decimos al buscador
+    que intente buscar en local la fuente con nombre
+    Cabin, Cabin Regular o Cabin-Regular */
+    
+    
+    src: url("../fonts/Smooth-Circulars.otf");
+    font-weight: bold;
+  }
+
+
+#tituloAlbum{
+    font-family: 'Smooth-Circulars';
+    color: var(--yellow);
+} 
+
+#link{
+    color: var(--yellow);
+  }
+
+.background{
+    background-color: var(--skyblue);
+}
+
+.card-body{
+    background-color: var(--skyblue);
+}
+
+.h1{
+    color: var(--yellow);
+}
+
+.row{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#container{
+    background-color: var(--intenseskyblue);
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td {
+    background-color: var(--aqua);
+ }
+
+ .table-striped > tbody > tr:nth-child(2n+1) > th{
+    background-color: var(--yellow);
+ }

@@ -5,4 +5,4 @@ home = Blueprint('home', __name__)
 
 @home.route("/")
 def index():
-    return "<h1> Hola mundo!!! inicio de Musical Box!! <h1>"
+    return render_template("base.html")

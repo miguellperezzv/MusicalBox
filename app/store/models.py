@@ -46,3 +46,33 @@ class Producto(db.Model):
 
 
 
+class Item(db.Model):
+    k_producto = db.Column(db.Numeric(10,0), primary_key=True)
+    k_factura = db.Column(db.Numeric(10,0), primary_key=True)
+    cant_item = db.Column(db.Numeric(3,0), nullable=False)
+    p_item = db.Column(db.Numeric(11,2), nullable=False)
+
+class Factura(db.Model):
+    k_factura = db.Column(db.Numeric(10,0), primary_key=True)
+    k_usuario = db.Column(db.Numeric(12,0), primary_key=True)
+    f_compra = db.Column(db.DateTime, default=datetime.now())
+    total = db.Column(db.Numeric(13,2), nullable=False)
+
+class Usuario(db.Model):
+    k_usuario = db.Column(db.Numeric(12,0), primary_key=True)
+    k_rol = db.Column(db.String(20), nullable=False)
+    n_usuario = db.Column(db.String(20), nullable=False)
+    ape_usuario = db.Column(db.String(20), nullable=False)
+    email_usario = db.Column(db.String(50), nullable=False)
+    pwd_usuario = db.Column(db.String(100), nullable=False)
+    dir_usuario = db.Column(db.String(200))
+    lugar_usuario =db.Column(db.String(40))
+
+class Rol(db.Model):
+    k_rol = db.Column(db.String(20), primary_key=True)
+
+class Categoria(db.Model):
+    k_categoria = db.Column(db.String(30), primary_key=True)
+
+
+

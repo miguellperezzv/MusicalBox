@@ -1,4 +1,4 @@
-from app.db import db, ma
+from db import db, ma
 from datetime import datetime
 
 '''
@@ -14,7 +14,7 @@ class Lanzamiento(db.Model):
     k_lanzamiento = db.Column(db.Numeric(12,0), primary_key=True)
     n_lanzamiento = db.Column(db.String(100), nullable = False )
     f_lanzamiento = db.Column(db.Date)
-    i_lanzamiento = db.Columna(db.String(200))
+    i_lanzamiento = db.Column(db.String(200))
 
 class Artista(db.Model):
     k_artista = db.Column(db.Numeric(7,0), primary_key=True)
@@ -76,3 +76,10 @@ class Categoria(db.Model):
 
 
 
+def create_new_user(email, password):
+    user = Usuario(email_usuario=email, pwd_usuario=password )
+    db.session.add(user)
+
+    if db.session.commit():
+        return user
+    return None 

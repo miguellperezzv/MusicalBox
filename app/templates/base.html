@@ -94,22 +94,19 @@
                                 <span class="item-number ">0</span>
                             </a>
                         </li>
+                        <li class="upper-links"><a class="links" href="{{url_for('home.login')}}">Ingreso</a></li>
                         <li class="upper-links dropdown"><a class="links" href="http://clashhacks.in/">Cuenta</a>
                             <ul class="dropdown-menu">
+                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.signup')}}">Registrarme</a></li>
                                 <li class="profile-li"><a class="profile-links" href="http://yazilife.com/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://hacksociety.tech/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://clashhacks.in/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://clashhacks.in/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://clashhacks.in/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://clashhacks.in/">Link</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://clashhacks.in/">Link</a></li>
+                                
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="row row2">
                     <div class="col-sm-4">
-                        <a class="navbar-brand"  href="ControladorLanzamiento?accion=melomaniacs">  <img src="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="70px" heigth="70px"> musical box</a>
+                        <a class="navbar-brand"  href="{{url_for('home.index')}}">  <img src="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="70px" heigth="70px"> musical box</a>
                         <!--<h1></h1><span class="largenav"> <img src="{{ url_for('static', filename='imgs/musicalbox.png') }}" href=# width="70px" heigth="70px">musical box</span></h1> -->
                     </div>
                     <div class="flipkart-navbar-search smallsearch col-sm-8 col-xs-8">

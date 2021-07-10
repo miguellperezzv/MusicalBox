@@ -9,4 +9,7 @@ class CreateUsuarioForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired()])
     email_usuario = StringField('Email', validators=[DataRequired()])
     pwd_usuario = StringField('Contraseña', validators=[DataRequired()])
-    
+
+class LoginUsuarioForm(FlaskForm):
+    email_usuario =  StringField('Email', validators=[DataRequired()])
+    pwd_usuario =  StringField('Contraseña', validators=[DataRequired()])

@@ -9,64 +9,6 @@
         
     </head>
     <body>
-        <!--
-        <nav class="navbar navbar-expand" >
-
-
-            <a class="navbar-brand"  href="ControladorLanzamiento?accion=melomaniacs">  <img src="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="50px" heigth="50px"> musical box</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nuevos Lanzamientos</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nuevos Productos</a>
-                    </li>
-
-
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">catálogo</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">merch</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">contacto</a>
-                    </li>
-
-                    
-                </ul>
-
-                <form class="form-inline my-2 my-lg-0" href="ControladorPrincipal?accion=buscar">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Artist, release, genre, format" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" value="buscar" type="submit">Search</button>
-                </form>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            cuenta
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="ControladorLanzamiento?accion=navNuevo">Add a Release</a>
-                            <a class="dropdown-item" href="ControladorItem?accion=navNuevoItem">Add a product to stock</a>
-                            <div class="dropdown-divider" ></div>
-                            <a class="dropdown-item" href="#">Log Out</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
--->
 
         <!--SEGUNDO INTETNO NAVBAR-->
         <div id="flipkart-navbar">
@@ -98,7 +40,7 @@
                         <li class="upper-links dropdown"><a class="links" href="http://clashhacks.in/">Cuenta</a>
                             <ul class="dropdown-menu">
                                 <li class="profile-li"><a class="profile-links" href="{{url_for('home.signup')}}">Registrarme</a></li>
-                                <li class="profile-li"><a class="profile-links" href="http://yazilife.com/">Link</a></li>
+                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.login')}}">Ingresar</a></li>
                                 
                             </ul>
                         </li>

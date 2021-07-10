@@ -2,7 +2,7 @@
 {%block title%}Registrarme en Musical Box!{%endblock%}
 
 {%block contenido%}
-<body>
+
     <form method="POST" action="{{url_for('home.signup')}}">
         {{ form.csrf_token }}
         {{ form.email_usuario.label }} {{ form.email_usuario(size=20) }}

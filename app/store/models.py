@@ -68,7 +68,7 @@ class Usuario(db.Model):
     k_rol = db.Column(db.String(20), db.ForeignKey('rol.k_rol'))
     n_usuario = db.Column(db.String(20), nullable=False)
     ape_usuario = db.Column(db.String(20), nullable=False)
-    email_usuario = db.Column(db.String(50), nullable=False)
+    email_usuario = db.Column(db.String(50), unique=True, nullable=False)
     pwd_usuario = db.Column(db.String(100), nullable=False)
     dir_usuario = db.Column(db.String(200))
     lugar_usuario =db.Column(db.String(40))
@@ -141,12 +141,33 @@ class CategoriaSchema(ma.SQLAlchemyAutoSchema):
 
 
 #mis consultas 
-def create_new_user(k_usuario, k_rol, n_usuario, ape_usuario, email, password):
+def create_new_user(n_usuario, ape_usuario, email, password):
     print(email)
     print(password)
-    user = Usuario(k_usuario=k_usuario, k_rol=k_rol ,n_usuario =n_usuario,ape_usuario=ape_usuario, email_usuario=email, pwd_usuario=password )
+
+    k_usuario = "U"+str(len(get_all_users())+1)
+    user = Usuario(k_usuario=k_usuario, k_rol='USER' ,n_usuario =n_usuario,ape_usuario=ape_usuario, email_usuario=email, pwd_usuario=password )
     db.session.add(user)
 
     if db.session.commit():
         return user
     return None 
+
+
+def get_all_products():
+    products_qs = Producto.query.all()
+    product_schema = ProductoSchema()
+    products=[product_schema.dump(product) for product in products_qs]
+    return products
+
+def get_all_users():
+    users_qs = Usuario.query.all()
+    users_schema = UsuarioSchema()
+    users=[users_schema.dump(user) for user in users_qs]
+    return users
+
+def get_user_by_email(email):
+    usuario_qs = Usuario.query.filter_by(email_usuario = email).first()
+    usuario_schema = UsuarioSchema()
+    u = usuario_schema.dump(usuario_qs)
+    return u

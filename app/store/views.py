@@ -19,11 +19,11 @@ def login():
 def signup():
     form_signup= CreateUsuarioForm()
 
-    if request.method == 'POST' and form_signup.validate():
+    if request.method == 'POST' :
         print("se eNviÓ POST")
         email = form_signup.email_usuario.data
         pwd = form_signup.pwd_usuario.data
-        create_new_user(email, pwd)
+        create_new_user('U'+str(1),'USER','Miguel','Pérez', email, pwd)
         return redirect(url_for('home.index'))
     print("se eNviÓ GET")
     return render_template('signup.html', form=form_signup)

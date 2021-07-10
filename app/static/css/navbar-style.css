@@ -8,15 +8,11 @@
 }
 
 @font-face {
+    
     font-family: Smooth-Circulars;
-    /* Antes de descargar el archivo, le decimos al buscador
-    que intente buscar en local la fuente con nombre
-    Cabin, Cabin Regular o Cabin-Regular */
-
+    src : url("{{ url_for('static', filename='fonts/Smooth-Circulars.otf') }}");
     
-    src : url("{{ url_for('static', filename='Smooth-Circulars.otf') }}");
     
-    font-weight: bold;
   }  
   
   
@@ -26,24 +22,86 @@
 
  }
 
+
+ .text-center, .text-lg-start, .bg-light, .text-muted{
+  
+  background-color: var(--skyblue);
+  }
+
+  .d-flex, .justify-content-center, .justify-content-lg-between, .p-4, .border-bottom{
+    background-color: var(--skyblue);
+  }
+
  .navbar-brand{
 
-   color: var(--skyblue);
+   color: var(--yellow);
    font-size: 25px;
    font-family: 'Smooth-Circulars';
  }
 
-
-#prueba{
-  color: var(--yellow);
-   font-size: 25px;
-   font-family: 'Smooth-Circulars';
-} 
-
-h6.contacto{
-  color: yellow;
-  font-size: 25px;
-  
+/*PRUEBA FOOTER CSS GRID*/
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "footer footer footer"
+    "footer footer footer";
+    background-color: var(--skyblue);
 }
-  
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "upfooter upfooter upfooter"
+    "downfooter downfooter downfooter"
+    "downfooter downfooter downfooter";
+  grid-area: footer;
+
+  background-color: var(--skyblue);
+}
+
+.upfooter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "whatsapp entrega regalos"
+    "whatsapp entrega regalos"
+    "whatsapp entrega regalos";
+  grid-area: upfooter;
+}
+
+.entrega { grid-area: entrega; }
+
+.whatsapp { grid-area: whatsapp; }
+
+.regalos { grid-area: regalos; }
+
+.downfooter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: downfooter;
+}
+
+.contacto { grid-area: 1 / 3 / 4 / 4; }
+
+.acerca { grid-area: 1 / 1 / 4 / 3; }
+
+.musicalbox { grid-area: 1 / 1 / 3 / 3; }
+
+.redes { grid-area: 3 / 1 / 4 / 3; }
+
+
   

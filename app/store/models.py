@@ -127,7 +127,7 @@ class FacturaSchema(ma.SQLAlchemyAutoSchema):
 class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
-        fields = ["k_usuario", "k_rol", "ape_usuario", "email_usuario", "pwd_usuario", "dir_usuario", "lugar_usuario"]
+        fields = ["k_usuario", "k_rol", "n_usuario","ape_usuario", "email_usuario", "pwd_usuario", "dir_usuario", "lugar_usuario"]
 
 class RolSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

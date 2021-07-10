@@ -49,9 +49,20 @@ def signup():
             pwd = form_signup.pwd_usuario.data
 
             create_new_user('Miguel','Pérez', email, pwd)
-            return redirect(url_for('home.index'), user=g.user)
+            return redirect(url_for('home.index',user=g.user) )
     
         return render_template('signup.html', form=form_signup)
     
     flash("You're already logged in.", "alert-primary")
     return redirect(url_for('home.index', user = g.user))
+
+@home.route("/logout", methods=["GET", 'POST'])
+def logout():
+    session.pop("user", None)
+    flash("You're logged out.", "alert-secondary")
+
+    return redirect(url_for("home.index", user=g.user))
+
+@home.route("/account", methods=["GET", "POST"])
+def account():
+    return "Mi cuenta"

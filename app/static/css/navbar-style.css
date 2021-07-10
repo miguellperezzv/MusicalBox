@@ -48,30 +48,117 @@
    font-size: 40px;
  }
 
-/*PRUEBA FOOTER CSS GRID*/
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-auto-rows: 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  text-align: center;
-  background-color: var(--skyblue);
+
+
+
+/*css de footer*/
+
+body {
+  font-family: 'Signika', sans-serif;
+}
+.bg-lightblue {
+  background-color: var(--backblue);
+}
+.logo-footer {
+  margin-bottom: 40px;
+}
+footer {
+     color:var(--yellow);
+     font-family: 'Smooth-Circulars';
+     
+}
+footer p, a {
+font-size: 15px;
+font-family: 'Roboto', sans-serif;
+}
+footer h6 {
+font-family: 'Smooth-Circulars';
+margin-bottom: 40px;
+position: relative;
+}
+footer h6:after {
+position: absolute;
+content: "";
+background: var(--yellow);
+width: 12%;
+height: 1px;
+left: 0;
+bottom: -20px;
+}
+.btn-footer {
+          color:var(--yellow);
+        
+          text-decoration: none;
+          border: 1px solid;
+          border-radius: 43px;
+          font-size: 13px;
+          padding: 7px 30px;
+          line-height: 47px;
+}
+.btn-footer:hover {
+          
+          text-decoration: none;
+         
+}
+.form-footer input[type="text"] {
+  border: none;
+border-radius: 16px 0 0 16px;
+outline: none;
+padding-left: 10px;
+
+}
+::placeholder {
+font-size: 10px;
+padding-left: 10px;
+font-style: italic;
+}
+.form-footer input[type="button"] {
+border: none;
+background:#232323;
+  margin-left: -5px;
+color: #fff;
+outline: none;
+border-radius: 0 16px 16px 0;
+padding: 2px 12px;
+}
+.social .fa {
+color:var(--yellow);
+font-size: 22px;
+padding: 10px 15px;
+
+}
+footer ul li {
+list-style: none;
+display: block;
+}
+footer ul  {
+padding-left: 0;
+}
+footer ul  li a{
+text-decoration: none;
+color:var(--skyblue);
+text-decoration:none;
 }
 
-.upfooter { grid-area: 1 / 1 / 2 / 4; }
+a:hover {
+text-decoration: none;
 
-.downfooter { grid-area: 2 / 1 / 3 / 4; }
+color:var(--intenseskyblue) !important;
 
-.whatsapp { grid-area: 1 / 1 / 2 / 2; }
+}
+.logo-part {
+border-right: 1px solid grey;
+height: 100%;
 
-.entrega { grid-area: 1 / 2 / 2 / 3; }
+}
 
-.GIFTS { grid-area: 1 / 3 / 2 / 4; }
+.info, .info2{
+  font-family: 'Smooth-Circulars';
+}
 
-.ACERCA {
-  /*margin: 10%;*/
-  grid-area: 2 / 1 / 3 / 3; }
+.info2{
+  font-size: 10px;
+}
 
-.CONTACTO { grid-area: 2 / 3 / 3 / 4; }
+
+

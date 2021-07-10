@@ -70,46 +70,70 @@
 
  <!-- Footer -->
  
- <div class="container">
-    <div class="upfooter"></div>
-    <div class="downfooter"></div>
-    <div class="whatsapp">
-        <h6 class="subtitle">whatsapp</h6>
-        <div>
-            <div><i class="fab fa-whatsapp" style="size: 30px;"></i> </div>
-            
-        </div>
-
-        
+ <footer class="container-fluid bg-lightblue py-5">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6">
+             <div class="row">
+                <div class="col-md-6 ">
+                   <div class="logo-part">
+                      <img src="{{ url_for('static', filename='imgs/musicalbox.png') }}" class="w-50 logo-footer" >
+                      <p class="info">Bogota, Colombia </p>
+                      <p class="info2">CD's, Vinilos, casettes y mas !</p>
+                   </div>
+                </div>
+                <div class="col-md-6 px-4">
+                   <h6> Acerca</h6>
+                   <p>Since 2015</p>
+                   <a href="#" class="btn-footer"> Más </a><br>
+                   <a href="#" class="btn-footer"> Contactanos</a>
+                </div>
+             </div>
+          </div>
+          <div class="col-md-6">
+             <div class="row">
+                <div class="col-md-6 px-4">
+                   <h6> Opciones</h6>
+                   <div class="row ">
+                      <div class="col-md-6">
+                         <ul>
+                            <li> <a href="#"> Inicio</a> </li>
+                            <li> <a href="#"> Acerca de</a> </li>
+                            <li> <a href="#"> Equipo</a> </li>
+                            <li> <a href="#"> Ayuda</a> </li>
+                            <li> <a href="#"> Contacto</a> </li>
+                         </ul>
+                      </div>
+                      <div class="col-md-6 px-4">
+                         <ul>
+                            <li> <a href="#"> Vinilos</a> </li>
+                            <li> <a href="#"> CD's</a> </li>
+                            <li> <a href="#"> Casettes</a> </li>
+                            <li> <a href="#"> Mercancía Musical Box</a> </li>
+                            <li> <a href="#"> Paypal</a> </li>
+                         </ul>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-md-6 ">
+                   <h6> Estamos en tus redes favoritas</h6>
+                   <div class="social">
+                      <a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                      <a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                      <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                      <a href="#"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+                   </div>
+                   <form class="form-footer my-3">
+                      <input type="text"  placeholder="Busco..." name="search">
+                      <input type="button" value="Go" >
+                   </form>
+                   <p>Desarrollado con Python </p>
+                </div>
+             </div>
+          </div>
+       </div>
     </div>
-    <div class="entrega">
-        <h6 class="subtitle">entrega</h6>
-        <div><i class="fas fa-truck"></i></div>
-        <div>entrega gratis desde 100000!</div>
-    </div>
-    <div class="GIFTS">
-        <h6 class="subtitle">gifts</h6>
-    </div>
-    <div class="ACERCA">
-        <h6 class="subtitle">musical box</h6>
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, sapiente, iste molestias minus cum commodi dicta dolorem repellendus ducimus excepturi soluta asperiores explicabo? Maiores beatae architecto rem dolore, perferendis culpa.
-        </div>
-    </div>
-    <div class="CONTACTO">
-        <h6 class="subtitle">contacto</h6>
-        
-        <div>
-            <!--REDES-->
-            <i class="fab fa-facebook"></i>
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-tiktok"></i>
-            <i class="fab fa-twitter"></i>
-        </div>
-        
-    
-    </div>
-  </div>
+    </footer>
  
 
   <!-- Footer -->

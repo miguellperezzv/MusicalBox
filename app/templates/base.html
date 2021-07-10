@@ -36,14 +36,22 @@
                                 <span class="item-number ">0</span>
                             </a>
                         </li>
+                        {%if not user %}
                         <li class="upper-links"><a class="links" href="{{url_for('home.login')}}">Ingreso</a></li>
+                        <li class="upper-links"><a class="links" href="{{url_for('home.login')}}">Registrarme</a></li>
+                        
+                        {%else %}
                         <li class="upper-links dropdown"><a class="links" href="http://clashhacks.in/">Cuenta</a>
+                        
+                        
+                        
                             <ul class="dropdown-menu">
-                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.signup')}}">Registrarme</a></li>
-                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.login')}}">Ingresar</a></li>
+                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.signup')}}">Mi cuenta</a></li>
+                                <li class="profile-li"><a class="profile-links" href="{{url_for('home.login')}}">Cerrar sesión</a></li>
                                 
                             </ul>
                         </li>
+                        {%endif%}
                     </ul>
                 </div>
                 <div class="row row2">

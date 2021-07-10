@@ -1,22 +1,12 @@
 from db import db, ma
 from datetime import datetime
 
-'''
-id=db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    created_at = db.Column(db.DateTime, default= datetime.now())
-    updated_at = db.Column(db.DateTime, default= datetime.now())
-'''
-
-
 
 class Lanzamiento(db.Model):
     k_lanzamiento = db.Column(db.String(10), primary_key=True)
     n_lanzamiento = db.Column(db.String(100), nullable = False )
     f_lanzamiento = db.Column(db.Date)
     i_lanzamiento = db.Column(db.String(200))
-
 
 class Artista(db.Model):
     k_artista = db.Column(db.String(10), primary_key=True)
@@ -93,6 +83,64 @@ class Categoria(db.Model):
 
 
 
+#ESQUEMAS schema
+class LanzamientoSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Lanzamiento
+        fields = ["k_lanzamiento", "n_lanzamiento", "f_lanzamiento", "i_lanzamiento"]
+
+class ArtistaSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Artista
+        fields = ["k_artista", "n_artista", "pais_artista"]
+
+class Lanzamiento_ArtistaSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Lanzamiento_Artista
+        fields = ["k_artista", "k_lanzamiento"]
+
+class GeneroSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Genero
+        fields = ["k_genero"]
+
+class Lanzamiento_GeneroSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Lanzamiento_Genero
+        fields = ["k_lanzamiento", "k_genero", "subgenre"]
+
+class ProductoSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Producto
+        fields = ["k_lanzamiento", "k_categoria", "n_producto", "p_producto", "d_producto", 'stock', 'i_producto', 'f_producto']
+
+class ItemSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Item
+        fields = ["k_factura", "cant_item", "p_item"]
+
+class FacturaSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Factura
+        fields = ["k_factura", "k_usuario", "f_compra", "total"]
+
+class UsuarioSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Usuario
+        fields = ["k_usuario", "k_rol", "ape_usuario", "email_usuario", "pwd_usuario", "dir_usuario", "lugar_usuario"]
+
+class RolSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Rol
+        fields = ["k_rol"]
+
+class CategoriaSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Categoria
+        fields = ["k_categoria"]
+
+
+#mis consultas 
 def create_new_user(k_usuario, k_rol, n_usuario, ape_usuario, email, password):
     print(email)
     print(password)

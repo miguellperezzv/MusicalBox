@@ -38,6 +38,10 @@
    font-size: 25px;
    font-family: 'Smooth-Circulars';
  }
+ .subtitles{
+   color: var(--yellow);
+   font-family: 'Smooth-Circulars';
+ }
 
 /*PRUEBA FOOTER CSS GRID*/
 .container {
@@ -78,6 +82,7 @@
     "whatsapp entrega regalos"
     "whatsapp entrega regalos";
   grid-area: upfooter;
+  text-align: center;
 }
 
 .entrega { grid-area: entrega; }

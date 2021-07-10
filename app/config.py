@@ -6,7 +6,8 @@ DB_URI = "TBD"
 class Config(object):
     DEBUG = False
     SECRET_KEY = '?\xbf,\xb4\x8d\xa3"<\x9c\xb0@\x0f5\xab,w\xee\x8d$0\x13\x8b83'
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    # OJO: PARA CUANDO TRABAJE EN MEMORIA   SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:" 
+    SQLALCHEMY_DATABASE_URI = "sqlite:///virtualshop.sqlite3"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = UPLOAD_FOLDER
 

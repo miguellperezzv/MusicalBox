@@ -1,33 +1,49 @@
 :root {
-    --skyblue: #BDE5FF ;
-    --yellow:#FFFB25;
-    --intenseskyblue: #92D4FF;
-    --backblue: #3AB7F5;
-    --aqua: #3ab7cd;
-    background-color: var(--skyblue);
-  }
-  
-  @font-face {
-      font-family: 'Smooth-Circulars';
-      /* Antes de descargar el archivo, le decimos al buscador
-      que intente buscar en local la fuente con nombre
-      Cabin, Cabin Regular o Cabin-Regular */
-      src: url_for('static', filename='css/Smooth-Circulars.otf') ;
-      
-      font-weight: bold;
-    }  
+  --skyblue: #BDE5FF ;
+  --yellow:#FFFB25;
+  --intenseskyblue: #92D4FF;
+  --backblue: #3AB7F5;
+  --aqua: #3ab7cd;
+  background-color: var(--skyblue);
+}
+
+@font-face {
+    font-family: Smooth-Circulars;
+    /* Antes de descargar el archivo, le decimos al buscador
+    que intente buscar en local la fuente con nombre
+    Cabin, Cabin Regular o Cabin-Regular */
+
     
+    src : url("{{ url_for('static', filename='Smooth-Circulars.otf') }}");
     
+    font-weight: bold;
+  }  
   
-   .navbar-expand, .dropdown-menu{
-     background-color: var(--aqua);
   
-   }
+
+ .navbar-expand, .dropdown-menu{
+   background-color: var(--aqua);
+
+ }
+
+ .navbar-brand{
+
+   color: var(--skyblue);
+   font-size: 25px;
+   font-family: 'Smooth-Circulars';
+ }
+
+
+#prueba{
+  color: var(--yellow);
+   font-size: 25px;
+   font-family: 'Smooth-Circulars';
+} 
+
+h6.contacto{
+  color: yellow;
+  font-size: 25px;
   
-   .navbar-brand{
+}
   
-     color: var(--yellow);
-     font-size: 25px;
-     font-family: 'Smooth-Circulars';
-   }
   

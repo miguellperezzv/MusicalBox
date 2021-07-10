@@ -38,9 +38,14 @@
    font-size: 25px;
    font-family: 'Smooth-Circulars';
  }
- .subtitles{
-   color: var(--yellow);
+ .subtitle{
+   color: var(--backblue);
    font-family: 'Smooth-Circulars';
+ }
+
+ .fab, .fas{
+   color:var(--yellow);
+   font-size: 40px;
  }
 
 /*PRUEBA FOOTER CSS GRID*/
@@ -48,65 +53,25 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+  grid-auto-rows: 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
-  grid-template-areas:
-    "footer footer footer"
-    "footer footer footer";
-    background-color: var(--skyblue);
-}
-
-.footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "upfooter upfooter upfooter"
-    "downfooter downfooter downfooter"
-    "downfooter downfooter downfooter";
-  grid-area: footer;
-
+  text-align: center;
   background-color: var(--skyblue);
 }
 
-.upfooter {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "whatsapp entrega regalos"
-    "whatsapp entrega regalos"
-    "whatsapp entrega regalos";
-  grid-area: upfooter;
-  text-align: center;
-}
+.upfooter { grid-area: 1 / 1 / 2 / 4; }
 
-.entrega { grid-area: entrega; }
+.downfooter { grid-area: 2 / 1 / 3 / 4; }
 
-.whatsapp { grid-area: whatsapp; }
+.whatsapp { grid-area: 1 / 1 / 2 / 2; }
 
-.regalos { grid-area: regalos; }
+.entrega { grid-area: 1 / 2 / 2 / 3; }
 
-.downfooter {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-area: downfooter;
-}
+.GIFTS { grid-area: 1 / 3 / 2 / 4; }
 
-.contacto { grid-area: 1 / 3 / 4 / 4; }
+.ACERCA {
+  /*margin: 10%;*/
+  grid-area: 2 / 1 / 3 / 3; }
 
-.acerca { grid-area: 1 / 1 / 4 / 3; }
-
-.musicalbox { grid-area: 1 / 1 / 3 / 3; }
-
-.redes { grid-area: 3 / 1 / 4 / 3; }
-
-
-  
+.CONTACTO { grid-area: 2 / 3 / 3 / 4; }

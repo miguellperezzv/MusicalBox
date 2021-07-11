@@ -80,4 +80,5 @@ def newartist():
     if request.method=='POST':
         n_artista = form_login.n_artista.data
         create_new_artist(n_artista)
+        return redirect(url_for('home.admin'))
     return render_template("newArtist.html", form=form_login)

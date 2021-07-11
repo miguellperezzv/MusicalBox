@@ -1,9 +1,9 @@
-from store.forms import CreateUsuarioForm, LoginUsuarioForm
+from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for
-from store.models import create_new_user, get_user_by_email
+from store.models import create_new_user, get_user_by_email, create_new_artist
 
 home = Blueprint('home', __name__)
-admin = Blueprint('admin', __name__)
+dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
 
 
 @home.before_request
@@ -50,7 +50,7 @@ def signup():
             pwd = form_signup.pwd_usuario.data
 
             create_new_user('Miguel','Pérez', email, pwd)
-            return redirect(url_for('home.index',user=g.user) )
+            return redirect(url_for('home.index',user=g.user))
     
         return render_template('signup.html', form=form_signup)
     
@@ -74,3 +74,10 @@ def admin():
 
 
 #routes del pandel de administración
+@dashboard.route("/newartist", methods=["GET", "POST"])
+def newartist():
+    form_login = newArtistForm()
+    if request.method=='POST':
+        n_artista = form_login.n_artista.data
+        create_new_artist(n_artista)
+    return render_template("newArtist.html", form=form_login)

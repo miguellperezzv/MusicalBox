@@ -1,10 +1,10 @@
 from db import db, ma 
 from config import  DevelopmentConfig 
 from flask import Flask
-from store.views import home
+from store.views import home, dashboard
 from flask_sqlalchemy import SQLAlchemy
 
-ACTIVE_ENDPOINTS = [('/',home) ]
+ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard) ]
 
 
 

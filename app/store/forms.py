@@ -13,3 +13,6 @@ class CreateUsuarioForm(FlaskForm):
 class LoginUsuarioForm(FlaskForm):
     email_usuario =  StringField('Email', validators=[DataRequired()])
     pwd_usuario =  StringField('Contraseña', validators=[DataRequired()])
+
+class newArtistForm(FlaskForm):
+    n_artista = StringField('Nombre del Artista', validators=[DataRequired()])

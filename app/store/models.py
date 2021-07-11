@@ -153,6 +153,15 @@ def create_new_user(n_usuario, ape_usuario, email, password):
         return user
     return None 
 
+def create_new_artist(n_artista):
+    print(n_artista)
+    k_artista = "A"+str(len(get_all_artists())+1)
+    artista = Artista(k_artista=k_artista, n_artista=n_artista)
+    db.session.add(artista)
+
+    if db.session.commit():
+        return artista
+    return None 
 
 def get_all_products():
     products_qs = Producto.query.all()
@@ -165,6 +174,12 @@ def get_all_users():
     users_schema = UsuarioSchema()
     users=[users_schema.dump(user) for user in users_qs]
     return users
+
+def get_all_artists():
+    artist_qs = Artista.query.all()
+    artist_schema = ArtistaSchema()
+    artists=[artist_schema.dump(artista) for artista in artist_qs]
+    return artists
 
 def get_user_by_email(email):
     usuario_qs = Usuario.query.filter_by(email_usuario = email).first()

@@ -1,0 +1,6 @@
+<form method="POST" action="{{url_for('dashboard.newartist')}}">
+    {{ form.csrf_token }}
+    {{ form.n_artista.label }} {{ form.n_artista(size=30) }}
+    
+    <input type="submit" value="Agregar Artista">
+</form> 

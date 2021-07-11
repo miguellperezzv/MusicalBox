@@ -57,14 +57,27 @@ Panel de Administración
                 </a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#" id="newartist">Artista</a>
+                       
+                        <a href="#" id="newartist" class="option"> <i class='bx bxs-user-voice'></i>Artista</a>
                     </li>
                     <li>
-                        <a href="#">Lanzamiento</a>
+                        <a href="#" id="newrelease" class="option"><i class='bx bxs-music' ></i>Lanzamiento</a>
                     </li>
                     <li>
-                        <a href="#">Producto</a>
+                        <a href="#" id="newproduct" class="option"><i class='bx bxs-shopping-bags' ></i>Producto</a>
                     </li>
+                    <li>
+                        <a href="#" id="newcategory" class="option"><i class='bx bxs-category-alt' ></i>Categoria</a>
+                    </li>
+                    <li>
+                        <a href="#" id="newgenre" class="option"><i class='bx bx-equalizer'></i>Género</a>
+                    </li>
+                    
+                    <li>
+                        <a href="#" id="newadmin" class="option"><i class='bx bxs-group'></i>Usuario Administrador</a>
+                    </li>
+                    
+
                 </ul>
             </li>
             <li>
@@ -90,10 +103,21 @@ Panel de Administración
         
     </nav>
 
-    <!-- Page Content  -->
-    <div id="content">
-
+    
+    <div>
+        <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+        <!-- Page Content  -->
+        <div id="content">
+                PAGInA PRINCIPAL DE DASHBOARD
+        </div>
     </div>
+    
     
 </div>
 
@@ -121,10 +145,16 @@ Panel de Administración
         $(document).ready(function (){
     $('#newartist').on('click', function (e){
         e.preventDefault();
-        alert ("Hola Mundo");
         $('#content').load("{{url_for('dashboard.newartist')}}");
+        })
     })
-})
+
+    $(document).ready(function (){
+    $('#newrelease').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.newrelease')}}");
+        })
+    })
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {%endblock%}

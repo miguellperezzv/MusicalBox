@@ -70,6 +70,7 @@ def account():
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():
+    
     return render_template("adminDashboard.html", user=g.user)
 
 
@@ -82,3 +83,7 @@ def newartist():
         create_new_artist(n_artista)
         return redirect(url_for('home.admin'))
     return render_template("newArtist.html", form=form_login)
+
+@dashboard.route( "/newrelease" ,methods=["GET", "POST"])
+def newrelease():
+    return "nuevo lanzamiento"

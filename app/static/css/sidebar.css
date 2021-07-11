@@ -146,6 +146,11 @@ span {
 }
 
 #sidebar ul li a:hover {
+    color:var(--aqua);
+    background: var(--yellow);
+}
+
+#sidebar ul li .option :hover {
     color: var(--backblue);
     background: var(--yellow);
 }
@@ -270,3 +275,16 @@ a.article:hover {
   
     text-decoration: none;
   }
+
+.bx{
+    color:var(--yellow);
+    font-size: 20px;
+}
+
+a{
+    color:var(--yellow);
+}
+
+.option{
+    color:var(--yellow);
+}

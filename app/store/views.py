@@ -3,6 +3,7 @@ from flask import Blueprint, Response, flash, session, request, g, render_templa
 from store.models import create_new_user, get_user_by_email
 
 home = Blueprint('home', __name__)
+admin = Blueprint('admin', __name__)
 
 
 @home.before_request
@@ -66,3 +67,10 @@ def logout():
 @home.route("/account", methods=["GET", "POST"])
 def account():
     return "Mi cuenta"
+
+@home.route("/dashboard", methods=["GET", "POST"])
+def admin():
+    return render_template("adminDashboard.html", user=g.user)
+
+
+#routes del pandel de administración

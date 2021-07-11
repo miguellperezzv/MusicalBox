@@ -1,6 +1,7 @@
-from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm
+
+from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for
-from store.models import create_new_user, get_user_by_email, create_new_artist
+from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
@@ -86,4 +87,21 @@ def newartist():
 
 @dashboard.route( "/newrelease" ,methods=["GET", "POST"])
 def newrelease():
-    return "nuevo lanzamiento"
+    artists= get_all_artists()
+    selectfieldartist =[]
+    for artist in artists:
+        selectfieldartist.append((artist['k_artista'], artist['n_artista']))
+        
+    #print(selectfieldartist)
+    #form_new_release = newReleaseForm()
+    form_new_release=newReleaseForm(selectfieldartist)
+
+    if request.method == 'POST':
+        n_lanzamiento = form_new_release.n_lanzamiento.data
+        i_lanzamiento = form_new_release.i_lanzamiento.data
+        k_artista = form_new_release.k_artista.data
+        print(n_lanzamiento)
+        print(i_lanzamiento)
+        print(k_artista)
+    
+    return render_template("newRelease.html", form = form_new_release)

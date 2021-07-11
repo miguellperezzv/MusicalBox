@@ -1,0 +1,9 @@
+<form method="POST" action="{{url_for('dashboard.newrelease')}}">
+    {{ form.csrf_token }}
+    {{ form.n_lanzamiento.label }} {{ form.n_lanzamiento(size=50) }}
+    {{ form.i_lanzamiento.label }} {{ form.i_lanzamiento(size=100) }}
+    {{form.k_artista.label}} {{form.k_artista}}
+
+    
+    <input type="submit" value="Agregar Artista">
+</form> 

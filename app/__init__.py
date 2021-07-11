@@ -1,29 +1,35 @@
-from db import db, ma 
-from config import  DevelopmentConfig 
+from app.db import db, ma 
+from app.config import  DevelopmentConfig 
 from flask import Flask
-from store.views import home, dashboard
+from app.store.views import home, dashboard
 from flask_sqlalchemy import SQLAlchemy
 
 ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard) ]
 
-
-
-
-
-
-if __name__ == "__main__":
-    
+def create_app(config=DevelopmentConfig):
     app = Flask(__name__)
-    app.jinja_env.trim_blocks = True
-    app.config.from_object(DevelopmentConfig)
+    
+    app.config.from_object(config)
 
     db.init_app(app)
     ma.init_app(app)
+   
 
-    with app.app_context():   #el contexto es la DB, el serializable 
+    with app.app_context():
         db.create_all()
 
-    for url,  blueprint in ACTIVE_ENDPOINTS:
+    # register each active blueprint
+    for url, blueprint in ACTIVE_ENDPOINTS:
         app.register_blueprint(blueprint, url_prefix=url)
-    db = SQLAlchemy(app)
-    app.run(debug=True)
+
+    return app
+
+
+if __name__ == "__main__":
+    app_flask = create_app()
+    app_flask.run(debug=True)
+
+
+
+
+

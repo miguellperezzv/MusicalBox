@@ -10,7 +10,7 @@
 @font-face {
     
     font-family: Smooth-Circulars;
-    src : url("{{ url_for('static', filename='fonts/Smooth-Circulars.otf') }}");
+    src : url("../fonts/Smooth-Circulars.otf");
     
     
   }  

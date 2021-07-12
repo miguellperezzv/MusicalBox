@@ -1,10 +1,9 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
-
 from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories
 
 
 home = Blueprint('home', __name__)
@@ -138,3 +137,8 @@ def newproduct():
 def newproduct_releases():
     release_artist = get_releases_with_artists()
     return jsonify(release_artist)
+
+@dashboard.route("/newproduct_categories")
+def newproduct_categories():
+    categories = get_categories()
+    return jsonify(categories)

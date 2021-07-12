@@ -8,7 +8,7 @@ class Lanzamiento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     n_lanzamiento = db.Column(db.String(100), nullable = False )
     f_lanzamiento = db.Column(db.Date)
-    i_lanzamiento = db.Column(db.String(200))
+    i_lanzamiento = db.Column(db.String(500))
 
 class Artista(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,7 +41,7 @@ class Producto(db.Model):
     p_producto = db.Column(db.Numeric(11,2), nullable = False )
     d_producto = db.Column(db.String(200))
     stock = db.Column(db.Numeric(5,0), nullable=False)
-    i_producto = db.Column(db.String(200))
+    i_producto = db.Column(db.String(500))
     f_producto = db.Column(db.DateTime, default= datetime.now())
     #atributos de la relacion
     lanzamiento = db.relationship("Lanzamiento")
@@ -251,3 +251,15 @@ def get_releases_with_artists():
     for release in releases:
         r.append((get_artist_by_id(release["k_artista"])+" - "+ get_release_by_id(release["k_lanzamiento"])))
     return r
+
+def get_categories():
+    category_qs = Categoria.query.all()
+    categories_schema= CategoriaSchema()
+    categories = [categories_schema.dump(c) for c in category_qs]
+    print(categories)
+    cat =[]
+    for c in categories:
+        cat.append(c["k_categoria"])
+
+    print (cat)
+    return cat

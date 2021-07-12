@@ -1,7 +1,9 @@
 
-from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
+#from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
+from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
-from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
+#from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 
 
 home = Blueprint('home', __name__)

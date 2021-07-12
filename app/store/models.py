@@ -1,6 +1,7 @@
-from app.db import db, ma
+#from app.db import db, ma
+from db import db, ma
 from datetime import datetime
-import numpy as np
+
 
 
 class Lanzamiento(db.Model):

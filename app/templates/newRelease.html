@@ -3,6 +3,7 @@
     {{ form.n_lanzamiento.label }} {{ form.n_lanzamiento(size=50) }}
     {{ form.i_lanzamiento.label }} {{ form.i_lanzamiento(size=100) }}
     {{form.k_artista.label}} {{form.k_artista}}
+    {{form.f_lanzamiento.label}} {{form.f_lanzamiento}}
 
     
     <input type="submit" value="Agregar Artista">
@@ -14,10 +15,14 @@
         $.ajax({
             url: '{{url_for("dashboard.newrelease_artists")}}'
         }).done(function(data){
-            console.log(data),
+            console.log(data)
+            data.label= data.n_artista
+            data.value= data.k_artista
+            console.log(data)
             $('#artista').autocomplete({
                 
                 source:data,
+                
                 minLenght:1
             });
         });

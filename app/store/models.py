@@ -165,6 +165,15 @@ def create_new_artist(n_artista):
         return artista
     return None 
 
+def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
+    k_lanzamiento = "LANZ"+str(len(get_all_releases())+1)
+    lanzamiento = Lanzamiento(k_lanzamiento=k_lanzamiento, n_lanzamiento=n_lanzamiento, i_lanzamiento=i_lanzamiento, f_lanzamiento=f_lanzamiento)
+    lanzamiento_artista = Lanzamiento_Artista(k_lanzamiento=k_lanzamiento, k_artista=k_artista)
+    db.session.add(lanzamiento)
+    db.session.add(lanzamiento_artista)
+    db.session.commit()
+    
+
 def get_all_products():
     products_qs = Producto.query.all()
     product_schema = ProductoSchema()
@@ -183,8 +192,20 @@ def get_all_artists():
     artists=[artist_schema.dump(artista) for artista in artist_qs]
     return artists
 
+def get_all_releases():
+    release_qs=Lanzamiento.query.all()
+    release_Schema=LanzamientoSchema()
+    releases=[release_Schema.dump(lanz) for lanz in release_qs]
+    return releases
+
 def get_user_by_email(email):
     usuario_qs = Usuario.query.filter_by(email_usuario = email).first()
     usuario_schema = UsuarioSchema()
     u = usuario_schema.dump(usuario_qs)
     return u
+
+def get_k_artist_by_name(artista):
+    artist_qs = Artista.query.filter_by(n_artista = artista).first()
+    artist_schema=ArtistaSchema()
+    a = artist_schema.dump(artist_qs)
+    return a['k_artista']

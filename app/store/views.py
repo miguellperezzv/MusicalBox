@@ -1,9 +1,10 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
+
 from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release
 
 
 home = Blueprint('home', __name__)
@@ -102,11 +103,13 @@ def newrelease():
     if request.method == 'POST':
         n_lanzamiento = form_new_release.n_lanzamiento.data
         i_lanzamiento = form_new_release.i_lanzamiento.data
-        k_artista = form_new_release.k_artista.data
-        print(n_lanzamiento)
-        print(i_lanzamiento)
-        print(k_artista)
-    
+        k_artista =  get_k_artist_by_name(form_new_release.k_artista.data)
+        f_lanzamiento = form_new_release.f_lanzamiento.data
+
+        if create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento) is not None:
+            print("Registro Exitoso")
+        else:
+            print("No se pudo registrar")
     return render_template("newRelease.html", form = form_new_release )
 
 @dashboard.route("/newrelease_artists")

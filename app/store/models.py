@@ -227,3 +227,27 @@ def get_release_by_name(lanzamiento):
 
         return r['id']
     return "No existe!!"
+
+def get_artist_by_id(id):
+    artist_qs = Artista.query.filter_by(id = id).first()
+    artist_schema=ArtistaSchema()
+    a = artist_schema.dump(artist_qs)
+    return a['n_artista']
+
+def get_release_by_id(id):
+    release_qs = Lanzamiento.query.filter_by(id = id).first()
+    release_schema=LanzamientoSchema()
+    r = release_schema.dump(release_qs)
+    if r:
+
+        return r['n_lanzamiento']
+    return "No existe!!"
+
+def get_releases_with_artists():
+    release_artist_qs = Lanzamiento_Artista.query.all()
+    release_artists_schema = Lanzamiento_ArtistaSchema()
+    releases=[release_artists_schema.dump(lanz) for lanz in release_artist_qs]
+    r=[]
+    for release in releases:
+        r.append((get_artist_by_id(release["k_artista"])+" - "+ get_release_by_id(release["k_lanzamiento"])))
+    return r

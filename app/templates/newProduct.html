@@ -1,0 +1,33 @@
+<form method="POST" action="{{url_for('dashboard.newproduct')}}">
+    
+    {{ form.csrf_token }}
+    {{ form.n_lanzamiento.label }} {{ form.n_lanzamiento(size=100) }}
+    {{ form.n_producto.label }} {{ form.n_producto(size=100) }}
+    {{ form.i_producto.label }} {{ form.i_producto(size=100) }}
+    {{form.d_producto.label}} {{form.d_producto}}
+    {{form.p_producto.label}} {{form.p_producto}}
+    {{form.stock.label}} {{form.stock}}
+
+    
+    <input type="submit" value="Agregar Artista">
+</form> 
+
+<script>
+    $(function(){
+        $.ajax({
+            url: '{{url_for("dashboard.newproduct_releases")}}'
+        }).done(function(data){
+            console.log(data)
+            data.label= data.n_artista
+            data.value= data.k_artista
+            console.log(data)
+            $('#lanzamiento').autocomplete({
+                
+                source:data,
+                
+                minLenght:1
+            });
+        });
+    });
+    
+</script>

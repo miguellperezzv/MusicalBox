@@ -1,10 +1,10 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
 
-from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
+from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists
 
 
 home = Blueprint('home', __name__)
@@ -117,3 +117,24 @@ def newrelease_artists():
         #selectfieldartist.append((artist['k_artista'], artist['n_artista']))
         selectfieldartist.append((artist['n_artista']))
     return jsonify(selectfieldartist)
+
+@dashboard.route("/newproduct", methods=["GET", "POST"])
+def newproduct():
+    form_new_product = newProductForm()
+    if request.method=="POST":
+        n_producto = form_new_product.n_producto.data
+        p_producto  =form_new_product.p_producto.data
+        d_producto = form_new_product.d_producto.data
+        stock = form_new_product.stock.data
+        i_producto = form_new_product.i_producto.data
+        print(n_producto)
+        print(p_producto)
+        print(d_producto)
+        print(stock)
+        print(i_producto)
+    return render_template("newProduct.html", form=form_new_product)
+
+@dashboard.route("/newproduct_releases")
+def newproduct_releases():
+    release_artist = get_releases_with_artists()
+    return jsonify(release_artist)

@@ -5,19 +5,19 @@ from datetime import datetime
 
 
 class Lanzamiento(db.Model):
-    k_lanzamiento = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     n_lanzamiento = db.Column(db.String(100), nullable = False )
     f_lanzamiento = db.Column(db.Date)
     i_lanzamiento = db.Column(db.String(200))
 
 class Artista(db.Model):
-    k_artista = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     n_artista = db.Column(db.String(50), nullable = False)
     pais_artista = db.Column(db.String(50))
 
 class Lanzamiento_Artista(db.Model):
-    k_artista = db.Column(db.String(10), db.ForeignKey("artista.k_artista"), primary_key=True)
-    k_lanzamiento = db.Column(db.String(10), db.ForeignKey("lanzamiento.k_lanzamiento") ,primary_key=True)
+    k_artista = db.Column(db.Integer, db.ForeignKey("artista.id"), primary_key=True)
+    k_lanzamiento = db.Column(db.Integer, db.ForeignKey("lanzamiento.id") ,primary_key=True)
     #atributos de la relacion
     lanzamiento = db.relationship("Lanzamiento")
     artista = db.relationship("Artista")
@@ -27,15 +27,15 @@ class Genero(db.Model):
 
 class Lanzamiento_Genero(db.Model):
     k_genero = db.Column(db.String(30), db.ForeignKey("genero.k_genero"),primary_key=True)
-    k_lanzamiento = db.Column(db.String(10), db.ForeignKey("lanzamiento.k_lanzamiento"), primary_key=True)
+    k_lanzamiento = db.Column(db.Integer, db.ForeignKey("lanzamiento.id"), primary_key=True)
     subgenre = db.Column(db.Boolean)
     #atributos de la relacion
     genero = db.relationship("Genero")
     lanzamiento = db.relationship("Lanzamiento")
 
 class Producto(db.Model):
-    k_producto = db.Column(db.String(10), primary_key=True)
-    k_lanzamiento = db.Column(db.String(10), db.ForeignKey("lanzamiento.k_lanzamiento"))
+    id = db.Column(db.Integer, primary_key=True)
+    k_lanzamiento = db.Column(db.Integer, db.ForeignKey("lanzamiento.id"))
     k_categoria = db.Column(db.String(30), db.ForeignKey("categoria.k_categoria"))
     n_producto = db.Column(db.String(100))
     p_producto = db.Column(db.Numeric(11,2), nullable = False )
@@ -49,8 +49,8 @@ class Producto(db.Model):
 
 
 class Item(db.Model):
-    k_producto = db.Column(db.String(10), db.ForeignKey("producto.k_producto"), primary_key=True)
-    k_factura = db.Column(db.Numeric(10,0),db.ForeignKey("factura.k_factura"), primary_key=True)
+    k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"), primary_key=True)
+    k_factura = db.Column(db.Integer,db.ForeignKey("factura.id"), primary_key=True)
     cant_item = db.Column(db.Numeric(3,0), nullable=False)
     p_item = db.Column(db.Numeric(11,2), nullable=False)
     #atributos de la relacion
@@ -58,15 +58,15 @@ class Item(db.Model):
     factura = db.relationship("Factura")
 
 class Factura(db.Model):
-    k_factura = db.Column(db.Numeric(10,0), primary_key=True)
-    k_usuario = db.Column(db.String(10), db.ForeignKey("usuario.k_usuario") , primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id") , primary_key=True)
     f_compra = db.Column(db.DateTime, default=datetime.now())
     total = db.Column(db.Numeric(13,2), nullable=False)
     #atributos de la relacion
     usuario = db.relationship("Usuario")
 
 class Usuario(db.Model):
-    k_usuario = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     k_rol = db.Column(db.String(20), db.ForeignKey('rol.k_rol'))
     n_usuario = db.Column(db.String(20), nullable=False)
     ape_usuario = db.Column(db.String(20), nullable=False)
@@ -89,12 +89,12 @@ class Categoria(db.Model):
 class LanzamientoSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Lanzamiento
-        fields = ["k_lanzamiento", "n_lanzamiento", "f_lanzamiento", "i_lanzamiento"]
+        fields = ["id", "n_lanzamiento", "f_lanzamiento", "i_lanzamiento"]
 
 class ArtistaSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Artista
-        fields = ["k_artista", "n_artista", "pais_artista"]
+        fields = ["id", "n_artista", "pais_artista"]
 
 class Lanzamiento_ArtistaSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -114,22 +114,22 @@ class Lanzamiento_GeneroSchema(ma.SQLAlchemyAutoSchema):
 class ProductoSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Producto
-        fields = ["k_lanzamiento", "k_categoria", "n_producto", "p_producto", "d_producto", 'stock', 'i_producto', 'f_producto']
+        fields = ["id", "k_lanzamiento", "k_categoria", "n_producto", "p_producto", "d_producto", 'stock', 'i_producto', 'f_producto']
 
 class ItemSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Item
-        fields = ["k_factura", "cant_item", "p_item"]
+        fields = ["k_factura", "k_producto", "cant_item", "p_item"]
 
 class FacturaSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Factura
-        fields = ["k_factura", "k_usuario", "f_compra", "total"]
+        fields = ["id", "k_usuario", "f_compra", "total"]
 
 class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
-        fields = ["k_usuario", "k_rol", "n_usuario","ape_usuario", "email_usuario", "pwd_usuario", "dir_usuario", "lugar_usuario"]
+        fields = ["id", "k_rol", "n_usuario","ape_usuario", "email_usuario", "pwd_usuario", "dir_usuario", "lugar_usuario"]
 
 class RolSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -147,8 +147,8 @@ def create_new_user(n_usuario, ape_usuario, email, password):
     print(email)
     print(password)
 
-    k_usuario = "U"+str(len(get_all_users())+1)
-    user = Usuario(k_usuario=k_usuario, k_rol='USER' ,n_usuario =n_usuario,ape_usuario=ape_usuario, email_usuario=email, pwd_usuario=password )
+    #k_usuario = "U"+str(len(get_all_users())+1)
+    user = Usuario( k_rol='USER' ,n_usuario =n_usuario,ape_usuario=ape_usuario, email_usuario=email, pwd_usuario=password )
     db.session.add(user)
 
     if db.session.commit():
@@ -157,8 +157,8 @@ def create_new_user(n_usuario, ape_usuario, email, password):
 
 def create_new_artist(n_artista):
     print(n_artista)
-    k_artista = "A"+str(len(get_all_artists())+1)
-    artista = Artista(k_artista=k_artista, n_artista=n_artista)
+    #k_artista = "A"+str(len(get_all_artists())+1)
+    artista = Artista(n_artista=n_artista)
     db.session.add(artista)
 
     if db.session.commit():
@@ -166,12 +166,19 @@ def create_new_artist(n_artista):
     return None 
 
 def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
-    k_lanzamiento = "LANZ"+str(len(get_all_releases())+1)
-    lanzamiento = Lanzamiento(k_lanzamiento=k_lanzamiento, n_lanzamiento=n_lanzamiento, i_lanzamiento=i_lanzamiento, f_lanzamiento=f_lanzamiento)
-    lanzamiento_artista = Lanzamiento_Artista(k_lanzamiento=k_lanzamiento, k_artista=k_artista)
+    #k_lanzamiento = "LANZ"+str(len(get_all_releases())+1)
+    lanzamiento = Lanzamiento(n_lanzamiento=n_lanzamiento, i_lanzamiento=i_lanzamiento, f_lanzamiento=f_lanzamiento)
+    
     db.session.add(lanzamiento)
+    k_lanzamiento = get_release_by_name(lanzamiento.n_lanzamiento)
+    print("EL ID DEL LANZAMIENTO QUEDÓ REGISTRADO ASI : "+str(k_lanzamiento))
+    lanzamiento_artista = Lanzamiento_Artista(k_lanzamiento =lanzamiento.id, k_artista=k_artista)
+   
+
     db.session.add(lanzamiento_artista)
-    db.session.commit()
+    if db.session.commit():
+        return lanzamiento_artista
+    return None
     
 
 def get_all_products():
@@ -208,4 +215,13 @@ def get_k_artist_by_name(artista):
     artist_qs = Artista.query.filter_by(n_artista = artista).first()
     artist_schema=ArtistaSchema()
     a = artist_schema.dump(artist_qs)
-    return a['k_artista']
+    return a['id']
+
+def get_release_by_name(lanzamiento):
+    release_qs = Lanzamiento.query.filter_by(n_lanzamiento = lanzamiento).first()
+    release_schema=LanzamientoSchema()
+    r = release_schema.dump(release_qs)
+    if r:
+
+        return r['id']
+    return "No existe!!"

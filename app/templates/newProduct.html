@@ -33,18 +33,18 @@
         });
     });
     
-
+/*  SE TRATÓ CON JQUERY TRAER LAS CATEGORIAS, PERO FLASKWTF LO CUBRE :)
     $(function(){
         $.ajax({
             url: '{{url_for("dashboard.newproduct_categories")}}'
         }).done(function(data){
             console.log(data)
             data.forEach(function(e, i){
-            $('#k_category').append($('<option></option>').val(e.code).text(e.name)); 
+            $('#category').append($('<option></option>').val(e.key).text(e.value)); 
             });
         });
     });
-
+*/
     
 </script>
 

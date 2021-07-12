@@ -141,6 +141,12 @@ class CategoriaSchema(ma.SQLAlchemyAutoSchema):
         model = Categoria
         fields = ["k_categoria"]
 
+#FOR KEY VALUE :) --- CATEGORY
+class CategoriaSchemaJSON(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Categoria
+        fields = ["key", "value"] 
+
 
 #mis consultas 
 def create_new_user(n_usuario, ape_usuario, email, password):
@@ -259,7 +265,7 @@ def get_categories():
     print(categories)
     cat =[]
     for c in categories:
-        cat.append(c["k_categoria"])
+        cat.append((c["k_categoria"],c["k_categoria"]))
 
     print (cat)
     return cat

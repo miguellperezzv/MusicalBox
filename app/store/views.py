@@ -119,18 +119,21 @@ def newrelease_artists():
 
 @dashboard.route("/newproduct", methods=["GET", "POST"])
 def newproduct():
-    form_new_product = newProductForm()
+    categories =  get_categories()
+    form_new_product = newProductForm(categories_choices=categories)
     if request.method=="POST":
         n_producto = form_new_product.n_producto.data
         p_producto  =form_new_product.p_producto.data
         d_producto = form_new_product.d_producto.data
         stock = form_new_product.stock.data
         i_producto = form_new_product.i_producto.data
+        k_categoria = dict(form_new_product.k_category.choices).get(form_new_product.k_category.data)
         print(n_producto)
         print(p_producto)
         print(d_producto)
         print(stock)
         print(i_producto)
+        print(k_categoria)
     return render_template("newProduct.html", form=form_new_product)
 
 @dashboard.route("/newproduct_releases")

@@ -27,14 +27,21 @@ class  newReleaseForm(FlaskForm):
     f_lanzamiento = DateField("Fecha de Lanzamiento", default=date.today)
 
 class newProductForm(FlaskForm):
+
+
+
     n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})
     n_producto = StringField("Nombre del producto", render_kw={"placeholder": "Opcional. Amplía el nombre (ej: +VinylBox Set)"})
     p_producto = IntegerField("Precio", widget=h5widgets.NumberInput(min=0, max=1000000, step=50), validators=[NumberRange(min=0, max=10000), DataRequired()])
     d_producto = StringField("Descripción", render_kw={"placeholder": "Opcional. Información adicional"})
     stock = IntegerField("Stock", widget=h5widgets.NumberInput(min=0, max=1000), validators=[DataRequired()])
     i_producto = StringField("Imagen" )
-    k_category = SelectField("Categoria", id="category")
+    k_category = SelectField("Categoria", id="category", choices=[])
 
+    def __init__(self, categories_choices: list = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if categories_choices:
+            self.k_category.choices = categories_choices
 
 
         

@@ -101,10 +101,12 @@ def newrelease():
         k_artista =  get_k_artist_by_name(form_new_release.k_artista.data)
         f_lanzamiento = form_new_release.f_lanzamiento.data
 
-        if create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento) is not None:
-            print("Registro Exitoso")
+        if create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento):
+            flash("Registro Exitoso")
+            return redirect(url_for('home.admin'))
         else:
-            print("No se pudo registrar")
+            flash("No se pudo registrar")
+        return redirect(url_for('home.admin'))
     return render_template("newRelease.html", form = form_new_release )
 
 @dashboard.route("/newrelease_artists")

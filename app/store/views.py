@@ -3,7 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product
 
 
 home = Blueprint('home', __name__)
@@ -134,6 +134,7 @@ def newproduct():
         print(stock)
         print(i_producto)
         print(k_categoria)
+        create_new_product(n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
     return render_template("newProduct.html", form=form_new_product)
 
 @dashboard.route("/newproduct_releases")

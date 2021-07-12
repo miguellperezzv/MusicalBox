@@ -185,6 +185,9 @@ def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
     except:
         return None
 
+#n_producto, p_producto, d_producto, stock, i_producto, k_categoria
+def create_new_product(n_producto, p_producto, d_producto, stock, i_producto, k_categoria):
+    product = Producto()
    
 
     

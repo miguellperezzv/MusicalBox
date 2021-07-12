@@ -2,6 +2,12 @@
     
     {{ form.csrf_token }}
     {{ form.n_lanzamiento.label }} {{ form.n_lanzamiento(size=100) }}
+    <p>
+        Confirmar Lanzamiento ? 
+        <input type="radio" name="confirmar" value="si" id="Positivo" > Sí
+    <input type="radio" name="confirmar" value="no" id="Negativo" checked> No
+      </p>
+    
     {{ form.n_producto.label }} {{ form.n_producto(size=100) }}
     {{ form.i_producto.label }} {{ form.i_producto(size=100) }}
     {{form.d_producto.label}} {{form.d_producto}}
@@ -17,10 +23,6 @@
         $.ajax({
             url: '{{url_for("dashboard.newproduct_releases")}}'
         }).done(function(data){
-            console.log(data)
-            data.label= data.n_artista
-            data.value= data.k_artista
-            console.log(data)
             $('#lanzamiento').autocomplete({
                 
                 source:data,
@@ -30,4 +32,24 @@
         });
     });
     
+</script>
+
+<script>
+    var n_lanzamiento_input = document.getElementById("lanzamiento")
+    console.log(n_lanzamiento_input)
+
+// evento para el input radio del "si"
+document.getElementById('Positivo').addEventListener('click', function(e) {
+  console.log('Vamos a habilitar el input text');
+  console.log(n_lanzamiento_input)
+  
+  n_lanzamiento_input.disabled = true;
+});
+
+// evento para el input radio del "no"
+document.getElementById('Negativo').addEventListener('click', function(e) {
+  console.log('Vamos a deshabilitar el input text');
+  console.log(n_lanzamiento_input)
+  n_lanzamiento_input.disabled = false;
+});
 </script>

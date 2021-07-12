@@ -7,3 +7,20 @@
     
     <input type="submit" value="Agregar Artista">
 </form> 
+
+
+<script>
+    $(function(){
+        $.ajax({
+            url: '{{url_for("dashboard.newrelease_artists")}}'
+        }).done(function(data){
+            console.log(data),
+            $('#artista').autocomplete({
+                
+                source:data,
+                minLenght:1
+            });
+        });
+    });
+    
+</script>

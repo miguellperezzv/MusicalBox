@@ -21,7 +21,7 @@ class newArtistForm(FlaskForm):
 class  newReleaseForm(FlaskForm ):
     n_lanzamiento = StringField("Nombre del lanzamiento", validators=[DataRequired()])
     i_lanzamiento = StringField("Imagen del lanzamiento", validators=[DataRequired()])
-    k_artista  = SelectField("Artista", choices=[('Any', 'Any')])
+    k_artista  = StringField("Artista",validators=[DataRequired()], id="artista")
 
     def __init__(self, artists_choices: list = None, *args, **kwargs):
         super().__init__(*args, **kwargs)

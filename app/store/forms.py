@@ -1,4 +1,3 @@
-
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, NumberRange
 from wtforms import StringField, SelectField, PasswordField, IntegerField
@@ -40,7 +39,9 @@ class newProductForm(FlaskForm):
         if categories_choices:
             self.k_category.choices = categories_choices
 
-
+class newCat_Genre(FlaskForm):
+    genre = StringField("Nuevo Género")
+    category = StringField("Nueva Categoría")
         
 
     

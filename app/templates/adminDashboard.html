@@ -67,10 +67,7 @@ Panel de Administración
                         <a href="#" id="newproduct" class="option"><i class='bx bxs-shopping-bags' ></i>Producto</a>
                     </li>
                     <li>
-                        <a href="#" id="newcategory" class="option"><i class='bx bxs-category-alt' ></i>Categoria</a>
-                    </li>
-                    <li>
-                        <a href="#" id="newgenre" class="option"><i class='bx bx-equalizer'></i>Género</a>
+                        <a href="#" id="newgenre_cat" class="option"><i class='bx bx-equalizer'></i>Género / Categoría</a>
                     </li>
                     
                     <li>
@@ -160,6 +157,13 @@ Panel de Administración
     $('#newproduct').on('click', function (e){
         e.preventDefault();
         $('#content').load("{{url_for('dashboard.newproduct')}}");
+        })
+    })
+
+    $(document).ready(function (){
+    $('#newgenre_cat').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.newgenre_category')}}");
         })
     })
     </script>

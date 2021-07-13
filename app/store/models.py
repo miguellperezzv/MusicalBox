@@ -195,6 +195,23 @@ def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock,
     except:
         return None
    
+def create_new_category(category):
+    c = Categoria(k_categoria=category)
+    try:
+        db.session.add(c)
+        db.session.commit()
+        return (c)
+    except:
+        return None
+
+def create_new_genre(genre):
+    c = Genero(k_genero=genre)
+    try:
+        db.session.add(c)
+        db.session.commit()
+        return (c)
+    except:
+        return None
 
     
 

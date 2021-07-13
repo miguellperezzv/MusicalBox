@@ -1,10 +1,10 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
-from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm
+from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm, newCat_Genre
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista
-
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre
+ 
 
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
@@ -149,3 +149,34 @@ def newproduct_releases():
 def newproduct_categories():
     categories = get_categories()
     return jsonify(categories)
+
+@dashboard.route("/newgenre_category", methods=["GET", "POST"])
+def newgenre_category():
+    form_cat_genre = newCat_Genre()
+    if request.method=='POST':
+        return "Soy el Post de esta vista"
+    return render_template("newCatGenre.html", form = form_cat_genre) 
+
+@dashboard.route("/newgenre", methods=["GET", "POST"])
+def newgenre():
+    if request.method =='POST':
+        form_cat_genre = newCat_Genre()
+        genre = form_cat_genre.genre.data.upper()
+        result = create_new_genre(genre)
+        if result:
+            print("Genero registrado!")
+            return url_for('home.admin')
+        print("No se agregó el género! Posiblemente ya exista ;)")
+        return url_for('home.admin')
+
+@dashboard.route("/newcategory", methods=["GET", "POST"])
+def newcategory():
+    if request.method =='POST':
+        form_cat_genre = newCat_Genre()
+        category = form_cat_genre.category.data.upper()
+        result = create_new_category(category)
+        if result:
+            print("Cateogría registrada!")
+            return url_for('home.admin')
+        print("No se agregó la categoría! Posiblemente ya exista ;)")
+        return url_for('home.admin')

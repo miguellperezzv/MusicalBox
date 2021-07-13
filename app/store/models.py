@@ -186,8 +186,14 @@ def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
         return None
 
 #n_producto, p_producto, d_producto, stock, i_producto, k_categoria
-def create_new_product(n_producto, p_producto, d_producto, stock, i_producto, k_categoria):
-    product = Producto()
+def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock, i_producto, k_categoria):
+    product = Producto(k_lanzamiento=k_lanzamiento, n_producto=n_producto, p_producto=p_producto, d_producto=d_producto, stock=stock,i_producto=i_producto,k_categoria=k_categoria)
+    try:
+        db.session.add(product)
+        db.session.commit()
+        return (product)
+    except:
+        return None
    
 
     
@@ -272,3 +278,19 @@ def get_categories():
 
     print (cat)
     return cat
+
+def get_releases_artista(k_artista):
+    release_qs=Lanzamiento_Artista.query.filter_by(k_artista=k_artista)
+    release_Schema=Lanzamiento_ArtistaSchema()
+    releases=[release_Schema.dump(lanz) for lanz in release_qs]
+    return releases
+    
+
+def get_k_release_by_name_artista(n_lanzamiento,n_artista):
+    k_artista = get_k_artist_by_name(n_artista)
+    k_lanzamiento = get_release_by_name(n_lanzamiento)
+    lanz_art = get_releases_artista(k_artista)
+    for l in lanz_art:
+        if l['k_lanzamiento'] == k_lanzamiento:
+            return k_lanzamiento
+    return None

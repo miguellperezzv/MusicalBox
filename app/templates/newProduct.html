@@ -57,13 +57,15 @@ document.getElementById('Positivo').addEventListener('click', function(e) {
   console.log('Vamos a habilitar el input text');
   console.log(n_lanzamiento_input)
   
-  n_lanzamiento_input.disabled = true;
+  
+  n_lanzamiento_input.readOnly=true;
 });
 
 // evento para el input radio del "no"
 document.getElementById('Negativo').addEventListener('click', function(e) {
   console.log('Vamos a deshabilitar el input text');
   console.log(n_lanzamiento_input)
-  n_lanzamiento_input.disabled = false;
+  
+  n_lanzamiento_input.readOnly=false;
 });
 </script>

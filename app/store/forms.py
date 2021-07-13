@@ -27,9 +27,6 @@ class  newReleaseForm(FlaskForm):
     f_lanzamiento = DateField("Fecha de Lanzamiento", default=date.today)
 
 class newProductForm(FlaskForm):
-
-
-
     n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})
     n_producto = StringField("Nombre del producto", render_kw={"placeholder": "Opcional. Amplía el nombre (ej: +VinylBox Set)"})
     p_producto = IntegerField("Precio", widget=h5widgets.NumberInput(min=0, max=1000000, step=50), validators=[NumberRange(min=0, max=10000), DataRequired()])

@@ -3,7 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista
 
 
 home = Blueprint('home', __name__)
@@ -122,19 +122,22 @@ def newproduct():
     categories =  get_categories()
     form_new_product = newProductForm(categories_choices=categories)
     if request.method=="POST":
+        n_lanzamiento = form_new_product.n_lanzamiento.data.split(" - ")[-1]
+        n_artista = form_new_product.n_lanzamiento.data.split(" - ")[0]
         n_producto = form_new_product.n_producto.data
         p_producto  =form_new_product.p_producto.data
         d_producto = form_new_product.d_producto.data
         stock = form_new_product.stock.data
         i_producto = form_new_product.i_producto.data
         k_categoria = dict(form_new_product.k_category.choices).get(form_new_product.k_category.data)
-        print(n_producto)
-        print(p_producto)
-        print(d_producto)
-        print(stock)
-        print(i_producto)
-        print(k_categoria)
-        create_new_product(n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
+        k_lanzamiento = get_k_release_by_name_artista(n_lanzamiento,n_artista)
+        product = create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
+        if product:
+            print("Producto creado exitosamente!!! ")
+            return redirect(url_for('home.admin'))
+        else:
+            flash("No se pudo registrar")
+        return redirect(url_for('home.admin'))
     return render_template("newProduct.html", form=form_new_product)
 
 @dashboard.route("/newproduct_releases")

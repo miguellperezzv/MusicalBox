@@ -3,7 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre
  
 
 home = Blueprint('home', __name__)
@@ -91,10 +91,16 @@ def newrelease():
         i_lanzamiento = form_new_release.i_lanzamiento.data
         k_artista =  get_k_artist_by_name(form_new_release.k_artista.data)
         f_lanzamiento = form_new_release.f_lanzamiento.data
-
-        if create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento):
-            flash("Registro Exitoso")
-            return redirect(url_for('home.admin'))
+        k_genero = form_new_release.k_genero.data
+        print(k_genero)
+        k_lanzamiento= create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento, k_genero)
+        print("EL LANZAMIENTO ES: "+str(k_lanzamiento)+" , "+ n_lanzamiento)
+        if k_lanzamiento :
+            print("entrando al if ")
+            release_genre = create_release_genre(k_lanzamiento,  k_genero)
+            if release_genre:
+                flash("Lanzamiento Registrado! "+ str(k_lanzamiento) +" - "+ str(k_genero))
+                return redirect(url_for('home.admin'))
         else:
             flash("No se pudo registrar")
         return redirect(url_for('home.admin'))

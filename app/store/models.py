@@ -181,7 +181,7 @@ def create_new_artist(n_artista, pais_artista):
             return None
     
 
-def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
+def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento, k_genero):
     #k_lanzamiento = "LANZ"+str(len(get_all_releases())+1)
     lanzamiento = Lanzamiento(n_lanzamiento=n_lanzamiento, i_lanzamiento=i_lanzamiento, f_lanzamiento=f_lanzamiento)
     try:
@@ -189,9 +189,10 @@ def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
         k_lanzamiento = get_release_by_name(lanzamiento.n_lanzamiento)
         print("EL ID DEL LANZAMIENTO QUEDÓ REGISTRADO ASI : "+str(k_lanzamiento))
         lanzamiento_artista = Lanzamiento_Artista(k_lanzamiento =lanzamiento.id, k_artista=k_artista)
+        print(lanzamiento_artista)
         db.session.add(lanzamiento_artista)
         db.session.commit()
-        return (lanzamiento_artista)
+        return(k_lanzamiento)
     except:
         return None
 
@@ -223,6 +224,14 @@ def create_new_genre(genre):
     except:
         return None
 
+def create_release_genre(k_lanzamiento, k_genero):
+    r_g = Lanzamiento_Genero(k_lanzamiento=k_lanzamiento, k_genero=k_genero)
+    try:
+        db.session.add(r_g)
+        db.session.commit()
+        return (r_g)
+    except:
+        return None
     
 
 def get_all_products():

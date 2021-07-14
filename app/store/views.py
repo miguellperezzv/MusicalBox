@@ -1,6 +1,6 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
-from store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm, newProductForm, newCat_Genre
+from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre
@@ -78,15 +78,7 @@ def admin():
     return render_template("adminDashboard.html", user=g.user)
 
 
-#routes del pandel de administración
-@dashboard.route("/newartist", methods=["GET", "POST"])
-def newartist():
-    form_login = newArtistForm()
-    if request.method=='POST':
-        n_artista = form_login.n_artista.data
-        create_new_artist(n_artista)
-        return redirect(url_for('home.admin'))
-    return render_template("newArtist.html", form=form_login)
+#routes del panel de administración
 
 @dashboard.route( "/newrelease" ,methods=["GET", "POST"])
 def newrelease():
@@ -150,17 +142,17 @@ def newproduct_categories():
     categories = get_categories()
     return jsonify(categories)
 
-@dashboard.route("/newgenre_category", methods=["GET", "POST"])
-def newgenre_category():
-    form_cat_genre = newCat_Genre()
+@dashboard.route("/newgenre_category_artist", methods=["GET", "POST"])
+def newgenre_category_artist():
+    form_cat_genre = newCat_Genre_Artist()
     if request.method=='POST':
         return "Soy el Post de esta vista"
-    return render_template("newCatGenre.html", form = form_cat_genre) 
+    return render_template("newCatGenreArtist.html", form = form_cat_genre) 
 
 @dashboard.route("/newgenre", methods=["GET", "POST"])
 def newgenre():
     if request.method =='POST':
-        form_cat_genre = newCat_Genre()
+        form_cat_genre = newCat_Genre_Artist()
         genre = form_cat_genre.genre.data.upper()
         result = create_new_genre(genre)
         if result:
@@ -172,11 +164,25 @@ def newgenre():
 @dashboard.route("/newcategory", methods=["GET", "POST"])
 def newcategory():
     if request.method =='POST':
-        form_cat_genre = newCat_Genre()
+        form_cat_genre = newCat_Genre_Artist()
         category = form_cat_genre.category.data.upper()
         result = create_new_category(category)
         if result:
             print("Cateogría registrada!")
             return url_for('home.admin')
         print("No se agregó la categoría! Posiblemente ya exista ;)")
+        return url_for('home.admin')
+
+@dashboard.route("/newartist", methods=["GET", "POST"])
+def newartist():
+    if request.method=='POST':
+        form_cat_genre = newCat_Genre_Artist()
+        artist = form_cat_genre.n_artist.data.upper()
+        country = form_cat_genre.country.data
+        print(country)
+        result = create_new_artist(artist, country)
+        if result:
+            print("Artista registrado!")
+            return url_for('home.admin')
+        print("No se agregó el artista! Posiblemente ya exista ;)")
         return url_for('home.admin')

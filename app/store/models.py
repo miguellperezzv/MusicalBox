@@ -161,15 +161,25 @@ def create_new_user(n_usuario, ape_usuario, email, password):
         return user
     return None 
 
-def create_new_artist(n_artista):
-    print(n_artista)
-    #k_artista = "A"+str(len(get_all_artists())+1)
-    artista = Artista(n_artista=n_artista)
-    db.session.add(artista)
+def create_new_artist(n_artista, pais_artista):
+    print("ARTISTA: "+ n_artista)
+    query_artist = verify_existence_artist(n_artista)
+    if query_artist:
+        print("El artista ya ha sido registrado!")
+        return None
+    else:
+        #k_artista = "A"+str(len(get_all_artists())+1)
+        artista = Artista(n_artista=n_artista, pais_artista=pais_artista)
+    
+        db.session.add(artista)
 
-    if db.session.commit():
-        return artista
-    return None 
+        try:
+            db.session.add(artista)
+            db.session.commit()
+            return (artista)
+        except:
+            return None
+    
 
 def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento):
     #k_lanzamiento = "LANZ"+str(len(get_all_releases())+1)
@@ -265,6 +275,15 @@ def get_artist_by_id(id):
     artist_schema=ArtistaSchema()
     a = artist_schema.dump(artist_qs)
     return a['n_artista']
+
+def verify_existence_artist(n_artista):
+    artist_qs = Artista.query.filter_by(n_artista =n_artista).first()
+    artist_schema=ArtistaSchema()
+    a = artist_schema.dump(artist_qs)
+    if a:
+        return a['n_artista']
+    else:
+        return None
 
 def get_release_by_id(id):
     release_qs = Lanzamiento.query.filter_by(id = id).first()

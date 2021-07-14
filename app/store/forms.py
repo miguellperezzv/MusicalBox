@@ -5,7 +5,7 @@ from wtforms.fields.html5 import DateField
 from datetime import date, datetime
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.widgets import html5 as h5widgets
-
+import pycountry
 
 class CreateUsuarioForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired()])
@@ -16,8 +16,8 @@ class LoginUsuarioForm(FlaskForm):
     email_usuario =  StringField('Email', validators=[DataRequired()])
     pwd_usuario =  StringField('Contraseña', validators=[DataRequired()])
 
-class newArtistForm(FlaskForm):
-    n_artista = StringField('Nombre del Artista', validators=[DataRequired()])
+
+    
 
 class  newReleaseForm(FlaskForm):
     n_lanzamiento = StringField("Nombre del lanzamiento", validators=[DataRequired()])
@@ -39,9 +39,14 @@ class newProductForm(FlaskForm):
         if categories_choices:
             self.k_category.choices = categories_choices
 
-class newCat_Genre(FlaskForm):
+
+class CountrySelectField(SelectField):
+    def __init__(self, *args, **kwargs):
+        super(CountrySelectField, self).__init__(*args, **kwargs)
+        self.choices = [(country.alpha_2, country.name) for country in pycountry.countries]
+
+class newCat_Genre_Artist(FlaskForm):
     genre = StringField("Nuevo Género")
     category = StringField("Nueva Categoría")
-        
-
-    
+    n_artist = StringField('Nombre del Artista', validators=[DataRequired()])
+    country = CountrySelectField("Pais de origen" )

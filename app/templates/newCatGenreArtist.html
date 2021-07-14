@@ -1,6 +1,4 @@
 
-{{form.category.label}}{{form.category}}
-
 <div id="accordion">
     <div class="card">
       <div class="card-header" id="headingOne">
@@ -32,6 +30,26 @@
         <div class="card-body">
             <form method="POST" action="{{url_for('dashboard.newcategory')}}">
                 {{form.category.label}}{{form.category}}
+                <input type="submit" value="Agregar Artista">
+            </form>        
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Agregar un artista
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+            <form method="POST" action="{{url_for('dashboard.newartist')}}">
+                {{form.n_artist.label}}{{form.n_artist}}
+                {{form.country.label}}{{form.country}}
                 <input type="submit" value="Agregar Artista">
             </form>        
         </div>

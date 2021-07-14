@@ -85,15 +85,17 @@
         </div>
 
         {% for mesg in get_flashed_messages() %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Mensaje: </strong> {{ mesg }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading"> Exito</h4>
+            <p>{{mesg}}</p>
+            <hr>
+            
           </div>
         {% endfor %}
         {%block contenido%}
         {%endblock%}
+
+
 
 
 
@@ -178,6 +180,8 @@
     </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   
+  
+
   
 </body>
 </html>

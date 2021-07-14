@@ -6,6 +6,7 @@ from datetime import date, datetime
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.widgets import html5 as h5widgets
 import pycountry
+from store.models import get_all_genres
 
 class CreateUsuarioForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired()])
@@ -16,7 +17,13 @@ class LoginUsuarioForm(FlaskForm):
     email_usuario =  StringField('Email', validators=[DataRequired()])
     pwd_usuario =  StringField('Contraseña', validators=[DataRequired()])
 
-
+class GenreSelectField(SelectField):
+    def __init__(self, *args, **kwargs):
+        super(GenreSelectField, self).__init__(*args, **kwargs)
+        #self.choices = [(country.alpha_2, country.name) for country in pycountry.countries]
+        genres = get_all_genres()
+        print( genres)
+        self.choices = [(genre['k_genero']) for genre in genres]
     
 
 class  newReleaseForm(FlaskForm):
@@ -24,6 +31,7 @@ class  newReleaseForm(FlaskForm):
     i_lanzamiento = StringField("Imagen del lanzamiento", validators=[DataRequired()])
     k_artista  = StringField("Artista",validators=[DataRequired()], id="artista")
     f_lanzamiento = DateField("Fecha de Lanzamiento", default=date.today)
+    k_genero = GenreSelectField("Genero")
 
 class newProductForm(FlaskForm):
     n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})
@@ -43,7 +51,8 @@ class newProductForm(FlaskForm):
 class CountrySelectField(SelectField):
     def __init__(self, *args, **kwargs):
         super(CountrySelectField, self).__init__(*args, **kwargs)
-        self.choices = [(country.alpha_2, country.name) for country in pycountry.countries]
+        #self.choices = [(country.alpha_2, country.name) for country in pycountry.countries]
+        self.choices = [(country.name) for country in pycountry.countries]
 
 class newCat_Genre_Artist(FlaskForm):
     genre = StringField("Nuevo Género")

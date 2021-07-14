@@ -249,6 +249,12 @@ def get_all_releases():
     releases=[release_Schema.dump(lanz) for lanz in release_qs]
     return releases
 
+def get_all_genres():
+    genre_qs = Genero.query.all()
+    genre_schema = GeneroSchema()
+    generos = [genre_schema.dump(genre) for genre in genre_qs]
+    return generos
+
 def get_user_by_email(email):
     usuario_qs = Usuario.query.filter_by(email_usuario = email).first()
     usuario_schema = UsuarioSchema()

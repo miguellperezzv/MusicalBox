@@ -9,7 +9,7 @@ from store.models import create_new_user, get_all_artists, get_user_by_email, cr
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
 releases = Blueprint('releases', __name__, url_prefix=  '/releases')
-
+artists = Blueprint("artists", __name__, url_prefix=  '/artists')
 
 @home.before_request
 def before_request():
@@ -224,3 +224,14 @@ def home_releases():
         None
     if request.method == 'GET':
         return render_template("releases.html", user=g.user, releases = get_all_releases(), r_a = get_releases_with_artists(), get_artist_by_release = get_artist_by_release )
+
+@releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
+def release(k_lanzamiento):
+    if request.method == 'GET':
+        return "ESTA ES LA PAGINA DE LANZAMIENTO" + str(k_lanzamiento)
+
+
+@artists.route("/<int:k_artista>", methods=["GET", "POST"])
+def artist(k_artista):
+    if request.method == 'GET':
+        return "ESTA ES LA PAGINA DE artista" + str(k_artista)

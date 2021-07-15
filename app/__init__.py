@@ -4,12 +4,12 @@ from db import db, ma
 from config import DevelopmentConfig
 
 from flask import Flask
-from store.views import home, dashboard, releases
+from store.views import home, dashboard, releases, artists
 #from app.store.views import home, dashboard
 from flask_sqlalchemy import SQLAlchemy
 import time
 
-ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard), ('/releases', releases) ]
+ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard), ('/releases', releases), ('/artists', artists) ]
 
 def create_app(config=DevelopmentConfig):
     app = Flask(__name__)

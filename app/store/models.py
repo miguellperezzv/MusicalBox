@@ -269,7 +269,6 @@ def get_all_releases():
     release_qs=Lanzamiento.query.all()
     release_Schema=LanzamientoSchema()
     releases=[release_Schema.dump(lanz) for lanz in release_qs]
-    print(releases)
     return releases
 
 def get_all_genres():
@@ -277,6 +276,11 @@ def get_all_genres():
     genre_schema = GeneroSchema()
     generos = [genre_schema.dump(genre) for genre in genre_qs]
     return generos
+
+def get_release_artist():
+    r_a_qs= Lanzamiento_Artista.query.all()
+    r_a_schema  = Lanzamiento_ArtistaSchema()
+    r_a = [r_a_schema.dump(r_a) for r_a in r_a_qs ]
 
 def get_user_by_email(email):
     usuario_qs = Usuario.query.filter_by(email_usuario = email).first()
@@ -359,3 +363,10 @@ def get_k_release_by_name_artista(n_lanzamiento,n_artista):
         if l['k_lanzamiento'] == k_lanzamiento:
             return k_lanzamiento
     return None
+
+def get_artist_by_release(k_lanzamiento):
+    lanz_art = Lanzamiento_Artista.query.filter_by(k_lanzamiento=k_lanzamiento).first()
+    print(lanz_art)
+    artista = Artista.query.filter_by(id = lanz_art.k_artista ).first()
+    print(artista)
+    return artista

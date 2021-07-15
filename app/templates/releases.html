@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {%block head%}  
 <link rel="icon" type="image" href="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="40px" heigth="40px" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/releases.css') }}" type="text/css">
 {%endblock%}
 
 {%block title%}
@@ -8,21 +9,35 @@ Lanzamientos
 {%endblock%}
 
 {%block contenido%}
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {%for release in releases%}
-    <div class="col">
-        <div class="card">
-          <img src="{{ release.i_lanzamiento }}"  class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{release.n_lanzamiento }}</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          </div>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+<div class="container">
+    <div class="row clearfix">
+        {%for release in releases%}
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="card product_item">
+                <div class="body">
+                    <div class="cp_img">
+                        <img src="{{ release.i_lanzamiento }}" alt="Product" class="img-fluid">
+                        <div class="hover">
+                            <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                            <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                        </div>
+                    </div>
+                    <div class="product_details">
+                        <h5><a href="ec-product-detail.html">{{(get_artist_by_release(release.id).n_artista).title()}} - {{release.n_lanzamiento.title() }}</a></h5> 
+                        <ul class="product_price list-unstyled">
+                            <li class="old_price">$16.00</li>
+                            <li class="new_price">$13.00</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    {%endfor%}
-    
-    
-  </div>
+        {%endfor%}
+        
+    </div>
+</div>
 
 {%endblock%}
 

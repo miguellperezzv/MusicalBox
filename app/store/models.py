@@ -375,4 +375,8 @@ def get_categories_by_release(k_lanzamiento):
     #Song.query.filter(Song.artist.has(Artist.genres.any(Genre.name == 'rock')))
     #productos = Producto.query.filter_by(k_lanzamiento=k_lanzamiento).first()
     productos  =Producto.query.filter(Producto.k_lanzamiento == k_lanzamiento ).all()
-    return productos
+    pr=[]
+    for p in productos:
+        pr.append(p.k_categoria)
+    pr= sorted(set(pr))
+    return pr

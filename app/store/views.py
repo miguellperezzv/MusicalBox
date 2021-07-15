@@ -3,7 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id
  
 
 home = Blueprint('home', __name__)
@@ -228,10 +228,12 @@ def home_releases():
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
 def release(k_lanzamiento):
     if request.method == 'GET':
-        return "ESTA ES LA PAGINA DE LANZAMIENTO" + str(k_lanzamiento)
+        artista = get_artist_by_release(k_lanzamiento)
+        lanzamiento = get_release_by_id(k_lanzamiento)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
 def artist(k_artista):
     if request.method == 'GET':
-        return "ESTA ES LA PAGINA DE artista" + str(k_artista)
+        return "Pagona artista" + str(k_artista)

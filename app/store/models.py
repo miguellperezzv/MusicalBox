@@ -233,6 +233,19 @@ def create_release_genre(k_lanzamiento, k_genero):
     except:
         return None
     
+def new_admin(email, pwd, guser):
+    print(guser)
+    print(pwd)
+    if guser['pwd_usuario'] == pwd:
+        
+        try:
+            Usuario.query.filter_by(email_usuario = email).update({"k_rol": 'ADMIN' })
+            db.session.commit()  
+            return 'OK'  
+        except:
+            return None  
+    print("No cumple")
+    return None  
 
 def get_all_products():
     products_qs = Producto.query.all()

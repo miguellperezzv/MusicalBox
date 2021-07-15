@@ -1,9 +1,9 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
-from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist
+from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin
  
 
 home = Blueprint('home', __name__)
@@ -54,8 +54,9 @@ def signup():
             pwd = form_signup.pwd_usuario.data
 
             create_new_user('Miguel','Pérez', email, pwd)
+            flash("Usuario creado!")
             return redirect(url_for('home.index',user=g.user))
-    
+        flash("No se creo el usuario")
         return render_template('signup.html', form=form_signup)
     
     flash("You're already logged in.", "alert-primary")
@@ -96,10 +97,9 @@ def newrelease():
         k_lanzamiento= create_new_release(k_artista, n_lanzamiento, i_lanzamiento, f_lanzamiento, k_genero)
         print("EL LANZAMIENTO ES: "+str(k_lanzamiento)+" , "+ n_lanzamiento)
         if k_lanzamiento :
-            print("entrando al if ")
             release_genre = create_release_genre(k_lanzamiento,  k_genero)
             if release_genre:
-                flash("Lanzamiento Registrado! "+ str(k_lanzamiento) +" - "+ str(k_genero))
+                flash("Lanzamiento Registrado! "+ str(n_lanzamiento) +" - "+ str(k_genero))
                 return redirect(url_for('home.admin'))
         else:
             flash("No se pudo registrar")
@@ -162,9 +162,9 @@ def newgenre():
         genre = form_cat_genre.genre.data.upper()
         result = create_new_genre(genre)
         if result:
-            print("Genero registrado!")
+            flash("Genero registrado!")
             return url_for('home.admin')
-        print("No se agregó el género! Posiblemente ya exista ;)")
+        flash("No se agregó el género! Posiblemente ya exista ;)")
         return url_for('home.admin')
 
 @dashboard.route("/newcategory", methods=["GET", "POST"])
@@ -174,9 +174,9 @@ def newcategory():
         category = form_cat_genre.category.data.upper()
         result = create_new_category(category)
         if result:
-            print("Cateogría registrada!")
+            flash("Cateogría registrada!")
             return url_for('home.admin')
-        print("No se agregó la categoría! Posiblemente ya exista ;)")
+        flash("No se agregó la categoría! Posiblemente ya exista ;)")
         return url_for('home.admin')
 
 @dashboard.route("/newartist", methods=["GET", "POST"])
@@ -188,7 +188,25 @@ def newartist():
         print(country)
         result = create_new_artist(artist, country)
         if result:
-            print("Artista registrado!")
+            flash("Artista registrado!: " + artist)
             return url_for('home.admin')
-        print("No se agregó el artista! Posiblemente ya exista ;)")
+        flash("No se agregó el artista! Posiblemente ya exista ;)")
         return url_for('home.admin')
+
+@dashboard.route("/newadmin", methods=['GET', 'POST'])
+def newadmin():
+    form_new_admin= newAdmin()
+    if request.method=='POST':
+        
+        email = form_new_admin.email.data
+        pwd = form_new_admin.pwd.data
+        result = new_admin(email, pwd, session["user"])
+        print("result "+ str(result))
+        if result:
+            flash("Nuevo administrador con el correo "+ email)
+            return redirect(url_for("home.admin"))
+        else:
+            flash("Contraseña o email incorrectos! ")
+            return redirect(url_for("home.admin"))
+        
+    return render_template("newAdmin.html", form = form_new_admin)

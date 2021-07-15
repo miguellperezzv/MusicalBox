@@ -59,3 +59,7 @@ class newCat_Genre_Artist(FlaskForm):
     category = StringField("Nueva Categoría")
     n_artist = StringField('Nombre del Artista', validators=[DataRequired()])
     country = CountrySelectField("Pais de origen" )
+
+class newAdmin(FlaskForm):
+    email = StringField("Ingresa el email del nuevo usuario ADMINISTRADOR")
+    pwd = PasswordField("Ingresa tu contraseña")

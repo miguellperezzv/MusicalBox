@@ -3,11 +3,12 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases
  
 
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
+releases = Blueprint('releases', __name__, url_prefix=  '/releases')
 
 
 @home.before_request
@@ -75,7 +76,6 @@ def account():
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():
-    
     return render_template("adminDashboard.html", user=g.user)
 
 
@@ -210,3 +210,17 @@ def newadmin():
             return redirect(url_for("home.admin"))
         
     return render_template("newAdmin.html", form = form_new_admin)
+
+@releases.before_request
+def before_request():
+    if "user" in session:
+        g.user = session["user"]
+    else:
+        g.user = None
+
+@releases.route('/', methods=["GET", "POST"])
+def home_releases():
+    if request.method == "POST":
+        None
+    if request.method == 'GET':
+        return render_template("releases.html", user=g.user, releases = get_all_releases())

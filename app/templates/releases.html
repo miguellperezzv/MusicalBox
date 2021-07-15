@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+{%block head%}  
+<link rel="icon" type="image" href="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="40px" heigth="40px" />
+{%endblock%}
+
+{%block title%}
+Lanzamientos
+{%endblock%}
+
+{%block contenido%}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {%for release in releases%}
+    <div class="col">
+        <div class="card">
+          <img src="{{ release.i_lanzamiento }}"  class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{release.n_lanzamiento }}</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          </div>
+        </div>
+      </div>
+    {%endfor%}
+    
+    
+  </div>
+
+{%endblock%}
+
+{%block scripts%}
+{%endblock%}

@@ -269,6 +269,7 @@ def get_all_releases():
     release_qs=Lanzamiento.query.all()
     release_Schema=LanzamientoSchema()
     releases=[release_Schema.dump(lanz) for lanz in release_qs]
+    print(releases)
     return releases
 
 def get_all_genres():

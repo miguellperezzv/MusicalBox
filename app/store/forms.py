@@ -63,3 +63,4 @@ class newCat_Genre_Artist(FlaskForm):
 class newAdmin(FlaskForm):
     email = StringField("Ingresa el email del nuevo usuario ADMINISTRADOR")
     pwd = PasswordField("Ingresa tu contraseña")
+

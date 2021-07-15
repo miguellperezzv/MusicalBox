@@ -266,7 +266,7 @@ def get_all_artists():
     return artists
 
 def get_all_releases():
-    release_qs=Lanzamiento.query.all()
+    release_qs=Lanzamiento.query.order_by(db.desc(Lanzamiento.f_lanzamiento)).all()
     release_Schema=LanzamientoSchema()
     releases=[release_Schema.dump(lanz) for lanz in release_qs]
     return releases
@@ -366,7 +366,13 @@ def get_k_release_by_name_artista(n_lanzamiento,n_artista):
 
 def get_artist_by_release(k_lanzamiento):
     lanz_art = Lanzamiento_Artista.query.filter_by(k_lanzamiento=k_lanzamiento).first()
-    print(lanz_art)
+    #print(lanz_art)
     artista = Artista.query.filter_by(id = lanz_art.k_artista ).first()
-    print(artista)
+    #print(artista)
     return artista
+
+def get_categories_by_release(k_lanzamiento):
+    #Song.query.filter(Song.artist.has(Artist.genres.any(Genre.name == 'rock')))
+    #productos = Producto.query.filter_by(k_lanzamiento=k_lanzamiento).first()
+    productos  =Producto.query.filter(Producto.k_lanzamiento == k_lanzamiento ).all()
+    return productos

@@ -18,7 +18,7 @@ Lanzamientos
             <div class="card product_item">
                 <div class="body">
                     <div class="cp_img">
-                        <img src="{{ release.i_lanzamiento }}" alt="Product" class="img-fluid">
+                       <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}"> <img src="{{ release.i_lanzamiento }}"  alt="Product" class="img-fluid"> </a>
                         <div class="hover">
                             <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
                             <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
@@ -27,8 +27,12 @@ Lanzamientos
                     <div class="product_details">
                         <h5><a href="{{url_for('artists.artist', k_artista =get_artist_by_release(release.id).id)}}">{{(get_artist_by_release(release.id).n_artista).title()}}</a> - <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}">{{release.n_lanzamiento.title() }}</a></h5> 
                         <ul class="product_price list-unstyled">
-                            <li class="old_price">$16.00</li>
-                            <li class="new_price">$13.00</li>
+                            <li class="old_price">
+                                {%for cat in get_categories_by_release(release.id) %}
+                                <a href=#>{{cat.k_categoria}}</a>   
+                                {%endfor%}
+                            </li>
+                            
                         </ul>
                     </div>
                 </div>

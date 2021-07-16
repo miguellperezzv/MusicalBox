@@ -10,8 +10,17 @@ Mi compra
 
 
 {%block contenido%}
+{%if not p%}
+    No tienes compras! <a href="home.index">Empieza a agregar a tu carrito</a>
+
+
+{%else%}
 {%for p in purchase_cart%}
-    <div> {{get_product_by_id(p).n_producto}}, </div>
+    
+<div> {{get_product_by_id(p).n_producto}} - {{get_product_by_id(p).p_producto}} </div>
+{{total = total + get_product_by_id(p).p_producto}}
 {%endfor%}
+<div>El total es : {{total}}</div>
+{%endif%}
 
 {%endblock%}

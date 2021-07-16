@@ -9,13 +9,14 @@ import pycountry
 from store.models import get_all_genres
 
 class CreateUsuarioForm(FlaskForm):
-    name = StringField('Nombre', validators=[DataRequired()])
-    email_usuario = StringField('Email', validators=[DataRequired()])
+    name = StringField('Nombre', validators=[DataRequired(message="Ingresa un nombre")])
+    lastname = StringField('Apellido', validators= [DataRequired(message = "Ingresa un apellido")])
+    email_usuario = StringField('Email', validators=[DataRequired(message = "Ingresa un e-mail válido")])
     pwd_usuario = PasswordField('Contraseña', validators=[DataRequired(message="Ingresa una contraseña.")])
 
 class LoginUsuarioForm(FlaskForm):
     email_usuario =  StringField('Email', validators=[DataRequired()])
-    pwd_usuario =  StringField('Contraseña', validators=[DataRequired()])
+    pwd_usuario =  PasswordField('Contraseña', validators=[DataRequired()])
 
 class GenreSelectField(SelectField):
     def __init__(self, *args, **kwargs):

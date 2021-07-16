@@ -5,8 +5,11 @@
 
     <form method="POST" action="{{url_for('home.signup')}}">
         {{ form.csrf_token }}
+        {{ form.name.label }} {{form.name}}
+        {{ form.lastname.label }} {{form.lastname}}
         {{ form.email_usuario.label }} {{ form.email_usuario(size=20) }}
         {{ form.pwd_usuario.label }} {{ form.pwd_usuario(size=20) }}
+        
         <input type="submit" value="Registrarme!">
     </form> 
 {%endblock%}

@@ -67,11 +67,14 @@ def signup():
         if request.method == 'POST' :
             email = form_signup.email_usuario.data
             pwd = form_signup.pwd_usuario.data
-
-            create_new_user('Miguel','Pérez', email, pwd)
-            flash("Usuario creado!")
+            name = form_signup.name.data
+            apellido = form_signup.lastname.data
+            result : create_new_user(name,apellido, email, pwd)
+            if result:
+                flash("Usuario creado!")
+            else:
+                flash("No se creo el Usuario!")
             return redirect(url_for('home.index',user=g.user))
-        flash("No se creo el usuario")
         return render_template('signup.html', form=form_signup)
     
     flash("You're already logged in.", "alert-primary")
@@ -80,6 +83,7 @@ def signup():
 @home.route("/logout", methods=["GET", 'POST'])
 def logout():
     session.pop("user", None)
+    session.pop("purchase", None)
     flash("You're logged out.", "alert-secondary")
 
     return redirect(url_for("home.index", user=g.user))
@@ -252,7 +256,7 @@ def artist(k_artista):
 @purchase.route("/", methods=["GET", "POST"])
 def summary():
     if request.method == 'GET':
-        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id)
+        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=0)
     if request.method == 'POST':
         None
 

@@ -9,6 +9,7 @@ home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
 releases = Blueprint('releases', __name__, url_prefix=  '/releases')
 artists = Blueprint("artists", __name__, url_prefix=  '/artists')
+purchase = Blueprint("purchase", __name__, url_prefix=  '/artists' )
 
 @home.before_request
 def before_request():
@@ -214,6 +215,7 @@ def newadmin():
 def before_request():
     if "user" in session:
         g.user = session["user"]
+        print(g.user)
     else:
         g.user = None
     
@@ -232,10 +234,17 @@ def release(k_lanzamiento):
         lanzamiento = get_release_by_id(k_lanzamiento)
         generos = get_genres_by_release(k_lanzamiento)
         productos = get_products_by_release(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
 def artist(k_artista):
     if request.method == 'GET':
         return "Pagona artista" + str(k_artista)
+
+@purchase.route("/", methods=["GET", "POST"])
+def summary():
+    if request.method == 'GET':
+        return "Pagina compra!!"
+    if request.method == 'POST':
+        None

@@ -1,3 +1,12 @@
+:root {
+    --skyblue: #BDE5FF ;
+    --yellow:#FFFB25;
+    --intenseskyblue: #92D4FF;
+    --backblue: #3AB7F5;
+    --aqua: #3ab7cd;
+    /*background-color: var(--skyblue);*/
+  }
+
 .card {
     width: 350px;
     border: none;
@@ -27,11 +36,11 @@
 .heart i {
     font-size: 50px;
     opacity: 0;
-    color: red
+    color: var(--yellow)
 }
 
 .heart i:hover {
-    color: red
+    color: var(--yellow)
 }
 
 .p-image img {
@@ -150,5 +159,11 @@
     height: 50px;
     font-size: 16px;
     width: 140px !important;
-    font-weight: 600
+    font-weight: 600;
+    background-color: var(--aqua)
+    
+}
+
+.btn:hover{
+    background-color: var(--yellow);
 }

@@ -1,0 +1,54 @@
+{%extends "base.html"%}
+{%block head%} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/single_release_style.css') }}" type="text/css"> 
+<link rel="icon" type="image" href="{{ lanzamiento.i_lanzamiento }}" width="40px" heigth="40px" />
+{%endblock%}
+
+{%block title%}
+{{lanzamiento.n_lanzamiento}}
+{%endblock%}
+
+
+
+{%block contenido%}
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{{lanzamiento.i_lanzamiento}}" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{artista.n_artista.title()}} - {{lanzamiento.n_lanzamiento}}</h5>
+          <p class="card-text">{{lanzamiento.f_lanzamiento}}</p>
+          <p class="card-text"><small class="text-muted">
+              {%for g in generos%}
+              {{g.k_genero}}
+              {%endfor%}
+          </small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{%for p in productos%}
+    
+        <div class="card p-2">
+            <div class="p-info px-3 py-3">
+                <div>
+                    <h5 class="mb-0">{{lanzamiento.n_lanzamiento}}</h5> <span>{{p.n_producto}}</span>
+                </div>
+                <div class="p-price d-flex flex-row"> <span>$</span>
+                    <h1>{{p.p_producto}}</h1>
+                </div>
+                <div class="heart"> <i class="bx bx-heart"></i> </div>
+            </div>
+            <div class="text-center p-image"> <img src="{{p.i_producto}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> </div>
+            <div class="p-about">
+                <p>{{p.d_producto}}</p>
+            </div>
+            <div class="buttons d-flex flex-row gap-3 px-3"> <button class="btn btn-danger w-100">Más</button> <button class="btn btn-outline-danger w-100">Agregar al carrito</button> </div>
+        </div>
+{%endfor%} 
+
+{%endblock%}

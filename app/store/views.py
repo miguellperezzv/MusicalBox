@@ -3,8 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id
- 
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release
 
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
@@ -121,7 +120,7 @@ def newproduct():
     form_new_product = newProductForm(categories_choices=categories)
     if request.method=="POST":
         n_lanzamiento = form_new_product.n_lanzamiento.data.split(" - ")[-1]
-        n_artista = form_new_product.n_lanzamiento.data.split(" - ")[0]
+        n_artista = form_new_product.n_lanzamiento.data.split(" - ")[0].upper()
         n_producto = form_new_product.n_producto.data
         p_producto  =form_new_product.p_producto.data
         d_producto = form_new_product.d_producto.data
@@ -217,6 +216,7 @@ def before_request():
         g.user = session["user"]
     else:
         g.user = None
+    
 
 @releases.route('/', methods=["GET", "POST"])
 def home_releases():
@@ -226,11 +226,14 @@ def home_releases():
         return render_template("releases.html", user=g.user, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
+@cross_origin()
 def release(k_lanzamiento):
     if request.method == 'GET':
         artista = get_artist_by_release(k_lanzamiento)
         lanzamiento = get_release_by_id(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento)
+        generos = get_genres_by_release(k_lanzamiento)
+        productos = get_products_by_release(k_lanzamiento)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])

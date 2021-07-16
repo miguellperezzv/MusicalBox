@@ -307,7 +307,7 @@ def get_artist_by_id(id):
     artist_qs = Artista.query.filter_by(id = id).first()
     artist_schema=ArtistaSchema()
     a = artist_schema.dump(artist_qs)
-    return a['n_artista']
+    return a
 
 def verify_existence_artist(n_artista):
     artist_qs = Artista.query.filter_by(n_artista =n_artista).first()
@@ -323,9 +323,8 @@ def get_release_by_id(id):
     release_schema=LanzamientoSchema()
     r = release_schema.dump(release_qs)
     if r:
-
-        return r['n_lanzamiento']
-    return "No existe!!"
+        return r
+    return  {}
 
 def get_releases_with_artists():
     release_artist_qs = Lanzamiento_Artista.query.all()
@@ -333,7 +332,10 @@ def get_releases_with_artists():
     releases=[release_artists_schema.dump(lanz) for lanz in release_artist_qs]
     r=[]
     for release in releases:
-        r.append((get_artist_by_id(release["k_artista"])+" - "+ get_release_by_id(release["k_lanzamiento"])))
+        artista = get_artist_by_id(release["k_artista"]).get("n_artista", 'N/A').title()
+        lanzamiento = get_release_by_id(release["k_lanzamiento"]).get("n_lanzamiento", "N/A")
+        print(lanzamiento)
+        r.append(artista + " - "+  lanzamiento)
     return r
 
 def get_categories():
@@ -380,3 +382,11 @@ def get_categories_by_release(k_lanzamiento):
         pr.append(p.k_categoria)
     pr= sorted(set(pr))
     return pr
+
+def get_genres_by_release(k_lanzamiento):
+    genres = Lanzamiento_Genero.query.filter_by(k_lanzamiento=k_lanzamiento).all()
+    return genres
+
+def get_products_by_release(k_lanzamiento):
+    products = Producto.query.filter_by(k_lanzamiento=k_lanzamiento).all()
+    return products

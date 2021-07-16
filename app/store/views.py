@@ -3,7 +3,7 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id
 
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
@@ -14,6 +14,10 @@ purchase = Blueprint("purchase", __name__, url_prefix=  '/artists' )
 cart = []
 
 @home.before_request
+@purchase.before_request
+@releases.before_request
+@artists.before_request
+@dashboard.before_request
 def before_request():
     if "user" in session:
         g.user = session["user"]
@@ -221,20 +225,6 @@ def newadmin():
         
     return render_template("newAdmin.html", form = form_new_admin)
 
-@releases.before_request
-def before_request():
-    if "user" in session:
-        g.user = session["user"]
-        print(g.user)
-    else:
-        g.user = None
-    if "purchase" in session:
-        g.purchase = session["purchase"]
-        print("PURCHASE CART IS: ")
-        print(g.purchase)
-        print("lenght "+ str(len(g.purchase)))
-    else:
-        g.purchase = None
     
 
 @releases.route('/', methods=["GET", "POST"])
@@ -262,7 +252,7 @@ def artist(k_artista):
 @purchase.route("/", methods=["GET", "POST"])
 def summary():
     if request.method == 'GET':
-        return render_template("purchase.html")
+        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id)
     if request.method == 'POST':
         None
 

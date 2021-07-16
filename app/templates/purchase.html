@@ -10,9 +10,8 @@ Mi compra
 
 
 {%block contenido%}
-
-Mi compra
-
-
+{%for p in purchase_cart%}
+    <div> {{get_product_by_id(p).n_producto}}, </div>
+{%endfor%}
 
 {%endblock%}

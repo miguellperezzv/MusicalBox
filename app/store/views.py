@@ -11,6 +11,8 @@ releases = Blueprint('releases', __name__, url_prefix=  '/releases')
 artists = Blueprint("artists", __name__, url_prefix=  '/artists')
 purchase = Blueprint("purchase", __name__, url_prefix=  '/artists' )
 
+cart = []
+
 @home.before_request
 def before_request():
     if "user" in session:
@@ -18,7 +20,13 @@ def before_request():
     else:
         g.user = None
     
-
+    if "purchase" in session:
+        g.purchase = session["purchase"]
+        print("PURCHASE CART IS: ")
+        print(g.purchase)
+        print("lenght "+ str(len(g.purchase)))
+    else:
+        g.purchase = None
 
 @home.route("/")
 def index():
@@ -41,7 +49,7 @@ def login():
         elif user['pwd_usuario'] == pwd:
             flash("Bienvenido")
             session["user"] = user
-            return redirect(url_for('home.index', user=g.user))
+            return redirect(url_for('home.index', user=g.user, purchase_cart = g.purchase))
     
     return render_template('login.html', form=form_login)
 
@@ -78,7 +86,7 @@ def account():
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():
-    return render_template("adminDashboard.html", user=g.user)
+    return render_template("adminDashboard.html", user=g.user, purchase_cart = g.purchase)
 
 
 #routes del panel de administración
@@ -220,6 +228,13 @@ def before_request():
         print(g.user)
     else:
         g.user = None
+    if "purchase" in session:
+        g.purchase = session["purchase"]
+        print("PURCHASE CART IS: ")
+        print(g.purchase)
+        print("lenght "+ str(len(g.purchase)))
+    else:
+        g.purchase = None
     
 
 @releases.route('/', methods=["GET", "POST"])
@@ -227,7 +242,7 @@ def home_releases():
     if request.method == "POST":
         None
     if request.method == 'GET':
-        return render_template("releases.html", user=g.user, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
+        return render_template("releases.html", user=g.user, purchase_cart = g.purchase, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
 def release(k_lanzamiento):
@@ -236,7 +251,7 @@ def release(k_lanzamiento):
         lanzamiento = get_release_by_id(k_lanzamiento)
         generos = get_genres_by_release(k_lanzamiento)
         productos = get_products_by_release(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, addtocart=addtocart)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, addtocart=addtocart, purchase_cart = g.purchase)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
@@ -251,6 +266,11 @@ def summary():
     if request.method == 'POST':
         None
 
-@purchase.route('/addtocart', methods=["GET", "POST"])
+
 def addtocart(k_product):
-    print(k_product)
+        print(k_product)
+        print("CODIGO DEL PRODUCTO")
+        cart.append(k_product)
+        session['purchase']= cart
+        
+    

@@ -17,6 +17,8 @@ def before_request():
         g.user = session["user"]
     else:
         g.user = None
+    
+
 
 @home.route("/")
 def index():
@@ -234,7 +236,7 @@ def release(k_lanzamiento):
         lanzamiento = get_release_by_id(k_lanzamiento)
         generos = get_genres_by_release(k_lanzamiento)
         productos = get_products_by_release(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, addtocart=addtocart)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
@@ -245,6 +247,10 @@ def artist(k_artista):
 @purchase.route("/", methods=["GET", "POST"])
 def summary():
     if request.method == 'GET':
-        return "Pagina compra!!"
+        return render_template("purchase.html")
     if request.method == 'POST':
         None
+
+@purchase.route('/addtocart', methods=["GET", "POST"])
+def addtocart(k_product):
+    print(k_product)

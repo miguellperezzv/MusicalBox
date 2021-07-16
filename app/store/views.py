@@ -226,7 +226,6 @@ def home_releases():
         return render_template("releases.html", user=g.user, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
-@cross_origin()
 def release(k_lanzamiento):
     if request.method == 'GET':
         artista = get_artist_by_release(k_lanzamiento)

@@ -20,6 +20,10 @@
     top: 20px
 }
 
+.p-price h1{
+    font-size: 20px;
+}
+
 .heart i {
     font-size: 50px;
     opacity: 0;
@@ -96,7 +100,7 @@
     }
 
     100% {
-        right: 267px;
+        right: 230px;
         top: 70px
     }
 }

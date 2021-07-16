@@ -32,7 +32,7 @@
 
 
 {%for p in productos%}
-    
+<div class="col-lg-3 col-md-4 col-sm-12">
         <div class="card p-2">
             <div class="p-info px-3 py-3">
                 <div>
@@ -43,12 +43,14 @@
                 </div>
                 <div class="heart"> <i class="bx bx-heart"></i> </div>
             </div>
-            <div class="text-center p-image"> <img src="{{p.i_producto}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> </div>
+            <div class="text-center p-image"> <img src="{{lanzamiento.i_lanzamiento}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> </div>
             <div class="p-about">
                 <p>{{p.d_producto}}</p>
+                <p><strong>stock: {{p.stock}}</strong></p>
             </div>
             <div class="buttons d-flex flex-row gap-3 px-3"> <button class="btn btn-danger w-100">Más</button> <button class="btn btn-outline-danger w-100">Agregar al carrito</button> </div>
         </div>
+</div>
 {%endfor%} 
 
 {%endblock%}

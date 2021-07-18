@@ -256,7 +256,7 @@ def artist(k_artista):
 @purchase.route("/", methods=["GET", "POST"])
 def summary():
     if request.method == 'GET':
-        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=0)
+        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=0, get_release_by_id = get_release_by_id)
     if request.method == 'POST':
         None
 

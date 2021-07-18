@@ -48,7 +48,15 @@
                 <p>{{p.d_producto}}</p>
                 <p><strong>stock: {{p.stock}}</strong></p>
             </div>                                                                                                                                                 
-            <div class="buttons d-flex flex-row gap-3 px-3"><button class="btn btn-danger w-100">Más</button> <button class="btn btn-outline-danger w-100"  onclick="{{addtocart(p.id)}}">Agregar al carrito</button></div>
+            <div class="buttons d-flex flex-row gap-3 px-3">
+              <form action="{{url_for('purchase.addtocart', lanzamiento_id = lanzamiento.id)}}" method="post">
+                <input type="hidden" name="product_id" value='{{p.id}}'>
+                <button type="submit" class="btn btn-sm btn-warning"> Add Cart</button>
+                <label for="">Cantidad: </label>
+                <input type="number" name="quantity" id="" value="1" min="1" max="{{p.stock}}">
+
+              </form>
+            </div>
         </div>
 </div>
 {%endfor%} 

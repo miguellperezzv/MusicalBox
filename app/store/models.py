@@ -393,5 +393,4 @@ def get_products_by_release(k_lanzamiento):
 
 def get_product_by_id(k_producto):
     product = Producto.query.filter_by(id=k_producto).first()
-    print(product)
     return product

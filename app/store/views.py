@@ -5,13 +5,13 @@ from flask import Blueprint, Response, flash, session, request, g, render_templa
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id
 
+
 home = Blueprint('home', __name__)
 dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
 releases = Blueprint('releases', __name__, url_prefix=  '/releases')
 artists = Blueprint("artists", __name__, url_prefix=  '/artists')
 purchase = Blueprint("purchase", __name__, url_prefix=  '/artists' )
 
-cart = []
 
 @home.before_request
 @purchase.before_request
@@ -24,13 +24,8 @@ def before_request():
     else:
         g.user = None
     
-    if "purchase" in session:
-        g.purchase = session["purchase"]
-        print("PURCHASE CART IS: ")
-        print(g.purchase)
-        print("lenght "+ str(len(g.purchase)))
-    else:
-        g.purchase = None
+    print("pruchase cart is")
+    print(session["purchase"])
 
 @home.route("/")
 def index():
@@ -53,7 +48,7 @@ def login():
         elif user['pwd_usuario'] == pwd:
             flash("Bienvenido")
             session["user"] = user
-            return redirect(url_for('home.index', user=g.user, purchase_cart = g.purchase))
+            return redirect(url_for('home.index', user=g.user, purchase_cart = session["purchase"]))
     
     return render_template('login.html', form=form_login)
 
@@ -94,7 +89,7 @@ def account():
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():
-    return render_template("adminDashboard.html", user=g.user, purchase_cart = g.purchase)
+    return render_template("adminDashboard.html", user=g.user, purchase_cart = session["purchase"])
 
 
 #routes del panel de administración
@@ -236,7 +231,7 @@ def home_releases():
     if request.method == "POST":
         None
     if request.method == 'GET':
-        return render_template("releases.html", user=g.user, purchase_cart = g.purchase, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
+        return render_template("releases.html", user=g.user, purchase_cart = session["purchase"], releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
 def release(k_lanzamiento):
@@ -245,7 +240,7 @@ def release(k_lanzamiento):
         lanzamiento = get_release_by_id(k_lanzamiento)
         generos = get_genres_by_release(k_lanzamiento)
         productos = get_products_by_release(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, addtocart=addtocart, purchase_cart = g.purchase)
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, purchase_cart = session["purchase"])
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
@@ -255,16 +250,53 @@ def artist(k_artista):
 
 @purchase.route("/", methods=["GET", "POST"])
 def summary():
+    total=0
     if request.method == 'GET':
-        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=0, get_release_by_id = get_release_by_id)
+        for p in session["purchase"]:
+            print("sumando")
+            total += get_product_by_id(p).p_producto * session["purchase"][p]
+        return render_template("purchase.html", user=g.user, purchase_cart=session["purchase"], get_product_by_id = get_product_by_id, total=total, get_release_by_id = get_release_by_id)
     if request.method == 'POST':
         None
 
+def MergeDict(dict1, dict2):
+    if isinstance(dict1, list) and isinstance(dict2, list):
+        return dict1 + dict2
+    elif isinstance(dict1, dict) and isinstance(dict2, dict):
+        print("ENTRO A MERGE")
+        return dict(list(dict1.items()) + list(dict2.items()))
 
-def addtocart(k_product):
-        print(k_product)
-        print("CODIGO DEL PRODUCTO")
-        cart.append(k_product)
-        session['purchase']= cart
+
+@purchase.route("/addtocart" ,methods=["POST"])
+def addtocart():
+        try:
+            product_id = request.form.get('product_id')
+            quantity = int(request.form.get("quantity"))
+            print(product_id)
+            print(quantity)
+            if product_id and quantity and request.method=='POST':
+                print("Entro al post")
+                cart={ product_id :quantity }
+                print("cart is")
+                print(cart)
+                if "purchase" in session:
+                    
+                    print(session["purchase"])
+                    if product_id in session["purchase"]:
+                        flash("Ya has agregado este producto a tu carrito!")
+                        
+                    else:
+                        session["purchase"] = MergeDict(session["purchase"], cart)
+                        return redirect(request.referrer)
+                else:
+                    
+                    session["purchase"] = cart
+                    return redirect(request.referrer)
+                
+        except Exception as e:
+            print(e)
+        finally:
+            return redirect(request.referrer)
+            
         
     

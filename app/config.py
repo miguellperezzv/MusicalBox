@@ -7,6 +7,7 @@ class Config(object):
     DEBUG = True
     SECRET_KEY = '?\xbf,\xb4\x8d\xa3"<\x9c\xb0@\x0f5\xab,w\xee\x8d$0\x13\x8b83'
     # OJO: PARA CUANDO TRABAJE EN MEMORIA   SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:" 
+    #SQLALCHEMY_DATABASE_URI = "sqlite:///musicalbox.sqlite3"
     SQLALCHEMY_DATABASE_URI = "sqlite:///musicalbox.sqlite3"
     #SQLALCHEMY_ECHO=True
     SQLALCHEMY_TRACK_MODIFICATIONS = False

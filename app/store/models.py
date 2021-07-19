@@ -50,16 +50,16 @@ class Producto(db.Model):
 
 class Item(db.Model):
     k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"), primary_key=True)
-    k_factura = db.Column(db.Integer,db.ForeignKey("factura.id"), primary_key=True)
+    k_factura = db.Column(db.Integer,db.ForeignKey("invoice.id"), primary_key=True)
     cant_item = db.Column(db.Numeric(3,0), nullable=False)
     p_item = db.Column(db.Numeric(11,2), nullable=False)
     #atributos de la relacion
     producto = db.relationship("Producto")
-    factura = db.relationship("Factura")
+    factura = db.relationship("Invoice")
 
-class Factura(db.Model):
+class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"), primary_key= False)
     f_compra = db.Column(db.DateTime, default=datetime.now())
     total = db.Column(db.Numeric(13,2), nullable=False)
     #atributos de la relacion
@@ -121,9 +121,9 @@ class ItemSchema(ma.SQLAlchemyAutoSchema):
         model = Item
         fields = ["k_factura", "k_producto", "cant_item", "p_item"]
 
-class FacturaSchema(ma.SQLAlchemyAutoSchema):
+class InvoiceSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Factura
+        model = Invoice
         fields = ["id", "k_usuario", "f_compra", "total"]
 
 class UsuarioSchema(ma.SQLAlchemyAutoSchema):
@@ -236,7 +236,7 @@ def create_release_genre(k_lanzamiento, k_genero):
 def create_new_invoice(cart, user_id):
     print("creando nueva factura")
     print(cart)
-    invoice = Factura(k_usuario = user_id, total = get_total(cart) )
+    invoice = Invoice(k_usuario = user_id, total = get_total(cart) )
     print("SOO MY INVOICE WILL BE")
     print(invoice.id)
     try:
@@ -250,6 +250,13 @@ def create_new_invoice(cart, user_id):
         item = Item(k_producto = i, k_factura = invoice.id, p_item = get_product_by_id(i).p_producto, cant_item = cart[i] )
         print("SOOO THE ITEM factura es IS")
         print(item.k_producto)
+        try:
+            db.session.add(item)
+            db.session.commit()
+            print("SE CREO el item")
+        except:
+            print("ERROR CRITICO NO SE CREO el itme :(!")
+            db.session.rollback()
 
     
 def get_total(items):

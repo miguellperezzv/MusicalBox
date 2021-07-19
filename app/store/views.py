@@ -357,11 +357,12 @@ def payment():
         print("SOY POST")
     
     if request.method=='GET':
-        create_new_invoice(session["purchase"], g.user["id"])
+        print("SOY GET")
     return redirect(url_for('purchase.thankyou'))
 
 @purchase.route('/success')
 def thankyou():
+    create_new_invoice(session["purchase"], g.user["id"])
     session["purchase"] = {}
     session["purchase"] = session["purchase"]
     return render_template('thankyou.html', purchase_cart = g.purchase, user=g.user )

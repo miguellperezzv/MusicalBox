@@ -3,7 +3,7 @@ from db import db, ma
 #from conf.config import  
 from config import DevelopmentConfig
 from flask_cors import CORS
-from flask import Flask
+from flask import Flask, session
 from store.views import home, dashboard, releases, artists, purchase
 #from app.store.views import home, dashboard
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +20,8 @@ def create_app(config=DevelopmentConfig):
     db.init_app(app)
     ma.init_app(app)
     CORS(app)
+    
+    
 
     with app.app_context():
         db.create_all()

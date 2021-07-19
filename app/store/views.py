@@ -23,13 +23,19 @@ def before_request():
         g.user = session["user"]
     else:
         g.user = None
-    
+    if "purchase" in session:
+        #del session["purchase"]
+        g.purchase =session["purchase"]
+    else:
+        session["purchase"]={}
+        g.purchase=None
+
     print("pruchase cart is")
-    print(session["purchase"])
+    print(g.purchase)
 
 @home.route("/")
 def index():
-    return render_template("home.html", user = g.user) 
+    return render_template("home.html", user = g.user, purchase_cart = g.purchase) 
 
 @home.route("/login", methods=["GET", 'POST'])
 def login():
@@ -48,7 +54,7 @@ def login():
         elif user['pwd_usuario'] == pwd:
             flash("Bienvenido")
             session["user"] = user
-            return redirect(url_for('home.index', user=g.user, purchase_cart = session["purchase"]))
+            return redirect(url_for('home.index', user=g.user, purchase_cart = g.purchase))
     
     return render_template('login.html', form=form_login)
 
@@ -69,16 +75,16 @@ def signup():
                 flash("Usuario creado!")
             else:
                 flash("No se creo el Usuario!")
-            return redirect(url_for('home.index',user=g.user))
-        return render_template('signup.html', form=form_signup)
+            return redirect(url_for('home.index',user=g.user, purchase_cart = g.purchase))
+        return render_template('signup.html', form=form_signup, purchase_cart = g.purchase)
     
     flash("You're already logged in.", "alert-primary")
-    return redirect(url_for('home.index', user = g.user))
+    return redirect(url_for('home.index', user = g.user, purchase_cart = g.purchase))
 
 @home.route("/logout", methods=["GET", 'POST'])
 def logout():
     session.pop("user", None)
-    session.pop("purchase", None)
+    session.pop("purchase", {})
     flash("You're logged out.", "alert-secondary")
 
     return redirect(url_for("home.index", user=g.user))
@@ -89,7 +95,7 @@ def account():
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():
-    return render_template("adminDashboard.html", user=g.user, purchase_cart = session["purchase"])
+    return render_template("adminDashboard.html", user=g.user, purchase_cart = g.purchase)
 
 
 #routes del panel de administración
@@ -231,7 +237,7 @@ def home_releases():
     if request.method == "POST":
         None
     if request.method == 'GET':
-        return render_template("releases.html", user=g.user, purchase_cart = session["purchase"], releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
+        return render_template("releases.html", user=g.user, purchase_cart = g.purchase, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
 def release(k_lanzamiento):
@@ -240,7 +246,7 @@ def release(k_lanzamiento):
         lanzamiento = get_release_by_id(k_lanzamiento)
         generos = get_genres_by_release(k_lanzamiento)
         productos = get_products_by_release(k_lanzamiento)
-        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, purchase_cart = session["purchase"])
+        return render_template("singleRelease.html", artista=artista, lanzamiento=lanzamiento, generos = generos, productos=productos, user=g.user, purchase_cart = g.purchase)
 
 
 @artists.route("/<int:k_artista>", methods=["GET", "POST"])
@@ -255,7 +261,7 @@ def summary():
         for p in session["purchase"]:
             print("sumando")
             total += get_product_by_id(p).p_producto * session["purchase"][p]
-        return render_template("purchase.html", user=g.user, purchase_cart=session["purchase"], get_product_by_id = get_product_by_id, total=total, get_release_by_id = get_release_by_id)
+        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=total, get_release_by_id = get_release_by_id)
     if request.method == 'POST':
         None
 
@@ -286,10 +292,14 @@ def addtocart():
                         flash("Ya has agregado este producto a tu carrito!")
                         
                     else:
+                        #para arreglar la varuable global
+                        #session["purchase"] = cart
+                        #print("new session purchase")
+                        print(session["purchase"])
                         session["purchase"] = MergeDict(session["purchase"], cart)
                         return redirect(request.referrer)
                 else:
-                    
+                    session["purchase"] = MergeDict(session["purchase"], cart)
                     session["purchase"] = cart
                     return redirect(request.referrer)
                 
@@ -299,4 +309,35 @@ def addtocart():
             return redirect(request.referrer)
             
         
-    
+@purchase.route("/remove/<string:k_producto>", methods=["POST", "GET"]) 
+def remove(k_producto):
+    if request.method =='GET':
+        print("SE REMOVERA "+ (k_producto))
+        session["purchase"].pop(k_producto, 0)
+        print("LUEGO DE ELIMINAR!!")
+        print(session["purchase"])
+        session["purchase"] = session["purchase"]
+        return redirect(request.referrer)
+
+@purchase.route("/updatesingle<string:k_producto>_<string:opc>", methods=["GET", "POST"])
+def updatesingle(k_producto, opc):
+    if request.method =="GET":
+        print("ENTRANDO A GET")
+        print(k_producto)
+        print(opc)
+
+        if opc == 'up':
+            print("LO QUE TENGO +++++++++++")
+            if(get_product_by_id(k_producto).stock ==  session["purchase"][k_producto] ):
+                flash("No se pueden agregar más productos! ")
+            else:
+                session["purchase"][k_producto] +=1
+                session["purchase"] = session["purchase"]
+            
+        if opc == 'down':
+            if(session["purchase"][k_producto] ==0):
+                flash("No se pueden quitar más productos! ")
+            else:
+                session["purchase"][k_producto] -=1
+                session["purchase"] = session["purchase"]
+        return redirect(request.referrer)

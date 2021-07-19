@@ -36,8 +36,8 @@ Mi compra
                         <div class="row text-muted">{{get_product_by_id(p).k_categoria }}</div>
                         <div class="row">{{get_release_by_id(get_product_by_id(p).k_lanzamiento).n_lanzamiento}}  {{get_product_by_id(p).n_producto }}</div>
                     </div>
-                    <div class="col"> <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> </div>
-                    <div class="col">&dollar; {%set subtotal = get_product_by_id(p).p_producto * purchase_cart.get(p)%} {{subtotal}} <span class="close">&#10005;</span></div>
+                    <div class="col"> <a href="{{url_for('purchase.updatesingle', k_producto = p, opc='down' )}}">-</a><a href="#" class="border">{{purchase_cart.get(p)}}</a><a href="{{url_for('purchase.updatesingle', k_producto = p, opc='up' )}}">+</a> </div>
+                    <div class="col">&dollar; {%set subtotal = get_product_by_id(p).p_producto * purchase_cart.get(p)%} {{subtotal}} <a href="{{url_for('purchase.remove', k_producto=p)}}"> <span class="close" >&#10005;</span></div> </a>
                 </div>
             </div>
             {%endfor%}

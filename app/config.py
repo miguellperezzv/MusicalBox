@@ -12,6 +12,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = UPLOAD_FOLDER
 
+    
+
 class ProductionConfig(Config):
     SECRET_KEY = os.getenv("SECRET_KEY", 123456)
     SQLALCHEMY_DATABASE_URI = DB_URI

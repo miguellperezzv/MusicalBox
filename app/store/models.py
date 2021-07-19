@@ -59,7 +59,7 @@ class Item(db.Model):
 
 class Factura(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id") , primary_key=True)
+    k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     f_compra = db.Column(db.DateTime, default=datetime.now())
     total = db.Column(db.Numeric(13,2), nullable=False)
     #atributos de la relacion
@@ -232,7 +232,34 @@ def create_release_genre(k_lanzamiento, k_genero):
         return (r_g)
     except:
         return None
+
+def create_new_invoice(cart, user_id):
+    print("creando nueva factura")
+    print(cart)
+    invoice = Factura(k_usuario = user_id, total = get_total(cart) )
+    print("SOO MY INVOICE WILL BE")
+    print(invoice.id)
+    try:
+        db.session.add(invoice)
+        db.session.commit()
+        print("SE CREO LA FACTURA!")
+    except:
+        print("ERROR CRITICO NO SE CREO LA FACTURA!")
+        db.session.rollback()
+    for i in cart:
+        item = Item(k_producto = i, k_factura = invoice.id, p_item = get_product_by_id(i).p_producto, cant_item = cart[i] )
+        print("SOOO THE ITEM factura es IS")
+        print(item.k_producto)
+
     
+def get_total(items):
+    total =0
+    for p in items:
+        total += get_product_by_id(p).p_producto * items[p]
+    print("EL TOTAL ES:")
+    print(total)
+    return total
+
 def new_admin(email, pwd, guser):
     print(guser)
     print(pwd)

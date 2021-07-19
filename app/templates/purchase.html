@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {%block head%} 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/purchase.css') }}" type="text/css"> 
+<link rel="javascript" href="{{ url_for('static', filename='js/payment.js')}}" type="javascript">
 {%endblock%}
 
 {%block title%}
@@ -27,6 +28,10 @@ Mi compra
             </div>
             {%if not purchase_cart%}
                 No tienes compras! <a href="home.index">Empieza a agregar a tu carrito</a>
+            </div>
+        </div>
+        </div>
+    </div>
             {%else%}
             {%for p in purchase_cart%}
             <div class="row border-top border-bottom">
@@ -64,10 +69,41 @@ Mi compra
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                 <div class="col">TOTAL PRICE</div>
                 <div class="col text-right">&dollar; {{total}}</div>
-            </div> <button class="btn">CHECKOUT</button>
+                {%set amount = total*100%}
+            </div> 
+                <!-- =====================================================================
+          ///////////   Este es su botón de Botón de pago ePayco   ///////////
+         ===================================================================== -->
+        <form action="{{url_for('purchase.payment')}}" method='POST'>
+            {%set iva = total*0.19%}
+            <script src='https://checkout.epayco.co/checkout.js' 
+                data-epayco-key='7c0e3cb9905cc6924cfa41bd822306cf' 
+                data-epayco-private-key = '3d1d87bb853a61cd897ff62994f55240'
+                class='epayco-button' 
+                data-epayco-amount='{{total}}' 
+                data-epayco-tax='{{0}}'
+                data-epayco-tax-ico='NaN'                
+                data-epayco-tax-base='{{total}}'
+                data-epayco-name='Musica' 
+                data-epayco-description='Musica' 
+                data-epayco-currency='cop'    
+                data-epayco-country='CO' 
+                data-epayco-test='true' 
+                data-epayco-external='false' 
+                data-epayco-response='http://127.0.0.1:5000{{url_for("purchase.payment")}}'  
+                data-epayco-confirmation='http://127.0.0.1:5000{{url_for("purchase.thankyou")}}' 
+                data-epayco-button='https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/boton_carro_de_compras_epayco2.png'> 
+            </script> 
+        </form> <!-- ================================================================== -->
+            
         </div>
     </div>
 </div>
 
   {%endif%}
+
+
+  
+
 {%endblock%}
+

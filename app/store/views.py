@@ -4,6 +4,12 @@ from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, ne
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id
+import stripe 
+
+
+publishable_key = 'pk_test_51JEwMBBVYhylMbmrBkvIPxsQfH1vQ7IoNfpj813FbSRu55Y3HV1znXyqzK9ULMlcV1nPgcGGVJPvXhdAWm97wHKl00SaEuGhWo'
+stripe.api_key = 'sk_test_51JEwMBBVYhylMbmrcJjSrCNSL9DWSVYB79286et6mRLUABZHuqqlr7oDLJrOUyHYEQXNZbyDmBMUgm3hIZIS03P600kUjqmNbU'
+
 
 
 home = Blueprint('home', __name__)
@@ -230,7 +236,10 @@ def newadmin():
         
     return render_template("newAdmin.html", form = form_new_admin)
 
-    
+@dashboard.route("/invoices", methods=["GET", "POST"])
+def invoices():
+
+    return render_template("invoices.html")  
 
 @releases.route('/', methods=["GET", "POST"])
 def home_releases():
@@ -261,7 +270,7 @@ def summary():
         for p in session["purchase"]:
             print("sumando")
             total += get_product_by_id(p).p_producto * session["purchase"][p]
-        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=total, get_release_by_id = get_release_by_id)
+        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=float(total), get_release_by_id = get_release_by_id)
     if request.method == 'POST':
         None
 
@@ -336,8 +345,25 @@ def updatesingle(k_producto, opc):
             
         if opc == 'down':
             if(session["purchase"][k_producto] ==0):
-                flash("No se pueden quitar más productos! ")
+                session["purchase"].pop(k_producto, 0)
+                session["purchase"] = session["purchase"]
             else:
                 session["purchase"][k_producto] -=1
                 session["purchase"] = session["purchase"]
+            
+
         return redirect(request.referrer)
+
+@purchase.route('/payment', methods=["POST", "GET"])
+def payment():
+    if request.method=='POST':
+        print("SOY POST")
+    
+    if request.method=='GET':
+        print("pase por aqui")
+    
+    return redirect(url_for('purchase.thankyou'))
+
+@purchase.route('/success')
+def thankyou():
+    return render_template('thankyou.html')

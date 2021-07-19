@@ -49,10 +49,7 @@ Panel de Administración
                 </ul>
             </li>
             <li>
-                <a href="#">
-                    <i class="fas fa-briefcase"></i>
-                    About
-                </a>
+                <a href="#" id="invoices"> <i class="fas fa-file-invoice"></i> Ordenes de compra </a>
                 <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-plus-square"></i>
                     Nuevo
@@ -171,8 +168,18 @@ Panel de Administración
         $('#content').load("{{url_for('dashboard.newadmin')}}");
         })
     })
+
+    $(document).ready(function (){
+    $('#invoices').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.invoices')}}");
+        })
+    })
     </script>
 
-    
+    </script>
+
+        
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {%endblock%}

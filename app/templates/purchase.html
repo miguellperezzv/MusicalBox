@@ -71,6 +71,13 @@ Mi compra
                 <div class="col text-right">&dollar; {{total}}</div>
                 {%set amount = total*100%}
             </div> 
+            {%if not user%}
+            
+            <p style="font-size: 11px;"><strong> Para proceder con el pago debes: </strong></p>
+            <button type="button" class="btn btn-primary btn-lg btn-block" style="font-size: 15px;" data-toggle="modal" data-target="#loginModal"> Inicia sesión</button>
+            <div style="text-align: center;"><a style="font-size: 12px;" href="#" data-toggle="modal" data-target="#signupModal"> Registrate</a></div>
+            {%else%}
+            
                 <!-- =====================================================================
           ///////////   Este es su botón de Botón de pago ePayco   ///////////
          ===================================================================== -->
@@ -95,10 +102,38 @@ Mi compra
                 data-epayco-button='https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/boton_carro_de_compras_epayco2.png'> 
             </script> 
         </form> <!-- ================================================================== -->
-            
+        {%endif%}
         </div>
     </div>
 </div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Holaaaa
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   {%endif%}
 

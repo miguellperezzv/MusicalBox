@@ -74,8 +74,8 @@ Mi compra
             {%if not user%}
             
             <p style="font-size: 11px;"><strong> Para proceder con el pago debes: </strong></p>
-            <button type="button" class="btn btn-primary btn-lg btn-block" style="font-size: 15px;" data-toggle="modal" data-target="#loginModal"> Inicia sesión</button>
-            <div style="text-align: center;"><a style="font-size: 12px;" href="#" data-toggle="modal" data-target="#signupModal"> Registrate</a></div>
+            <button type="button" class="btn btn-primary btn-lg btn-block btnLogin" style="font-size: 15px;"  id="btnLogin" onclick="window.location.href= '{{url_for('home.login')}}'"> Inicia sesión</button>
+            <div style="text-align: center;"><a style="font-size: 12px;" href="{{url_for('home.signup')}}" data-toggle="modal" data-target="#signupModal"> Registrate</a></div>
             {%else%}
             
                 <!-- =====================================================================
@@ -107,23 +107,20 @@ Mi compra
     </div>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
+
   
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Ingresar a mi cuenta</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          Holaaaa
+          ...
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -137,8 +134,15 @@ Mi compra
 
   {%endif%}
 
-
+  <script>
+    
+    $('.btnLogin').click(function(){
+        $('.modal-body').load("{{url_for('home.login')}}",function(){
+            $('#loginModal').modal({show:true});
+        });
+    });
+    </script>
   
-
+ 
 {%endblock%}
 

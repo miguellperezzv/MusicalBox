@@ -65,3 +65,7 @@ class newAdmin(FlaskForm):
     email = StringField("Ingresa el email del nuevo usuario ADMINISTRADOR")
     pwd = PasswordField("Ingresa tu contraseña")
 
+class editReleaseForm(FlaskForm):
+    
+    n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})
+

@@ -19,7 +19,7 @@ def create_app(config=DevelopmentConfig):
 
     db.init_app(app)
     ma.init_app(app)
-    CORS(app)
+    
     
     
 

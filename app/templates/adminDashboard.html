@@ -73,10 +73,28 @@ Panel de Administración
                 </ul>
             </li>
             <li>
-                <a href="#">
-                    <i class="fas fa-image"></i>
-                    Portfolio
+                <a href="#editar" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-pencil-alt"></i>
+                    Editar
                 </a>
+
+                <ul class="collapse list-unstyled" id="editar">
+                    <li>
+                        <a href="#" id="editrelease" class="option"><i class='bx bxs-music' ></i>Lanzamiento</a>
+                    </li>
+                    <li>
+                        <a href="#" id="editproduct" class="option"><i class='bx bxs-shopping-bags' ></i>Producto</a>
+                    </li>
+                    <li>
+                        <a href="#" id="editgenre_cat_artist" class="option"><i class='bx bx-equalizer'></i>Género / Categoría / Artista</a>
+                    </li>
+                    
+                    <li>
+                        <a href="#" id="newadmin" class="option"><i class='bx bxs-group'></i>Usuario Administrador</a>
+                    </li>
+                    
+
+                </ul>
             </li>
             <li>
                 <a href="#">
@@ -166,6 +184,34 @@ Panel de Administración
     $('#newadmin').on('click', function (e){
         e.preventDefault();
         $('#content').load("{{url_for('dashboard.newadmin')}}");
+        })
+    })
+
+    $(document).ready(function (){
+    $('#editrelease').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.editrelease')}}");
+        })
+    })
+
+    $(document).ready(function (){
+    $('#editproduct').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.editproduct')}}");
+        })
+    })
+
+    $(document).ready(function (){
+    $('#editgenre_cat_artist').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.editgenre_category_artist')}}");
+        })
+    })
+
+    $(document).ready(function (){
+    $('#editadmin').on('click', function (e){
+        e.preventDefault();
+        $('#content').load("{{url_for('dashboard.editadmin')}}");
         })
     })
 

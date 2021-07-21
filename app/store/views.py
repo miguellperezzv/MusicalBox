@@ -1,7 +1,7 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
-from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin
-from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify
+from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
+from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice
 #import epaycosdk.epayco as epayco
@@ -33,8 +33,8 @@ def before_request():
         session["purchase"]={}
         g.purchase=None
 
-    print("pruchase cart is")
-    print(g.purchase)
+
+    
 
 @home.route("/")
 def index():
@@ -58,8 +58,12 @@ def login():
             flash("Bienvenido")
             session["user"] = user
             return redirect(url_for('home.index', user=g.user, purchase_cart = g.purchase))
+
+    resp = make_response(render_template('login.html', form=form_login))
+    resp.set_cookie('same-site-cookie', 'foo', samesite='Lax')
+    resp.set_cookie('cross-site-cookie', 'bar', samesite='Lax', secure=True)
+    return resp
     
-    return render_template('login.html', form=form_login)
 
 
 @home.route("/signup", methods=["GET", 'POST'])
@@ -238,6 +242,25 @@ def invoices():
 
     return render_template("invoices.html")  
 
+@dashboard.route("/editrelease")
+def editrelease():
+    form_edit_release = editReleaseForm()
+    if request.method == 'POST':
+        None
+    return render_template("editRelease.html", form = form_edit_release)
+
+@dashboard.route("/editproduct")
+def editproduct():
+    None
+
+@dashboard.route("/editgenre_category_artist")
+def editgenre_category_artist():
+    None
+
+@dashboard.route("/editadmin")
+def editadmin():
+    None
+
 @releases.route('/', methods=["GET", "POST"])
 def home_releases():
     if request.method == "POST":
@@ -267,7 +290,11 @@ def summary():
         for p in session["purchase"]:
             print("sumando")
             total += get_product_by_id(p).p_producto * session["purchase"][p]
-        return render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=float(total), get_release_by_id = get_release_by_id)
+        resp = make_response(render_template("purchase.html", user=g.user, purchase_cart=g.purchase, get_product_by_id = get_product_by_id, total=float(total), get_release_by_id = get_release_by_id))
+        resp.set_cookie('same-site-cookie', 'foo', samesite='Lax')
+        resp.set_cookie('cross-site-cookie', 'bar', samesite='Lax', secure=True)
+        return resp
+        
     if request.method == 'POST':
         None
 

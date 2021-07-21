@@ -6,7 +6,8 @@ Login
 
 <h1>Login</h1>
 <form method="POST" action="{{url_for('home.login')}}">
-    {{ form.csrf_token }}
+    
+    
     {{ form.email_usuario.label }} {{ form.email_usuario(size=20) }}
     {{ form.pwd_usuario.label }} {{ form.pwd_usuario(size=20) }}
     <input type="submit" value="Registrarme!">

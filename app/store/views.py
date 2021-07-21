@@ -397,7 +397,14 @@ def payment():
 
         factura_epayco= (r.json())
         print(factura_epayco)
+        print(factura_epayco.get("data").get("x_response"))
+        if factura_epayco.get("data").get("x_response") == 'Aceptada':
+            print("La transacicón fue exitosa")
+        else:
+            print("No fue exitosa")
         
+        
+
         factura = create_new_invoice(session["purchase"], g.user["id"])
         if factura:
             items = add_items(factura.id, session["purchase"])

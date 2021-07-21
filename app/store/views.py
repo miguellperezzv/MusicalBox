@@ -3,10 +3,12 @@
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items
 #import epaycosdk.epayco as epayco
 import json
-
+import urllib.parse as urlparse
+from urllib.parse import parse_qs
+import requests
 
 
 home = Blueprint('home', __name__)
@@ -385,11 +387,33 @@ def payment():
     
     if request.method=='GET':
         print("SOY GET")
-    return redirect(url_for('purchase.thankyou'))
+        
+        url = request.url
+        parsed = urlparse.urlparse(url)
+        
+        ref_payco= (parse_qs(parsed.query)['ref_payco'])
+        myResponse = "https://secure.epayco.co/validation/v1/reference/"+ref_payco[0]
+        r = requests.get(myResponse)
+
+        factura_epayco= (r.json())
+        print(factura_epayco)
+        
+        factura = create_new_invoice(session["purchase"], g.user["id"])
+        if factura:
+            items = add_items(factura.id, session["purchase"])
+            if items:
+                print("SE CREÓ LA FACTURA CORRECTAMENTE CON SUS ITEMS")
+                session["purchase"] = {}
+                session["purchase"] = session["purchase"]
+                return redirect(url_for('purchase.thankyou'))
+            else:
+                print("ERROR CRITICO NO SE AGREGARON LOS ITEMS")
+        else:
+            print("ERROR CRITICO NO SE AGREGÓ LA FACTURA")
+    
 
 @purchase.route('/success')
 def thankyou():
-    create_new_invoice(session["purchase"], g.user["id"])
-    session["purchase"] = {}
-    session["purchase"] = session["purchase"]
+    
+   
     return render_template('thankyou.html', purchase_cart = g.purchase, user=g.user )

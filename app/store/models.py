@@ -243,11 +243,15 @@ def create_new_invoice(cart, user_id):
         db.session.add(invoice)
         db.session.commit()
         print("SE CREO LA FACTURA!")
+        return invoice
     except:
         print("ERROR CRITICO NO SE CREO LA FACTURA!")
         db.session.rollback()
+        return None
+    
+def add_items(factura_id, cart):
     for i in cart:
-        item = Item(k_producto = i, k_factura = invoice.id, p_item = get_product_by_id(i).p_producto, cant_item = cart[i] )
+        item = Item(k_producto = i, k_factura = factura_id, p_item = get_product_by_id(i).p_producto, cant_item = cart[i] )
         print("SOOO THE ITEM factura es IS")
         print(item.k_producto)
         try:
@@ -257,7 +261,7 @@ def create_new_invoice(cart, user_id):
         except:
             print("ERROR CRITICO NO SE CREO el itme :(!")
             db.session.rollback()
-
+    return "ok"
     
 def get_total(items):
     total =0
@@ -428,3 +432,4 @@ def get_products_by_release(k_lanzamiento):
 def get_product_by_id(k_producto):
     product = Producto.query.filter_by(id=k_producto).first()
     return product
+

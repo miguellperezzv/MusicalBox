@@ -9,7 +9,7 @@ class Config(object):
     # OJO: PARA CUANDO TRABAJE EN MEMORIA   SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:" 
     #SQLALCHEMY_DATABASE_URI = "sqlite:///musicalbox.sqlite3"
     SQLALCHEMY_DATABASE_URI = "sqlite:///musicalbox.sqlite3"
-    #SQLALCHEMY_ECHO=True
+    SQLALCHEMY_ECHO=True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = UPLOAD_FOLDER
 

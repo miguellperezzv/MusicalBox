@@ -28,11 +28,13 @@ class GenreSelectField(SelectField):
     
 
 class  newReleaseForm(FlaskForm):
-    n_lanzamiento = StringField("Nombre del lanzamiento", validators=[DataRequired()])
+    n_lanzamiento = StringField("Nombre del lanzamiento", id="lanzamiento", validators=[DataRequired()])
     i_lanzamiento = StringField("Imagen del lanzamiento", validators=[DataRequired()])
     k_artista  = StringField("Artista",validators=[DataRequired()], id="artista")
     f_lanzamiento = DateField("Fecha de Lanzamiento", default=date.today)
     k_genero = GenreSelectField("Genero")
+
+    
 
 class newProductForm(FlaskForm):
     n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})

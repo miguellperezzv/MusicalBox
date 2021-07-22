@@ -1,1 +1,38 @@
+
 {{form.n_lanzamiento.label}} {{form.n_lanzamiento}}
+<button id="buscar" name="">Buscar para editar</button>
+
+
+
+<script>
+    $(function(){
+        $.ajax({
+            url: '{{url_for("dashboard.newproduct_releases", form.n_lanzamiento.data.split(".")[0])}}'
+        }).done(function(data){
+            $('#lanzamiento').autocomplete({
+                
+                source:data,
+                
+                minLenght:1
+            });
+        });
+    });
+
+    $("#buscar").on('click', function(){
+        $.getJSON("{{url_for('dashboard.loadRelease', )}}", function(data){
+        
+
+        localStorage.setItem(myJSON, JSON.stringify(data)); // Save new data in localStorage
+        $.each(data, function(key, value){
+          employee_data += '<tr>';
+          employee_data += '<td>'+value.class+'</td>';
+          employee_data += '<td>'+value.time+'</td>';
+
+          employee_data += '</tr>';
+        });
+        $('#employee_table').append(employee_data);
+    });
+  });
+    
+</script>
+

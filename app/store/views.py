@@ -148,16 +148,18 @@ def newproduct():
     categories =  get_categories()
     form_new_product = newProductForm(categories_choices=categories)
     if request.method=="POST":
-        n_lanzamiento = form_new_product.n_lanzamiento.data.split(" - ")[-1]
-        n_artista = form_new_product.n_lanzamiento.data.split(" - ")[0].upper()
+        #n_lanzamiento = form_new_product.n_lanzamiento.data.split(" - ")[-1]
+        #n_artista = form_new_product.n_lanzamiento.data.split(" - ")[0].upper()
         n_producto = form_new_product.n_producto.data
         p_producto  =form_new_product.p_producto.data
         d_producto = form_new_product.d_producto.data
         stock = form_new_product.stock.data
         i_producto = form_new_product.i_producto.data
         k_categoria = dict(form_new_product.k_category.choices).get(form_new_product.k_category.data)
-        k_lanzamiento = get_k_release_by_name_artista(n_lanzamiento,n_artista)
-        product = create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
+        #k_lanzamiento = get_k_release_by_name_artista(n_lanzamiento,n_artista)
+        k_lanzamiento = form_new_product.n_lanzamiento.data.split(".")[0]
+        print("K_LANZAMIENTO ES "+ k_lanzamiento)
+        product = create_new_product(int(k_lanzamiento), n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
         if product:
             print("Producto creado exitosamente!!! ")
             return redirect(url_for('home.admin'))
@@ -246,10 +248,16 @@ def invoices():
 
 @dashboard.route("/editrelease")
 def editrelease():
-    form_edit_release = editReleaseForm()
+    
+    form_edit_release = newReleaseForm()
     if request.method == 'POST':
         None
     return render_template("editRelease.html", form = form_edit_release)
+
+@dashboard.route("loadRelease")
+def loadRelease():
+    print("RECARGANDO DATOS")
+
 
 @dashboard.route("/editproduct")
 def editproduct():

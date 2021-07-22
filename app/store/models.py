@@ -177,8 +177,11 @@ def create_new_artist(n_artista, pais_artista):
             db.session.add(artista)
             db.session.commit()
             return (artista)
-        except:
+        except Exception as e:
+            print("NO SE CREÓ EL artista "+ str(e))
+            db.session.rollback()
             return None
+            
     
 
 def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento, k_genero):
@@ -193,7 +196,9 @@ def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento, k_
         db.session.add(lanzamiento_artista)
         db.session.commit()
         return(k_lanzamiento)
-    except:
+    except Exception as e:
+        print("NO SE CREÓ EL lanzamiento "+ str(e))
+        db.session.rollback()
         return None
 
 #n_producto, p_producto, d_producto, stock, i_producto, k_categoria
@@ -203,7 +208,9 @@ def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock,
         db.session.add(product)
         db.session.commit()
         return (product)
-    except:
+    except Exception as e:
+        print("NO SE CREÓ EL producto "+ str(e))
+        db.session.rollback()
         return None
    
 def create_new_category(category):
@@ -310,10 +317,15 @@ def get_all_releases():
     return releases
 
 def get_all_genres():
-    genre_qs = Genero.query.all()
-    genre_schema = GeneroSchema()
-    generos = [genre_schema.dump(genre) for genre in genre_qs]
-    return generos
+
+    try:
+        genre_qs = Genero.query.all()
+        genre_schema = GeneroSchema()
+        generos = [genre_schema.dump(genre) for genre in genre_qs]
+        return generos
+    except Exception as e:
+        print(e)
+    
 
 def get_release_artist():
     r_a_qs= Lanzamiento_Artista.query.all()
@@ -365,16 +377,23 @@ def get_release_by_id(id):
     return  {}
 
 def get_releases_with_artists():
-    release_artist_qs = Lanzamiento_Artista.query.all()
-    release_artists_schema = Lanzamiento_ArtistaSchema()
-    releases=[release_artists_schema.dump(lanz) for lanz in release_artist_qs]
-    r=[]
-    for release in releases:
-        artista = get_artist_by_id(release["k_artista"]).get("n_artista", 'N/A').title()
-        lanzamiento = get_release_by_id(release["k_lanzamiento"]).get("n_lanzamiento", "N/A")
-        print(lanzamiento)
-        r.append(artista + " - "+  lanzamiento)
-    return r
+    try:
+        release_artist_qs = Lanzamiento_Artista.query.all()
+        release_artists_schema = Lanzamiento_ArtistaSchema()
+        releases=[release_artists_schema.dump(lanz) for lanz in release_artist_qs]
+        r=[]
+        for release in releases:
+            
+            artista = get_artist_by_id(release["k_artista"]).get("n_artista", 'N/A').title()
+            lanzamiento = get_release_by_id(release["k_lanzamiento"]).get("n_lanzamiento", "N/A")
+            k_lanzamiento = str(release["k_lanzamiento"])
+            print(lanzamiento)
+            r.append(k_lanzamiento+". "+artista + " - "+  lanzamiento)
+        return r
+    except Exception as e:
+        print("ERROR: "+str(e))
+        return None 
+    
 
 def get_categories():
     category_qs = Categoria.query.all()

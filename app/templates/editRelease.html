@@ -7,7 +7,7 @@
 <script>
     $(function(){
         $.ajax({
-            url: '{{url_for("dashboard.newproduct_releases", form.n_lanzamiento.data.split(".")[0])}}'
+            url: '{{url_for("dashboard.newproduct_releases")}}'
         }).done(function(data){
             $('#lanzamiento').autocomplete({
                 
@@ -19,7 +19,7 @@
     });
 
     $("#buscar").on('click', function(){
-        $.getJSON("{{url_for('dashboard.loadRelease', )}}", function(data){
+        $.getJSON("{{url_for('dashboard.loadRelease', input=form.n_lanzamiento.data)}}", function(data){
         
 
         localStorage.setItem(myJSON, JSON.stringify(data)); // Save new data in localStorage

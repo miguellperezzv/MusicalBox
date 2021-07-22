@@ -1,5 +1,6 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
+
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
@@ -251,12 +252,15 @@ def editrelease():
     
     form_edit_release = newReleaseForm()
     if request.method == 'POST':
-        None
+       None
     return render_template("editRelease.html", form = form_edit_release)
 
-@dashboard.route("loadRelease")
-def loadRelease():
+@dashboard.route("loadRelease<string:input>")
+def loadRelease(input):
     print("RECARGANDO DATOS")
+    k_lanzamiento = input.split(".")[0]
+    lanzamiento = get_release_by_id(k_lanzamiento)
+    print(lanzamiento)
 
 
 @dashboard.route("/editproduct")

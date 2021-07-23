@@ -1,38 +1,68 @@
+{%extends "adminDashboard.html"%}
 
-{{form.n_lanzamiento.label}} {{form.n_lanzamiento}}
-<button id="buscar" name="">Buscar para editar</button>
-
-
-
-<script>
-    $(function(){
-        $.ajax({
-            url: '{{url_for("dashboard.newproduct_releases")}}'
-        }).done(function(data){
-            $('#lanzamiento').autocomplete({
-                
-                source:data,
-                
-                minLenght:1
+{%block content%}
+<form method="POST" action="{{url_for('dashboard.editrelease')}}">
+    {{form.n_lanzamiento.label}} {{form.n_lanzamiento}}
+    <input type="submit" id="buscar" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Buscar lanzamiento"></form>
+    
+    {%if lanzamiento%}
+    <form method="POST" action="{{url_for('dashboard.newrelease')}}">
+        {{ form.csrf_token }}
+        {{ form.n_lanzamiento_edit.label }} {{ form.n_lanzamiento_edit(size=50, value=lanzamiento.n_lanzamiento) }}
+        {{ form.i_lanzamiento.label }} {{ form.i_lanzamiento(size=100, value=lanzamiento.i_lanzamiento) }}
+        {{form.k_artista.label}} {{form.k_artista(value=get_artist_by_release(lanzamiento.id).n_artista)}}
+        {{form.f_lanzamiento.label}} {{form.f_lanzamiento(value = lanzamiento.f_lanzamiento)}}
+        {{form.k_genero.label}}{{form.k_genero(value = ALTERNTIVE)}}
+    
+        
+        <input type="submit" value="Agregar Artista">
+    </form> 
+    {%endif%}
+      
+      
+    
+    
+    <script>
+        $(function(){
+            $.ajax({
+                url: '{{url_for("dashboard.newproduct_releases")}}'
+            }).done(function(data){
+                $('#lanzamiento').autocomplete({
+                    
+                    source:data,
+                    
+                    minLenght:1
+                });
             });
         });
-    });
-
-    $("#buscar").on('click', function(){
-        $.getJSON("{{url_for('dashboard.loadRelease', input=form.n_lanzamiento.data)}}", function(data){
-        
-
-        localStorage.setItem(myJSON, JSON.stringify(data)); // Save new data in localStorage
-        $.each(data, function(key, value){
-          employee_data += '<tr>';
-          employee_data += '<td>'+value.class+'</td>';
-          employee_data += '<td>'+value.time+'</td>';
-
-          employee_data += '</tr>';
-        });
-        $('#employee_table').append(employee_data);
-    });
-  });
     
+        $(function(){
+            document.getElementById("buscar").onclick = function() {
+            //validation code to see State field is mandatory.  
+        }
+        });    
+        
+    </script>
+
+<script>
+$(function(){
+    $.ajax({
+        url: '{{url_for("dashboard.newrelease_artists")}}'
+    }).done(function(data){
+        console.log(data)
+        data.label= data.n_artista
+        data.value= data.k_artista
+        console.log(data)
+        $('#artista').autocomplete({
+            
+            source:data,
+            
+            minLenght:1
+        });
+    });
+});
+
 </script>
+    
+{%endblock%}
 

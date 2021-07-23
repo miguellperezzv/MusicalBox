@@ -441,7 +441,12 @@ def get_categories_by_release(k_lanzamiento):
     return pr
 
 def get_genres_by_release(k_lanzamiento):
-    genres = Lanzamiento_Genero.query.filter_by(k_lanzamiento=k_lanzamiento).all()
+    genres_qs = Lanzamiento_Genero.query.filter_by(k_lanzamiento=k_lanzamiento).all()
+    genre_schema = GeneroSchema()
+    
+    
+    genres=[genre_schema.dump(g) for g in genres_qs]
+    print(genres)
     return genres
 
 def get_products_by_release(k_lanzamiento):

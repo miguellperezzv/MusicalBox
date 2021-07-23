@@ -28,6 +28,12 @@ class GenreSelectField(SelectField):
     
 
 class  newReleaseForm(FlaskForm):
+
+    #es una mouskerramienta que nos ayudará en la parte de edición del lanzamiento ;)
+    #ya que ejemplifico mismo formulario en la vista de edición y quiero evitar conflictos con el otro stringfield
+    n_lanzamiento_edit =  StringField("Nombre del lanzamiento [EDICIÓN]", id="lanzamiento", validators=[DataRequired()])
+    
+    
     n_lanzamiento = StringField("Nombre del lanzamiento", id="lanzamiento", validators=[DataRequired()])
     i_lanzamiento = StringField("Imagen del lanzamiento", validators=[DataRequired()])
     k_artista  = StringField("Artista",validators=[DataRequired()], id="artista")

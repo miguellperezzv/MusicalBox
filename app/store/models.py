@@ -457,3 +457,7 @@ def get_product_by_id(k_producto):
     product = Producto.query.filter_by(id=k_producto).first()
     return product
 
+#updatessss
+def update_release(k_lanzamiento, n_lanzamiento, i_lanzamiento, k_artista, f_lanzamiento, k_genero):
+    lanzamiento = Lanzamiento.query.filter_by(id = k_lanzamiento).first()
+    print(lanzamiento)

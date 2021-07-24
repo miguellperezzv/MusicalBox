@@ -6,16 +6,17 @@
     <input type="submit" id="buscar" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Buscar lanzamiento"></form>
     
     {%if lanzamiento%}
-    <form method="POST" action="{{url_for('dashboard.newrelease')}}">
+    <form method="POST" action="{{url_for('dashboard.updaterelease', k_lanzamiento=lanzamiento.id)}}">
         {{ form.csrf_token }}
         {{ form.n_lanzamiento_edit.label }} {{ form.n_lanzamiento_edit(size=50, value=lanzamiento.n_lanzamiento) }}
         {{ form.i_lanzamiento.label }} {{ form.i_lanzamiento(size=100, value=lanzamiento.i_lanzamiento) }}
         {{form.k_artista.label}} {{form.k_artista(value=get_artist_by_release(lanzamiento.id).n_artista)}}
         {{form.f_lanzamiento.label}} {{form.f_lanzamiento(value = lanzamiento.f_lanzamiento)}}
-        {{form.k_genero.label}}{{form.k_genero(value = ALTERNTIVE)}}
+        {{form.k_genero.label}}{{form.k_genero(default = get_genres_by_release(lanzamiento.id)[0].k_genero) value = hola}}
     
         
-        <input type="submit" value="Agregar Artista">
+        <input type="submit" value="Editar Lanzamiento">
+        
     </form> 
     {%endif%}
       
@@ -61,6 +62,8 @@ $(function(){
         });
     });
 });
+
+
 
 </script>
     

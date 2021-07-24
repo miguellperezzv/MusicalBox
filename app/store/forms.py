@@ -29,6 +29,8 @@ class GenreSelectField(SelectField):
 
 class  newReleaseForm(FlaskForm):
 
+
+    
     #es una mouskerramienta que nos ayudará en la parte de edición del lanzamiento ;)
     #ya que ejemplifico mismo formulario en la vista de edición y quiero evitar conflictos con el otro stringfield
     n_lanzamiento_edit =  StringField("Nombre del lanzamiento [EDICIÓN]", id="lanzamiento", validators=[DataRequired()])
@@ -38,7 +40,8 @@ class  newReleaseForm(FlaskForm):
     i_lanzamiento = StringField("Imagen del lanzamiento", validators=[DataRequired()])
     k_artista  = StringField("Artista",validators=[DataRequired()], id="artista")
     f_lanzamiento = DateField("Fecha de Lanzamiento", default=date.today)
-    k_genero = GenreSelectField("Genero")
+    k_genero = GenreSelectField("Genero", id="k_genero")
+    
 
     
 

@@ -1,11 +1,12 @@
 
 #from app.store.forms import CreateUsuarioForm, LoginUsuarioForm, newArtistForm, newReleaseForm
 
+
 from flask.wrappers import Request
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -258,10 +259,28 @@ def editrelease():
         print("SOY POST")
         lanzamiento = get_release_by_id(k_lanzamiento)
         print(lanzamiento)
-    return render_template("editRelease.html", form = form_edit_release, lanzamiento = lanzamiento, get_artist_by_release = get_artist_by_release, get_genres_by_release = get_genres_by_release)
+        
+    
+    return render_template("editRelease.html", form = form_edit_release, get_artist_by_release = get_artist_by_release, get_genres_by_release = get_genres_by_release, lanzamiento = lanzamiento)
 
 
-
+@dashboard.route("/updaterelease_<string:k_lanzamiento>", methods=["GET", "POST"])
+def updaterelease(k_lanzamiento):
+    form_edit_release = newReleaseForm()
+    lanzamiento = None
+    if request.method == 'POST':
+        k_lanzamiento = int (k_lanzamiento)
+        n_lanzamiento = form_edit_release.n_lanzamiento_edit.data
+        i_lanzamiento = form_edit_release.i_lanzamiento.data
+        k_artista =  get_k_artist_by_name(form_edit_release.k_artista.data)
+        f_lanzamiento = form_edit_release.f_lanzamiento.data
+        k_genero = form_edit_release.k_genero.data
+        print(k_genero)
+        form_edit_release.k_genero.default = 'HOLA'
+        form_edit_release.process()
+        result = update_release(k_lanzamiento, n_lanzamiento, i_lanzamiento, k_artista, f_lanzamiento, k_genero)
+        print(lanzamiento)
+    return redirect(url_for("home.admin"))
 @dashboard.route("/editproduct")
 def editproduct():
     None

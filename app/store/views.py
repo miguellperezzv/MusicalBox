@@ -259,9 +259,12 @@ def editrelease():
         print("SOY POST")
         lanzamiento = get_release_by_id(k_lanzamiento)
         print(lanzamiento)
-        
-    
-    return render_template("editRelease.html", form = form_edit_release, get_artist_by_release = get_artist_by_release, get_genres_by_release = get_genres_by_release, lanzamiento = lanzamiento)
+        if get_genres_by_release(k_lanzamiento):
+            form_edit_release.k_genero.data = get_genres_by_release(k_lanzamiento)[0].get("k_genero")
+            
+        else:
+            form_edit_release.k_genero.data = "N/A"
+    return render_template("editRelease.html", form = form_edit_release, get_artist_by_release = get_artist_by_release,  lanzamiento = lanzamiento)
 
 
 @dashboard.route("/updaterelease_<string:k_lanzamiento>", methods=["GET", "POST"])
@@ -276,11 +279,13 @@ def updaterelease(k_lanzamiento):
         f_lanzamiento = form_edit_release.f_lanzamiento.data
         k_genero = form_edit_release.k_genero.data
         print(k_genero)
-        form_edit_release.k_genero.default = 'HOLA'
-        form_edit_release.process()
+        
         result = update_release(k_lanzamiento, n_lanzamiento, i_lanzamiento, k_artista, f_lanzamiento, k_genero)
-        print(lanzamiento)
-    return redirect(url_for("home.admin"))
+        if result:
+            flash("Se actualizó el lanzamiento ["+str(k_lanzamiento)+"-"+str(n_lanzamiento)+"]")
+        else:
+            flash("No se pudo actualizar ["+k_lanzamiento+"-"+n_lanzamiento+"]")
+    return redirect(request.referrer)
 @dashboard.route("/editproduct")
 def editproduct():
     None

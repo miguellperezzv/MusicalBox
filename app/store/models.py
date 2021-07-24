@@ -460,4 +460,22 @@ def get_product_by_id(k_producto):
 #updatessss
 def update_release(k_lanzamiento, n_lanzamiento, i_lanzamiento, k_artista, f_lanzamiento, k_genero):
     lanzamiento = Lanzamiento.query.filter_by(id = k_lanzamiento).first()
-    print(lanzamiento)
+    lanzamiento_artista = Lanzamiento_Artista.query.filter_by(k_lanzamiento = k_lanzamiento).first()
+    lanz_genero = Lanzamiento_Genero.query.filter_by(k_lanzamiento = k_lanzamiento).first()
+    print("models.update_rleease nos dice: ")
+    try:
+        lanzamiento.n_lanzamiento = n_lanzamiento
+        lanzamiento.i_lanzamiento = i_lanzamiento
+        lanzamiento.f_lanzamiento = f_lanzamiento
+        print(lanzamiento)
+        lanzamiento_artista.k_artista = k_artista
+        if k_genero != 'N/A':
+            lanz_genero.k_genero  =  k_genero
+        db.session.commit()
+        print("si pude :)")
+        return "ok"
+    except:
+        print("No actualizo ")
+        db.session.rollback()
+        return None
+    

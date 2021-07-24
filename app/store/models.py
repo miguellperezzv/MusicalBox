@@ -393,7 +393,24 @@ def get_releases_with_artists():
     except Exception as e:
         print("ERROR: "+str(e))
         return None 
-    
+
+def get_products_with_info():
+    try:
+        product_qs = Producto.query.all()
+        products_schema = ProductoSchema()
+        products=[products_schema.dump(p) for p in product_qs]
+        r=[]
+        for product in products:
+            
+            k_producto = str(product["id"])
+            lanzamiento = get_release_by_id(product["k_lanzamiento"])["n_lanzamiento"]
+            name = product["n_producto"]
+            
+            r.append(k_producto+". "+lanzamiento + " - "+  name)
+        return r
+    except Exception as e:
+        print("ERROR: "+str(e))
+        return None 
 
 def get_categories():
     category_qs = Categoria.query.all()
@@ -479,3 +496,19 @@ def update_release(k_lanzamiento, n_lanzamiento, i_lanzamiento, k_artista, f_lan
         db.session.rollback()
         return None
     
+def edit_product(k_producto, n_producto, d_producto, p_producto, i_producto, k_category, stock):
+    producto = Producto.query.filter_by(id = k_producto).first()
+    try:
+        producto.n_producto = n_producto
+        producto.d_producto = d_producto
+        producto.p_producto = p_producto
+        producto.i_producto = i_producto
+        producto.k_category = k_category
+        producto.stock = stock
+        db.session.commit()
+        print("si pude :)")
+        return "ok"
+    except:
+        print("No actualizo ")
+        db.session.rollback()
+        return None

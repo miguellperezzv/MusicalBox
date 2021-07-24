@@ -83,7 +83,7 @@ Panel de Administración
                         <a href="{{url_for('dashboard.editrelease')}}" id="editrelease" class="option"><i class='bx bxs-music' ></i>Lanzamiento</a>
                     </li>
                     <li>
-                        <a href="#" id="editproduct" class="option"><i class='bx bxs-shopping-bags' ></i>Producto</a>
+                        <a href="{{url_for('dashboard.editproduct')}}" id="editproduct" class="option"><i class='bx bxs-shopping-bags' ></i>Producto</a>
                     </li>
                     <li>
                         <a href="#" id="editgenre_cat_artist" class="option"><i class='bx bx-equalizer'></i>Género / Categoría / Artista</a>
@@ -195,12 +195,7 @@ Panel de Administración
         })
     })*/
 
-    $(document).ready(function (){
-    $('#editproduct').on('click', function (e){
-        e.preventDefault();
-        $('#content').load("{{url_for('dashboard.editproduct')}}");
-        })
-    })
+    
 
     $(document).ready(function (){
     $('#editgenre_cat_artist').on('click', function (e){

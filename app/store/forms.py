@@ -47,8 +47,13 @@ class  newReleaseForm(FlaskForm):
     
 
 class newProductForm(FlaskForm):
+
+    #es una mouskerramienta que nos ayudará en la parte de edición del lanzamiento ;)
+    #ya que ejemplifico mismo formulario en la vista de edición y quiero evitar conflictos con el otro stringfield
+    n_producto_edit =  StringField("Nombre del lanzamiento [EDICIÓN]", id="lanzamiento", validators=[])
+    
     n_lanzamiento = StringField("Lanzamiento asociado", id="lanzamiento", render_kw={"placeholder": "Lanzamiento al que se registra el producto"})
-    n_producto = StringField("Nombre del producto", render_kw={"placeholder": "Opcional. Amplía el nombre (ej: +VinylBox Set)"})
+    n_producto = StringField("Nombre del producto", id="producto" , render_kw={"placeholder": "Opcional. Amplía el nombre (ej: +VinylBox Set)"})
     p_producto = IntegerField("Precio", widget=h5widgets.NumberInput(min=0, max=1000000, step=50), validators=[NumberRange(min=0, max=10000), DataRequired()])
     d_producto = StringField("Descripción", render_kw={"placeholder": "Opcional. Información adicional"})
     stock = IntegerField("Stock", widget=h5widgets.NumberInput(min=0, max=1000), validators=[DataRequired()])

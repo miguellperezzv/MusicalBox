@@ -6,7 +6,7 @@ from flask.wrappers import Request
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -176,6 +176,11 @@ def newproduct_releases():
     release_artist = get_releases_with_artists()
     return jsonify(release_artist)
 
+@dashboard.route("/editproduct_productList")
+def editproduct_productList():
+    product_info = get_products_with_info()
+    return jsonify(product_info)
+
 @dashboard.route("/newproduct_categories")
 def newproduct_categories():
     categories = get_categories()
@@ -286,9 +291,44 @@ def updaterelease(k_lanzamiento):
         else:
             flash("No se pudo actualizar ["+k_lanzamiento+"-"+n_lanzamiento+"]")
     return redirect(request.referrer)
-@dashboard.route("/editproduct")
+
+
+@dashboard.route("/editproduct",  methods=["GET", "POST"])
 def editproduct():
-    None
+    categories =  get_categories()
+    form_edit_product = newProductForm(categories_choices=categories)
+    producto= None
+    if request.method == 'POST':
+        k_producto = int (form_edit_product.n_producto.data.split(".")[0])
+        producto = get_product_by_id(k_producto)
+        print(producto.p_producto)
+        form_edit_product.n_producto_edit.data = producto.n_producto
+        form_edit_product.p_producto.data = producto.p_producto
+        form_edit_product.stock.data = producto.stock
+        form_edit_product.d_producto.data  = producto.d_producto
+        form_edit_product.i_producto.data = producto.i_producto
+        form_edit_product.k_category.data = producto.k_categoria
+    return render_template("editProduct.html", form = form_edit_product, producto = producto)
+
+@dashboard.route("/updateproduct_<string:k_producto>",  methods=["GET", "POST"])
+def updateproduct(k_producto):
+    print("ESTOY EN EL PRODUCTO "+ k_producto)
+    form = newProductForm()
+    if request.method == 'POST':
+        k_producto = int(k_producto)
+        n_producto = form.n_producto_edit.data
+        i_producto =  form.i_producto.data
+        d_producto =  form.d_producto.data
+        p_producto =  form.p_producto.data
+        k_category = form.k_category.data
+        stock = form.stock.data
+        result = edit_product(k_producto, n_producto, d_producto, p_producto, i_producto, k_category, stock)
+        if result:
+            flash("Se actualizó el producto")
+        else:
+            flash("No se pudo actualizar el producto!")
+    return redirect(request.referrer)
+
 
 @dashboard.route("/editgenre_category_artist")
 def editgenre_category_artist():

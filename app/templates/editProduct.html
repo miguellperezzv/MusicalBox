@@ -1,0 +1,41 @@
+{%extends "adminDashboard.html"%}
+
+{%block content%}
+<form method="POST" action="{{url_for('dashboard.editproduct')}}">
+    {{form.n_producto.label}} {{form.n_producto}} 
+
+    <input type="submit"  class="btn btn-primary" value="Buscar Producto"> </form>
+    <br>
+
+{%if producto%}
+<form method="POST" action="{{url_for('dashboard.updateproduct', k_producto = producto.id)}}">   
+    
+    {{form.n_producto_edit.label}}{{form.n_producto_edit}}
+    {{form.p_producto.label}}{{form.p_producto}}
+    {{form.stock.label}}{{form.stock}}
+    {{form.d_producto.label}}{{form.d_producto}}
+    {{form.i_producto.label}}{{form.i_producto}}
+    {{form.k_category.label}}{{form.k_category}}
+    <input type="submit"  class="btn btn-primary" value="Editar Producto"> </form>
+    
+</form>
+{%endif%} 
+    
+
+
+<script>
+    $(function(){
+            $.ajax({
+                url: '{{url_for("dashboard.editproduct_productList")}}'
+            }).done(function(data){
+                $('#producto').autocomplete({
+                    
+                    source:data,
+                    
+                    minLenght:1
+                });
+            });
+        });
+</script>
+
+{%endblock%}

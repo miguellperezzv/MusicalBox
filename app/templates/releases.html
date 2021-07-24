@@ -20,8 +20,12 @@ Lanzamientos
                     <div class="cp_img">
                        <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}"> <img src="{{ release.i_lanzamiento }}"  alt="Product" class="img-fluid"> </a>
                         <div class="hover">
-                            <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                            {%if user%}
+                            {%if user["k_rol"] == 'ADMIN'%}
+                            
+                            <a href="{{url_for('dashboard.updaterelease', k_lanzamiento = release.id)}}" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-edit"></i></a>
+                            {%endif%}
+                            {%endif%}
                         </div>
                     </div>
                     <div class="product_details">

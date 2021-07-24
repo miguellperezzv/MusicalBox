@@ -340,7 +340,22 @@ def updateproduct(k_producto):
             flash("Se actualizó el producto")
         else:
             flash("No se pudo actualizar el producto!")
-    return redirect(request.referrer)
+
+    if request.method == 'GET':
+
+        categories =  get_categories()
+        form_edit_product = newProductForm(categories_choices=categories)
+        k_producto = int(k_producto)
+        producto = get_product_by_id(k_producto)
+        print(producto.p_producto)
+        form_edit_product.n_producto_edit.data = producto.n_producto
+        form_edit_product.p_producto.data = producto.p_producto
+        form_edit_product.stock.data = producto.stock
+        form_edit_product.d_producto.data  = producto.d_producto
+        form_edit_product.i_producto.data = producto.i_producto
+        form_edit_product.k_category.data = producto.k_categoria
+        return render_template("editProduct.html", form = form_edit_product, producto = producto)
+    return redirect(url_for('dashboard.editproduct'))
 
 
 @dashboard.route("/editgenre_category_artist")

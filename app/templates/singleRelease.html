@@ -41,7 +41,15 @@
                 <div class="p-price d-flex flex-row"> <span>$</span>
                     <h1>{{p.p_producto}}</h1>
                 </div>
-                <div class="heart"> <i class="bx bx-heart"></i> </div>
+                <div class="heart"> 
+                  {%if user%}
+                            {%if user["k_rol"] == 'ADMIN'%}
+                            
+                            <a href="{{url_for('dashboard.updateproduct', k_producto = p.id)}}">edit</a>
+                            {%endif%}
+                {%endif%}
+                </div>
+                
             </div>
             <div class="text-center p-image"> <img src="{{lanzamiento.i_lanzamiento}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> </div>
             <div class="p-about">

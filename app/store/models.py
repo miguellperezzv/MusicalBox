@@ -1,6 +1,7 @@
 #from app.db import db, ma
 from db import db, ma
 from datetime import datetime
+from base64 import b64encode
 
 
 
@@ -469,6 +470,21 @@ def get_k_release_by_name_artista(n_lanzamiento,n_artista):
         if l['k_lanzamiento'] == k_lanzamiento:
             return k_lanzamiento
     return None
+
+def get_image_by_product(k_producto):
+    print("el codigo del producto es "+ str(k_producto))
+    try:
+        #image = Imagen.query.filter_by(k_producto = k_producto).first()
+        image = Imagen.query.filter_by(k_producto = int(k_producto)).first()
+        print("encontré la imagen ! :) ,  es" + str(image))
+        img = b64encode(image.img_data).decode("utf-8")
+        
+        #print(img)
+        return img
+    except Exception as e:
+        print("no encontré la imagen ! :( " + str(e))
+        return None
+    
 
 def get_artist_by_release(k_lanzamiento):
     lanz_art = Lanzamiento_Artista.query.filter_by(k_lanzamiento=k_lanzamiento).first()

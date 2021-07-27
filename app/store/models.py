@@ -42,10 +42,21 @@ class Producto(db.Model):
     d_producto = db.Column(db.String(200))
     stock = db.Column(db.Numeric(5,0), nullable=False)
     i_producto = db.Column(db.String(500))
+    
     f_producto = db.Column(db.DateTime, default= datetime.now())
     #atributos de la relacion
     lanzamiento = db.relationship("Lanzamiento")
     categoria = db.relationship("Categoria")
+
+class Imagen(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"))
+    name = db.Column(db.String())
+    img_filename = db.Column(db.String())
+    img_data = db.Column(db.LargeBinary)
+    #atributos de la relacion
+    producto = db.relationship("Producto")
+    
 
 
 class Item(db.Model):
@@ -207,6 +218,7 @@ def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock,
     try:
         db.session.add(product)
         db.session.commit()
+        
         return (product)
     except Exception as e:
         print("NO SE CREÓ EL producto "+ str(e))

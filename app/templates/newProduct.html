@@ -1,4 +1,4 @@
-<form method="POST" action="{{url_for('dashboard.newproduct')}}">
+<form method="POST" action="{{url_for('dashboard.newproduct')}}" enctype="multipart/form-data">
     
     {{ form.csrf_token }}
     {{ form.n_lanzamiento.label }} {{ form.n_lanzamiento(size=100) }}
@@ -14,7 +14,8 @@
     {{form.d_producto.label}} {{form.d_producto}}
     {{form.p_producto.label}} {{form.p_producto}}
     {{form.stock.label}} {{form.stock}}
-
+      <label for = "inputImage">Imagen del producto</label>
+      <input type="file" name = "inputImage">
     
     <input type="submit" value="Agregar Artista">
 </form> 

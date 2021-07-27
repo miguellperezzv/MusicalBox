@@ -6,7 +6,7 @@ from flask.wrappers import Request
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -165,10 +165,16 @@ def newproduct():
         print("K_LANZAMIENTO ES "+ k_lanzamiento)
         print("imagefile")
         image_file = request.files['inputImage']
-        product = create_new_product(int(k_lanzamiento), n_producto, p_producto, d_producto, stock, i_producto, k_categoria, image_file)
+        #print(image_file.read())
+        product = create_new_product(int(k_lanzamiento), n_producto, p_producto, d_producto, stock, i_producto, k_categoria)
         if product:
+            img = create_new_image(product.id, image_file)
             print("Producto creado exitosamente!!! ")
-            
+            if img:
+                print("Imagen creada !")
+            else:
+                print("No se creó la imagen")
+                return redirect(url_for('home.admin')) 
             return redirect(url_for('home.admin'))
         else:
             flash("No se pudo registrar")

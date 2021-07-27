@@ -41,7 +41,7 @@ class Producto(db.Model):
     p_producto = db.Column(db.Numeric(11,2), nullable = False )
     d_producto = db.Column(db.String(200))
     stock = db.Column(db.Numeric(5,0), nullable=False)
-    i_producto = db.Column(db.String(500))
+    #i_producto = db.Column(db.String(500))
     
     f_producto = db.Column(db.DateTime, default= datetime.now())
     #atributos de la relacion
@@ -51,8 +51,6 @@ class Producto(db.Model):
 class Imagen(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"))
-    name = db.Column(db.String())
-    img_filename = db.Column(db.String())
     img_data = db.Column(db.LargeBinary)
     #atributos de la relacion
     producto = db.relationship("Producto")
@@ -126,6 +124,12 @@ class ProductoSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Producto
         fields = ["id", "k_lanzamiento", "k_categoria", "n_producto", "p_producto", "d_producto", 'stock', 'i_producto', 'f_producto']
+
+class ImagenSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Imagen
+        fields = ["id", "k_producto", "img_data"]
+
 
 class ItemSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -214,17 +218,31 @@ def create_new_release(k_artista, n_lanzamiento,i_lanzamiento, f_lanzamiento, k_
 
 #n_producto, p_producto, d_producto, stock, i_producto, k_categoria
 def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock, i_producto, k_categoria):
-    product = Producto(k_lanzamiento=k_lanzamiento, n_producto=n_producto, p_producto=p_producto, d_producto=d_producto, stock=stock,i_producto=i_producto,k_categoria=k_categoria)
+    product = Producto(k_lanzamiento=k_lanzamiento, n_producto=n_producto, p_producto=p_producto, d_producto=d_producto, stock=stock,k_categoria=k_categoria )
     try:
         db.session.add(product)
         db.session.commit()
         
+        db.session.flush
         return (product)
     except Exception as e:
         print("NO SE CREÓ EL producto "+ str(e))
         db.session.rollback()
         return None
    
+def create_new_image(producto_key, image_file):
+    image = Imagen(img_data = image_file.read(), k_producto = producto_key)
+    try:
+        db.session.add(image)
+        db.session.commit()
+        return image
+    except Exception as e:
+        print("SE CREÓ LA IMAGEN")
+        return None
+
+    
+
+
 def create_new_category(category):
     c = Categoria(k_categoria=category)
     try:

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, NumberRange
-from wtforms import StringField, SelectField, PasswordField, IntegerField
+from wtforms import StringField, SelectField, PasswordField, IntegerField, FileField
 from wtforms.fields.html5 import DateField
 from datetime import date, datetime
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -57,7 +57,7 @@ class newProductForm(FlaskForm):
     p_producto = IntegerField("Precio", widget=h5widgets.NumberInput(min=0, max=1000000, step=50), validators=[NumberRange(min=0, max=10000), DataRequired()])
     d_producto = StringField("Descripción", render_kw={"placeholder": "Opcional. Información adicional"})
     stock = IntegerField("Stock", widget=h5widgets.NumberInput(min=0, max=1000), validators=[DataRequired()])
-    i_producto = StringField("Imagen" )
+    i_producto = FileField("Imagen del producto")
     k_category = SelectField("Categoria", id="category", choices=[])
 
     def __init__(self, categories_choices: list = None, *args, **kwargs):

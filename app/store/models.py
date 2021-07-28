@@ -496,6 +496,18 @@ def get_image_by_product(k_producto):
     except Exception as e:
         print("no encontré la imagen ! :( " + str(e))
         return None
+
+def get_rawimage_by_product(k_producto):
+    try:
+        #image = Imagen.query.filter_by(k_producto = k_producto).first()
+        image = Imagen.query.filter_by(k_producto = k_producto).first()
+        print("encontré la imagen ! :) ,  es" + str(image.name))
+        
+        #print(img)
+        return image.img
+    except Exception as e:
+        print("no encontré la imagen ! :( " + str(e))
+        return None
     
 
 def get_artist_by_release(k_lanzamiento):

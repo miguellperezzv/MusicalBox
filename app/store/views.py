@@ -82,7 +82,7 @@ def signup():
             pwd = form_signup.pwd_usuario.data
             name = form_signup.name.data
             apellido = form_signup.lastname.data
-            result : create_new_user(name,apellido, email, pwd)
+            result = create_new_user(name,apellido, email, pwd)
             if result:
                 flash("Usuario creado!")
             else:
@@ -538,4 +538,4 @@ def thankyou():
 
 @product.route("/image_<int:k_producto>")
 def image(k_producto): 
-    return get_image_by_product(int(k_producto))
+    return get_image_by_product((k_producto))

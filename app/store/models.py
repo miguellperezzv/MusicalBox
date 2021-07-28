@@ -1,4 +1,6 @@
 #from app.db import db, ma
+from flask.wrappers import Response
+from werkzeug.utils import secure_filename
 from db import db, ma
 from datetime import datetime
 from base64 import b64encode
@@ -52,7 +54,9 @@ class Producto(db.Model):
 class Imagen(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"))
-    img_data = db.Column(db.LargeBinary)
+    img = db.Column(db.Text, unique=True)
+    name= db.Column(db.Text, nullable= False)
+    mimetype= db.Column(db.Text, nullable= False)
     #atributos de la relacion
     producto = db.relationship("Producto")
     
@@ -171,11 +175,15 @@ def create_new_user(n_usuario, ape_usuario, email, password):
 
     #k_usuario = "U"+str(len(get_all_users())+1)
     user = Usuario( k_rol='USER' ,n_usuario =n_usuario,ape_usuario=ape_usuario, email_usuario=email, pwd_usuario=password )
-    db.session.add(user)
-
-    if db.session.commit():
+    
+    try:
+        db.session.add(user)
+        db.session.commit()
         return user
-    return None 
+    except Exception as e:
+        print ("No se registró el usuario "+ str(e))
+        return None
+    
 
 def create_new_artist(n_artista, pais_artista):
     print("ARTISTA: "+ n_artista)
@@ -232,13 +240,18 @@ def create_new_product(k_lanzamiento, n_producto, p_producto, d_producto, stock,
         return None
    
 def create_new_image(producto_key, image_file):
-    image = Imagen(img_data = image_file.read(), k_producto = producto_key)
+    filename = secure_filename(image_file.filename)
+    mimetype = image_file.mimetype
+
+    image = Imagen(img = image_file.read(), mimetype = mimetype, k_producto = producto_key, name=filename)
     try:
         db.session.add(image)
         db.session.commit()
+        print("SE CREÓ LA IMAGEN " )
         return image
     except Exception as e:
-        print("SE CREÓ LA IMAGEN")
+        print("NO SE CREÓ LA IMAGEN " + str(e))
+        db.session.rollback()
         return None
 
     
@@ -475,12 +488,11 @@ def get_image_by_product(k_producto):
     print("el codigo del producto es "+ str(k_producto))
     try:
         #image = Imagen.query.filter_by(k_producto = k_producto).first()
-        image = Imagen.query.filter_by(k_producto = int(k_producto)).first()
-        print("encontré la imagen ! :) ,  es" + str(image))
-        img = b64encode(image.img_data).decode("utf-8")
+        image = Imagen.query.filter_by(k_producto = k_producto).first()
+        print("encontré la imagen ! :) ,  es" + str(image.name))
         
         #print(img)
-        return img
+        return Response(image.img, mimetype=image.mimetype)
     except Exception as e:
         print("no encontré la imagen ! :( " + str(e))
         return None

@@ -4,7 +4,7 @@ from flask.wrappers import Request
 from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, newProductForm, newCat_Genre_Artist, newAdmin, editReleaseForm
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
-from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image, get_image_by_product, get_rawimage_by_product
+from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image, get_image_by_product, get_rawimage_by_product, edit_image
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -331,7 +331,7 @@ def editproduct():
         form_edit_product.d_producto.data  = producto.d_producto
         form_edit_product.i_producto.data = get_rawimage_by_product(producto.id)
         form_edit_product.k_category.data = producto.k_categoria
-    return render_template("editProduct.html", form = form_edit_product, producto = producto)
+    return render_template("editProduct.html", form = form_edit_product, producto = producto, get_image_by_product = get_image_by_product)
 
 @dashboard.route("/updateproduct_<string:k_producto>",  methods=["GET", "POST"])
 def updateproduct(k_producto):
@@ -340,14 +340,25 @@ def updateproduct(k_producto):
     if request.method == 'POST':
         k_producto = int(k_producto)
         n_producto = form.n_producto_edit.data
-        i_producto =  form.i_producto.data
+        #i_producto =  form.i_producto.data
         d_producto =  form.d_producto.data
         p_producto =  form.p_producto.data
         k_category = form.k_category.data
         stock = form.stock.data
-        result = edit_product(k_producto, n_producto, d_producto, p_producto, i_producto, k_category, stock)
+        #print("i_producto "+ str(i_producto))
+        print("p_producto "+ str(p_producto))
+        image_file = None
+        try:
+            image_file = request.files['inputImage']
+            print("obtuve la imagen a editar")
+        except Exception as e:
+            print("ERROR OBTENIENDO LA IMAGEN "+ str(e))
+
+        
+        result = edit_product(k_producto, n_producto, d_producto, p_producto, image_file, k_category, stock)
         if result:
             flash("Se actualizó el producto")
+
         else:
             flash("No se pudo actualizar el producto!")
 

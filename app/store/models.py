@@ -571,14 +571,56 @@ def edit_product(k_producto, n_producto, d_producto, p_producto, i_producto, k_c
     try:
         producto.n_producto = n_producto
         producto.d_producto = d_producto
-        producto.p_producto = p_producto
+        if p_producto is not None:
+            print("CAMBIARÈ EL PRECIO PRODCUTO")
+            producto.p_producto = p_producto
+        else:
+            print("SE ENVIA UN NONE")
+            None
+
+        if i_producto:
+            print("se debe cmabiar la imagen "+ str(i_producto))
+            img_edit = edit_image(k_producto, i_producto)
+            if img_edit:
+                print("SE ACTUALIZÒ LA IMAGEN")
+        else:
+            print("No se detectan cambios en la imagen")
         producto.i_producto = i_producto
         producto.k_category = k_category
         producto.stock = stock
         db.session.commit()
+        db.session.flush()
         print("si pude :)")
         return "ok"
-    except:
-        print("No actualizo ")
+    except Exception as e:
+        print("No actualizo "+ str(e))
         db.session.rollback()
         return None
+
+def edit_image(k_producto, image_file):
+    
+    image = Imagen.query.filter_by(k_producto = k_producto).first()
+    if image:
+        print("ACTUALIZANDO IMAGEN ... ")
+        filename = secure_filename(image_file.filename)
+        mimetype = image_file.mimetype
+        print("ANTES ...................")
+        print(str(image.name))
+        
+        try:
+            image.img  = image_file.read()
+            image.mimetype = mimetype
+            image.name = filename
+            db.session.commit()
+            db.session.flush()
+            print("DESPUES.......... ")
+            print(str(image.name))
+            
+            return image
+        except Exception as e:
+            print("No se actualizò la imagen ! "+str(e))
+            db.session.rollback()
+            return None
+    else:
+        print("SE DEBERÀ SUBIR NUEVA IMAGEN asociada la producto")
+        return create_new_image(k_producto,image_file)

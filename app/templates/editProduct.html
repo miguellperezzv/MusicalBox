@@ -8,14 +8,17 @@
     <br>
 
 {%if producto%}
-<form method="POST" action="{{url_for('dashboard.updateproduct', k_producto = producto.id)}}">   
+<form method="POST" action="{{url_for('dashboard.updateproduct', k_producto = producto.id)}}" enctype="multipart/form-data">   
     
     {{form.n_producto_edit.label}}{{form.n_producto_edit}}
     {{form.p_producto.label}}{{form.p_producto}}
     {{form.stock.label}}{{form.stock}}
     {{form.d_producto.label}}{{form.d_producto}}
-    {{form.i_producto.label}}{{form.i_producto}}
+    
     {{form.k_category.label}}{{form.k_category}}
+    <img src="{{url_for('product.image', k_producto = producto.id)}}" width="200px" height="200px" alt="Product" class="img-fluid">
+    <label for = "inputImage">editar imagen</label>
+      <input type="file" name = "inputImage">
     <input type="submit"  class="btn btn-primary" value="Editar Producto"> </form>
     
 </form>

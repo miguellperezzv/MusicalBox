@@ -74,6 +74,8 @@ class Item(db.Model):
 class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     k_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"), primary_key= False)
+    id_factura_payco = db.Column(db.String(100))
+    ref_payco = db.Column(db.String(100))
     f_compra = db.Column(db.DateTime, default=datetime.now())
     total = db.Column(db.Numeric(13,2), nullable=False)
     #atributos de la relacion
@@ -144,7 +146,7 @@ class ItemSchema(ma.SQLAlchemyAutoSchema):
 class InvoiceSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Invoice
-        fields = ["id", "k_usuario", "f_compra", "total"]
+        fields = ["id", "k_usuario", "id_factura_payco" ,"ref_payco","f_compra", "total"]
 
 class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -284,10 +286,10 @@ def create_release_genre(k_lanzamiento, k_genero):
     except:
         return None
 
-def create_new_invoice(cart, user_id):
+def create_new_invoice(cart, user_id, id_factura_payco, ref_payco):
     print("creando nueva factura")
     print(cart)
-    invoice = Invoice(k_usuario = user_id, total = get_total(cart) )
+    invoice = Invoice(k_usuario = user_id, total = get_total(cart), id_factura_payco = id_factura_payco, ref_payco = ref_payco )
     print("SOO MY INVOICE WILL BE")
     print(invoice.id)
     try:
@@ -295,8 +297,8 @@ def create_new_invoice(cart, user_id):
         db.session.commit()
         print("SE CREO LA FACTURA!")
         return invoice
-    except:
-        print("ERROR CRITICO NO SE CREO LA FACTURA!")
+    except Exception as e:
+        print("ERROR CRITICO NO SE CREO LA FACTURA! "+ str(e))
         db.session.rollback()
         return None
     

@@ -523,24 +523,25 @@ def payment():
         print(factura_epayco)
         print(factura_epayco.get("data").get("x_response"))
         if factura_epayco.get("data").get("x_response") == 'Aceptada':
-            print("La transacicón fue exitosa")
+            print("La transacción fue exitosa")
+            factura = create_new_invoice(session["purchase"], g.user["id"], factura_epayco.get("data").get("x_id_factura"), factura_epayco.get("data").get("x_ref_payco"))
+            if factura:
+                items = add_items(factura.id, session["purchase"])
+                if items:
+                    print("SE CREÓ LA FACTURA CORRECTAMENTE CON SUS ITEMS")
+                    session["purchase"] = {}
+                    session["purchase"] = session["purchase"]
+                    return redirect(url_for('purchase.thankyou'))
+                else:
+                    print("ERROR CRITICO NO SE AGREGARON LOS ITEMS")
+            else:
+                print("ERROR CRITICO NO SE AGREGÓ LA FACTURA")
         else:
             print("No fue exitosa")
         
         
 
-        factura = create_new_invoice(session["purchase"], g.user["id"])
-        if factura:
-            items = add_items(factura.id, session["purchase"])
-            if items:
-                print("SE CREÓ LA FACTURA CORRECTAMENTE CON SUS ITEMS")
-                session["purchase"] = {}
-                session["purchase"] = session["purchase"]
-                return redirect(url_for('purchase.thankyou'))
-            else:
-                print("ERROR CRITICO NO SE AGREGARON LOS ITEMS")
-        else:
-            print("ERROR CRITICO NO SE AGREGÓ LA FACTURA")
+        
     
 
 @purchase.route('/success')

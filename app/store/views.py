@@ -107,7 +107,9 @@ def logout():
 
 @home.route("/account", methods=["GET", "POST"])
 def account():
-    return "Mi cuenta"
+    if request.method == "POST":
+        None
+    return render_template("account.html",  user=g.user, purchase_cart = g.purchase )
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():

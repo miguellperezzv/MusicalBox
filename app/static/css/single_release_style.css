@@ -7,6 +7,12 @@
     /*background-color: var(--skyblue);*/
   }
 
+  @font-face {
+    
+    font-family: Smooth-Circulars;
+    src : url("../fonts/Smooth-Circulars.otf");
+  } 
+
 .card {
     width: 350px;
     border: none;
@@ -91,6 +97,13 @@
 
 .card:hover .p-image img {
     animation: onimage 300ms ease-in forwards
+    
+}
+
+.card:hover .sold_out{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 500ms, opacity 100ms linear;
 }
 
 .card:hover .p-price {
@@ -167,3 +180,43 @@
 .btn:hover{
     background-color: var(--yellow);
 }
+
+.img__wrapper{
+    
+    position:relative;
+    overflow:hidden;
+  }
+
+.sold_out {
+    top: 2em;
+    left: -4em;
+    color: var(--aqua);
+    display: block;
+    position:absolute;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: .06em;
+    background-color: var(--yellow);
+    padding: 0.5em 5em 0.4em 5em;
+    text-shadow: 0 0 0.75em var(--backblue);
+    box-shadow: 0 0 0.5em var(--backblue);
+    font: bold 16px/1.2em;
+    font-family: 'Smooth-Circulars';
+    -webkit-text-shadow: 0 0 0.75em #444;
+    -webkit-box-shadow: 0 0 0.5em var(--backblue);
+    -webkit-transform: rotate(-45deg) scale(0.75,1);
+    z-index:10;
+}
+.sold_out:before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin: -0.3em -5em;
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    border: 2px rgba(255,255,255,0.7) dashed;
+}
+

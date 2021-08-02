@@ -18,7 +18,15 @@ Lanzamientos
             <div class="card product_item">
                 <div class="body">
                     <div class="cp_img">
-                       <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}"> <img src="{{ release.i_lanzamiento }}"  alt="Product" class="img-fluid"> </a>
+                       <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}"> 
+                        {%if (datetime.now() -  datetime.strptime(release.f_lanzamiento,'%Y-%m-%d')) < delta(days=90) %}
+                        <div class='img-new'>
+                            nuevo
+                        </div> 
+                        {%endif%}
+
+                          
+                        <img src="{{ release.i_lanzamiento }}"  alt="Product" class="img-fluid"> </a>
                         <div class="hover">
                             {%if user%}
                             {%if user["k_rol"] == 'ADMIN'%}
@@ -27,6 +35,8 @@ Lanzamientos
                             {%endif%}
                             {%endif%}
                         </div>
+                        
+                        
                     </div>
                     <div class="product_details">
                         <h5><a href="{{url_for('artists.artist', k_artista =get_artist_by_release(release.id).id)}}">{{(get_artist_by_release(release.id).n_artista).title()}}</a> - <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}">{{release.n_lanzamiento.title() }}</a></h5> 

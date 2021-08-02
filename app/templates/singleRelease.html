@@ -51,7 +51,12 @@
                 </div>
                 
             </div>
-            <div class="text-center p-image"> <img src="{{url_for('product.image', k_producto = p.id)}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> </div>
+            <div class="text-center p-image"> 
+              <div class="img__wrapper">
+              <img src="{{url_for('product.image', k_producto = p.id)}}" alt="{{lanzamiento.n_lanzamiento}} + img :s "> 
+              <a class="sold_out" href="https://abc.com/">SOLD OUT</a>
+              </div>
+            </div>
             <div class="p-about">
                 <p>{{p.d_producto}}</p>
                 <p><strong>stock: {{p.stock}}</strong></p>

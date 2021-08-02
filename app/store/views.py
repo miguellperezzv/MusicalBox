@@ -10,7 +10,8 @@ import json
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
 import requests
-
+import datetime
+from datetime import timedelta
 
 
 home = Blueprint('home', __name__)
@@ -37,6 +38,9 @@ def before_request():
     else:
         session["purchase"]={}
         g.purchase=None
+    
+    g.datetime = datetime.datetime
+    print("DATETIME "+ str(g.datetime.now()))
 
 
     
@@ -392,7 +396,7 @@ def home_releases():
     if request.method == "POST":
         None
     if request.method == 'GET':
-        return render_template("releases.html", user=g.user, purchase_cart = g.purchase, releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
+        return render_template("releases.html", user=g.user, purchase_cart = g.purchase, datetime=g.datetime, delta = timedelta ,releases = get_all_releases(), get_artist_by_release = get_artist_by_release, get_categories_by_release = get_categories_by_release )
 
 @releases.route("/<int:k_lanzamiento>", methods=["GET", "POST"])
 def release(k_lanzamiento):

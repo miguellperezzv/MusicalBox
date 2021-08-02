@@ -315,7 +315,21 @@ def add_items(factura_id, cart):
             print("ERROR CRITICO NO SE CREO el itme :(!")
             db.session.rollback()
     return "ok"
+
+def update_stock(cart):
     
+        for i in cart:
+            try:
+                producto = Producto.query.filter_by(id=i).first()
+                print("Producto "+ str(producto))
+                producto.stock = producto.stock - cart[i]
+                db.session.commit()
+            except Exception as e:
+                print("ERROR EN UPDATE STOCK "+ str(e)+ " en: " + str(i))
+
+          
+
+
 def get_total(items):
     total =0
     for p in items:
@@ -626,3 +640,4 @@ def edit_image(k_producto, image_file):
     else:
         print("SE DEBERÀ SUBIR NUEVA IMAGEN asociada la producto")
         return create_new_image(k_producto,image_file)
+

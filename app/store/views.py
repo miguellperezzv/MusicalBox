@@ -6,6 +6,7 @@ from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, ne
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image, get_image_by_product, get_rawimage_by_product, edit_image, update_stock
+from store.models import edit_user_by_email
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -111,9 +112,29 @@ def account():
 
     edit_usuario = EditUsuarioForm()
     if request.method == "POST":
-        None
+        nombre = edit_usuario.name.data
+        apellido  =edit_usuario.lastname.data
+        ciudad = edit_usuario.city.data
+        direccion = edit_usuario.address.data
+        result = edit_user_by_email(session["user"]["email_usuario"], nombre,apellido,ciudad,direccion)
+        if result:
+            flash("Usuario modificado correctamente")
+            #g.user = result
+            session["user"] = get_user_by_email(session["user"]["email_usuario"])
+            return redirect(request.referrer)
+        else:
+            flash("No se pudo actualizar el usuario")
+            return redirect(request.referrer)
     if request.method == "GET":
-        None
+        
+        print("USER: " + str(session["user"]))
+        edit_usuario.name.data = session["user"]["n_usuario"]
+        edit_usuario.lastname.data = session["user"]["ape_usuario"]
+        edit_usuario.email_usuario.data = session["user"]["email_usuario"]
+        edit_usuario.email_usuario.render_kw = {'disabled': 'disabled'}
+        
+        edit_usuario.city.data = session["user"]["lugar_usuario"]
+        edit_usuario.address.data = session["user"]["dir_usuario"]
     return render_template("account.html",  user=g.user, purchase_cart = g.purchase, form = edit_usuario )
 
 @home.route("/dashboard", methods=["GET", "POST"])
@@ -136,6 +157,7 @@ def colombia():
         for d in colombia:
             colombiaList.append(d["municipio"]+", "+d["departamento"]+" ")
         print(type(colombia))
+        colombiaList.append("Cali, Valle del Cauca")
         return jsonify(colombiaList)
     
 

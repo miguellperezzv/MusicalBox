@@ -54,7 +54,7 @@ Mic cuenta
             <div class="tab-pane active" id="profile">
               <h6>YOUR PROFILE INFORMATION</h6>
               <hr>
-              <form>
+              <form method="POST" action="{{url_for('home.account')}}">
                 <div class="form-group">
                     {{form.name.label}} {{form.name}}
                   
@@ -82,7 +82,7 @@ Mic cuenta
                 
 
 
-                <button type="button" class="btn btn-primary">Update Profile</button>
+                <input type="submit" value="Actualizar" type="button" class="btn btn-primary">
                 <button type="reset" class="btn btn-light">Reset Changes</button>
               </form>
             </div>

@@ -641,3 +641,20 @@ def edit_image(k_producto, image_file):
         print("SE DEBERÀ SUBIR NUEVA IMAGEN asociada la producto")
         return create_new_image(k_producto,image_file)
 
+def edit_user_by_email(email, nombre,apellido,ciudad,direccion):
+    try:
+        user  = Usuario.query.filter_by(email_usuario = email).first()
+        print("USUARIO ENCONTRADO "+ str(user))
+        user.n_usuario = nombre
+        user.ape_usuario = apellido
+        user.lugar_usuario = ciudad
+        user.dir_usuario = direccion
+        db.session.commit()
+        db.session.flush()
+        print("EXITO!")
+        return user
+    except Exception as e:
+        print("ERROR " + str(e))
+        db.session.rollback()
+        return None
+    

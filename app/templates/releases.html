@@ -19,9 +19,9 @@ Lanzamientos
                 <div class="body">
                     <div class="cp_img">
                        <a href="{{url_for('releases.release', k_lanzamiento = release.id)}}"> 
-                        {%if (datetime.now() -  datetime.strptime(release.f_lanzamiento,'%Y-%m-%d')) < delta(days=90) %}
+                        {%if (datetime.now() -  datetime.strptime(release.f_lanzamiento,'%Y-%m-%d')) < delta(days=30) %}
                         <div class='img-new'>
-                            nuevo
+                            nuevo 
                         </div> 
                         {%endif%}
 

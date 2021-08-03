@@ -18,6 +18,15 @@ class LoginUsuarioForm(FlaskForm):
     email_usuario =  StringField('Email', validators=[DataRequired()])
     pwd_usuario =  PasswordField('Contraseña', validators=[DataRequired()])
 
+class EditUsuarioForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired(message="Ingresa un nombre")])
+    lastname = StringField('Apellido', validators= [DataRequired(message = "Ingresa un apellido")])
+    email_usuario = StringField('Email', validators=[DataRequired(message = "Ingresa un e-mail válido")])
+    pwd_usuario = PasswordField('Contraseña', validators=[DataRequired(message="Ingresa una contraseña.")])
+    address = StringField('Dirección', validators=[DataRequired(message="Dirección a donde te enviaremos tus productos")])
+    city = StringField('Municipio/Ciudad', id="city", validators=[DataRequired(message="Lugar a donde te enviaremos tus productos")])
+    
+
 class GenreSelectField(SelectField):
     def __init__(self, *args, **kwargs):
         super(GenreSelectField, self).__init__(*args, **kwargs)

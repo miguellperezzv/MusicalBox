@@ -398,6 +398,20 @@ def get_user_by_email(email):
     u = usuario_schema.dump(usuario_qs)
     return u
 
+def get_purchases_by_user(email):
+    user = get_user_by_email(email)
+    invoices = Invoice.query.filter_by(k_usuario = user["id"]).all()
+    facturas = []
+    for i in invoices:
+        items = get_items_by_id_factura(i.id)
+        print(items)
+        facturas.append([i, items])
+    return facturas
+
+def get_items_by_id_factura(id):
+    items = Item.query.filter_by(k_factura = id).all()
+    return items 
+
 def get_k_artist_by_name(artista):
     artist_qs = Artista.query.filter_by(n_artista = artista).first()
     artist_schema=ArtistaSchema()

@@ -6,7 +6,7 @@ from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, ne
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image, get_image_by_product, get_rawimage_by_product, edit_image, update_stock
-from store.models import edit_user_by_email, get_all_products
+from store.models import edit_user_by_email, get_all_products, get_purchases_by_user
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -135,7 +135,11 @@ def account():
         
         edit_usuario.city.data = session["user"]["lugar_usuario"]
         edit_usuario.address.data = session["user"]["dir_usuario"]
-    return render_template("account.html",  user=g.user, purchase_cart = g.purchase, form = edit_usuario )
+
+        compras = get_purchases_by_user(session["user"]["email_usuario"])
+        print(compras)
+
+    return render_template("account.html",  user=g.user, purchase_cart = g.purchase, form = edit_usuario, compras = compras, get_product_by_id = get_product_by_id, get_release_by_id = get_release_by_id )
 
 @home.route("/dashboard", methods=["GET", "POST"])
 def admin():

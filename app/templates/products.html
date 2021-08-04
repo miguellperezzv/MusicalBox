@@ -1,0 +1,74 @@
+{%extends "base.html"%}
+{%block head%}  
+<link rel="icon" type="image" href="{{ url_for('static', filename='imgs/musicalbox.png') }}" width="40px" heigth="40px" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}" type="text/css">
+{%endblock%}
+
+{%block title%}
+Productos
+{%endblock%}
+
+{%block contenido%}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+{{products}}
+
+{%for product in products%}
+<div class="col-xs-12 col-md-6 bootstrap snippets bootdeys">
+	<!-- product -->
+	<div class="product-content product-wrap clearfix">
+		<div class="row">
+				<div class="col-md-5 col-sm-12 col-xs-12">
+					<div class="product-image"> 
+						<a class="hover_image" href="#">
+                            <!-- path/to/first/visible/image: -->
+                            <img src="{{url_for('products.image', k_producto = product.id)}}"  width="300px" heigth="300px"/>
+                            <!-- path/to/hover/visible/image: -->
+                            <img src="{{get_release_by_id(product.id).i_lanzamiento}}" alt='{{get_release_by_id(product.id).n_lanzamiento}}' width="300px" heigth="300px" class="hide" />
+                        </a> 
+						<span class="tag2 hot">
+							HOT
+						</span> 
+					</div>
+				</div>
+				<div class="col-md-7 col-sm-12 col-xs-12">
+				<div class="product-deatil">
+						<h5 class="name">
+							<a href="#">
+							<strong> {{get_release_by_id(product.id).n_lanzamiento}} </strong>	{{product.n_producto}} 
+                                <span>{{product.k_categoria}}</span>
+							</a>
+						</h5>
+						<p class="price-container">
+							<span>${{product.p_producto}}</span>
+						</p>
+						<span class="tag1"></span> 
+				</div>
+				<div class="description">
+					<p>{{product.d_producto}}</p>
+				</div>
+				<div class="product-info smart-form">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-6"> 
+							<a href="javascript:void(0);" class="btn btn-success">Add to cart</a>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6">
+							<div class="rating">
+								<label for="stars-rating-5"><i class="fa fa-star"></i></label>
+								<label for="stars-rating-4"><i class="fa fa-star"></i></label>
+								<label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+								<label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+								<label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end product -->
+</div>
+{%endfor%}
+
+</div>
+{%endblock%}

@@ -54,7 +54,7 @@ class Producto(db.Model):
 class Imagen(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     k_producto = db.Column(db.Integer, db.ForeignKey("producto.id"))
-    img = db.Column(db.Text, unique=True)
+    img = db.Column(db.Text)
     name= db.Column(db.Text, nullable= False)
     mimetype= db.Column(db.Text, nullable= False)
     #atributos de la relacion
@@ -432,6 +432,7 @@ def get_release_by_id(id):
     release_qs = Lanzamiento.query.filter_by(id = id).first()
     release_schema=LanzamientoSchema()
     r = release_schema.dump(release_qs)
+    print("LANZAMIENTO :" + str(r) )
     if r:
         return r
     return  {}

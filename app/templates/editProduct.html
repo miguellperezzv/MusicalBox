@@ -16,7 +16,7 @@
     {{form.d_producto.label}}{{form.d_producto}}
     
     {{form.k_category.label}}{{form.k_category}}
-    <img src="{{url_for('product.image', k_producto = producto.id)}}" width="200px" height="200px" alt="Product" class="img-fluid">
+    <img src="{{url_for('products.image', k_producto = producto.id)}}" width="200px" height="200px" alt="Product" class="img-fluid">
     <label for = "inputImage">editar imagen</label>
       <input type="file" name = "inputImage">
     <input type="submit"  class="btn btn-primary" value="Editar Producto"> </form>

@@ -6,7 +6,7 @@ from store.forms import CreateUsuarioForm, LoginUsuarioForm,  newReleaseForm, ne
 from flask import Blueprint, Response, flash, session, request, g, render_template, redirect, url_for, jsonify, make_response
 #from app.store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist
 from store.models import create_new_user, get_all_artists, get_user_by_email, create_new_artist, get_k_artist_by_name, create_new_release, get_release_by_name, get_releases_with_artists, get_categories, create_new_product, get_k_release_by_name_artista, create_new_category, create_new_genre, create_release_genre, new_admin, get_all_releases, get_artist_by_release, get_categories_by_release, get_release_by_id, get_genres_by_release, get_products_by_release, get_product_by_id, create_new_invoice, add_items, get_artist_by_release, update_release, get_products_with_info, edit_product, create_new_image, get_image_by_product, get_rawimage_by_product, edit_image, update_stock
-from store.models import edit_user_by_email
+from store.models import edit_user_by_email, get_all_products
 #import epaycosdk.epayco as epayco
 import json
 import urllib.parse as urlparse
@@ -21,7 +21,7 @@ dashboard = Blueprint('dashboard', __name__, url_prefix=  '/dashboard')
 releases = Blueprint('releases', __name__, url_prefix=  '/releases')
 artists = Blueprint("artists", __name__, url_prefix=  '/artists')
 purchase = Blueprint("purchase", __name__, url_prefix=  '/artists' )
-product = Blueprint("product", __name__, url_prefix="/product")
+products = Blueprint("products", __name__, url_prefix="/products")
 
 
 @home.before_request
@@ -609,6 +609,14 @@ def payment():
 def thankyou():
     return render_template('thankyou.html', purchase_cart = g.purchase, user=g.user )
 
-@product.route("/image_<int:k_producto>")
+@products.route("/image_<int:k_producto>")
 def image(k_producto): 
     return get_image_by_product((k_producto))
+
+@products.route("/", methods=["POST", "GET"])
+def home_products():
+    if request.method == "GET":
+        products = get_all_products()
+    if request.method == "POST":
+        None
+    return render_template("products.html", products = products, get_release_by_id=get_release_by_id, get_image_by_product = get_image_by_product)

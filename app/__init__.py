@@ -4,12 +4,12 @@ from db import db, ma
 from config import DevelopmentConfig
 from flask_cors import CORS
 from flask import Flask, session
-from store.views import home, dashboard, releases, artists, purchase, product
+from store.views import home, dashboard, releases, artists, purchase, products
 #from app.store.views import home, dashboard
 from flask_sqlalchemy import SQLAlchemy
 import time
 
-ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard), ('/releases', releases), ('/artists', artists), ('/purchase', purchase), ("/product", product) ]
+ACTIVE_ENDPOINTS = [('/',home), ('/dashboard', dashboard), ('/releases', releases), ('/artists', artists), ('/purchase', purchase), ("/products", products) ]
 
 def create_app(config=DevelopmentConfig):
     app = Flask(__name__)
